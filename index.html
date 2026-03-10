@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>See You Next Wednesday - John Landis</title>
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
+            --midnight-bg: #0a0a0c;
+            --theatre-gold: #ffd700;
+        }
+
+        body {
+            background-color: var(--midnight-bg);
+            color: #eee;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            background-image: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid var(--neon-pink);
+            padding: 40px;
+            box-shadow: 0 0 20px var(--neon-pink), inset 0 0 10px var(--neon-pink);
+            background: rgba(0,0,0,0.8);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px double var(--theatre-gold);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: var(--neon-blue);
+            text-shadow: 3px 3px 0px var(--neon-pink), 0 0 10px var(--neon-blue);
+            margin: 0;
+            letter-spacing: -2px;
+            transform: skew(-5deg);
+        }
+
+        .subtitle {
+            color: var(--theatre-gold);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
+
+        .intro {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #bbb;
+        }
+
+        .movie-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .movie-card {
+            border-left: 4px solid var(--neon-blue);
+            padding-left: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            transition: 0.3s;
+        }
+
+        .movie-card:hover {
+            background: rgba(0, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .movie-title {
+            color: var(--neon-pink);
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .appearance {
+            color: #ccc;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+
+        .marquee {
+            background: #000;
+            color: var(--theatre-gold);
+            padding: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            border: 1px solid var(--theatre-gold);
+            margin-bottom: 20px;
+        }
+
+        .marquee span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="marquee">
+                <span>NOW SHOWING: THE UNPRODUCED MASTERPIECE... SEE YOU NEXT WEDNESDAY... DIRECTED BY JOHN LANDIS...</span>
+            </div>
+            <h1>SEE YOU NEXT WEDNESDAY</h1>
+            <p class="subtitle">The John Landis Easter Egg</p>
+        </header>
+
+        <p class="intro">
+            Originated as the title of a screenplay written by a 16-year-old John Landis, 
+            this phrase has appeared in nearly every project he has directed since.
+        </p>
+
+        <div class="movie-grid">
+            <div class="movie-card">
+                <span class="movie-title">Schlock (1973)</span>
+                <span class="appearance">Mentioned twice and featured on a movie poster in the background.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">The Kentucky Fried Movie (1977)</span>
+                <span class="appearance">The title of the "Feel-a-Rama" movie being watched.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">The Blues Brothers (1980)</span>
+                <span class="appearance">Appears on multiple billboards throughout the city of Chicago.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">An American Werewolf in London (1981)</span>
+                <span class="appearance">The title of the fictional pornographic film playing in the Piccadilly Circus theater.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">Trading Places (1983)</span>
+                <span class="appearance">A movie poster in Ophelia's apartment.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">Michael Jackson's Thriller (1983)</span>
+                <span class="appearance">Spoken by a deputy in the movie-within-the-video; also appears on a theater poster.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">Spies Like Us (1985)</span>
+                <span class="appearance">Appears on a U.S. Army recruiting poster.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">Coming to America (1988)</span>
+                <span class="appearance">A subway poster advertising the film starring Jamie Lee Curtis and Dan Aykroyd.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">Innocent Blood (1992)</span>
+                <span class="appearance">Advertised on a movie theater marquee in the background.</span>
+            </div>
+            <div class="movie-card">
+                <span class="movie-title">The Stupids (1996)</span>
+                <span class="appearance">Visible on the side of a bus.</span>
+            </div>
+        </div>
+
+        <footer>
+            "See you next Wednesday" - Originally from 2001: A Space Odyssey (1968)
+        </footer>
+    </div>
+</body>
+</html>
