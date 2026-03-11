@@ -73,7 +73,7 @@
 
         /* Hero Section - Asymmetrical */
         header {
-            height: 90vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -93,7 +93,7 @@
             transform: translate(-50%, -50%);
             white-space: nowrap;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1; /* Elevated slightly but below h1 */
         }
 
         .kicker {
@@ -106,19 +106,20 @@
             opacity: 0;
             transform: translateY(20px);
             animation: reveal 1s forwards 0.5s;
+            position: relative;
+            z-index: 3;
         }
 
         h1 {
             font-family: 'Bodoni Moda', serif;
-            font-size: clamp(4rem, 12vw, 10rem);
+            font-size: clamp(3rem, 12vw, 10rem);
             line-height: 0.9;
             font-weight: 700;
             color: var(--white);
             margin-bottom: 40px;
             max-width: 900px;
             position: relative;
-            z-index: 2;
-            mix-blend-mode: difference;
+            z-index: 10; /* Ensure it stays above background text */
         }
 
         h1 span {
@@ -126,6 +127,7 @@
             opacity: 0;
             transform: skewY(5deg) translateY(50px);
             animation: titleReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            overflow: visible; /* Prevent cut-off during animation */
         }
 
         h1 .line-2 { animation-delay: 0.2s; font-style: italic; color: var(--gold); }
@@ -141,6 +143,7 @@
             transform: translateY(30px);
             animation: reveal 1.5s forwards 0.8s;
             position: relative;
+            z-index: 3;
         }
 
         .intro::before {
@@ -299,14 +302,38 @@
                 margin-bottom: 5vh;
             }
             h1 { font-size: 15vw; }
+            .hero-bg-text { font-size: 20vw; white-space: normal; text-align: center; width: 100%; opacity: 0.01; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding-top: 60px; }
+            header { height: auto; padding: 100px 0; margin-bottom: 10vh; }
+            .hero-bg-text { 
+                font-size: 25vw; 
+                opacity: 0.01; 
+                white-space: normal; 
+                text-align: center;
+                width: 100%;
+            }
+            .intro { margin-left: 0; margin-top: 40px; }
+            .intro::before { display: none; }
         }
 
         @media (max-width: 600px) {
+            .container { padding: 40px 20px; }
             .movie-card, .movie-card:nth-child(even), .movie-card:nth-child(odd) {
                 grid-column: 1 / span 12;
             }
             .card-inner { padding: 30px; }
-            h1 { font-size: 4rem; }
+            h1 { font-size: clamp(2.5rem, 15vw, 4rem); word-wrap: break-word; }
+            .card-year { font-size: 3.5rem; top: -30px; left: 10px; }
+            .footer-text { letter-spacing: 0.3em; font-size: 0.6rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; }
+            .kicker { letter-spacing: 0.2em; font-size: 0.7rem; }
+            .intro { font-size: 1.1rem; }
         }
     </style>
 </head>
