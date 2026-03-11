@@ -182,6 +182,13 @@
             transition: var(--transition-smooth);
             text-decoration: none; /* Add this to prevent link underline */
             display: block; /* Ensure it behaves like a container */
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .movie-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Offset positioning for asymmetry */
@@ -465,12 +472,10 @@
         // Reveal function for cards
         const revealCards = () => {
             const cards = document.querySelectorAll('.movie-card');
-            console.log('Checking reveal for', cards.length, 'cards');
             cards.forEach(card => {
                 const cardTop = card.getBoundingClientRect().top;
                 if (cardTop < window.innerHeight * 0.9) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
+                    card.classList.add('is-visible');
                 }
             });
         };
@@ -487,8 +492,6 @@
 
         // Initialize cards as invisible for the reveal effect
         document.querySelectorAll('.movie-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(40px)';
             card.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
         });
 
@@ -500,8 +503,7 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('is-visible');
                     observer.unobserve(entry.target);
                 }
             });
