@@ -310,10 +310,11 @@
             header { height: auto; padding: 100px 0; margin-bottom: 10vh; }
             .hero-bg-text { 
                 font-size: 25vw; 
-                opacity: 0.01; 
+                opacity: 0.002; 
                 white-space: normal; 
                 text-align: center;
                 width: 100%;
+                z-index: 1;
             }
             .intro { margin-left: 0; margin-top: 40px; }
             .intro::before { display: none; }
@@ -321,17 +322,22 @@
 
         @media (max-width: 600px) {
             .container { padding: 40px 20px; }
+            .grain { animation: none; opacity: 0.04; } /* Disable grain animation for performance */
             .movie-card, .movie-card:nth-child(even), .movie-card:nth-child(odd) {
                 grid-column: 1 / span 12;
             }
             .card-inner { padding: 30px; }
-            h1 { font-size: clamp(2.5rem, 15vw, 4rem); word-wrap: break-word; }
+            h1 { 
+                font-size: clamp(1.5rem, 8vw, 2.2rem); 
+                word-wrap: break-word; 
+                overflow-wrap: break-word;
+                z-index: 10;
+            }
             .card-year { font-size: 3.5rem; top: -30px; left: 10px; }
             .footer-text { letter-spacing: 0.3em; font-size: 0.6rem; }
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: 2.8rem; }
             .kicker { letter-spacing: 0.2em; font-size: 0.7rem; }
             .intro { font-size: 1.1rem; }
         }
