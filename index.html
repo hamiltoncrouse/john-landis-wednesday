@@ -3,186 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>See You Next Wednesday - John Landis</title>
+    <title>See You Next Wednesday | John Landis Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-pink: #ff00ff;
-            --neon-blue: #00ffff;
-            --midnight-bg: #0a0a0c;
-            --theatre-gold: #ffd700;
+            --bg-color: #050505;
+            --accent-gold: #c5a059;
+            --accent-red: #8e1c1c;
+            --text-main: #e0e0e0;
+            --text-muted: #999;
+            --card-bg: #111;
+            --card-hover: #1a1a1a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            background-color: var(--midnight-bg);
-            color: #eee;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 20px;
-            background-image: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle Film Grain Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 1000;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            border: 2px solid var(--neon-pink);
-            padding: 40px;
-            box-shadow: 0 0 20px var(--neon-pink), inset 0 0 10px var(--neon-pink);
-            background: rgba(0,0,0,0.8);
+            padding: 80px 20px;
         }
 
         header {
             text-align: center;
-            border-bottom: 2px double var(--theatre-gold);
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            margin-bottom: 100px;
+            position: relative;
+        }
+
+        .kicker {
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
         }
 
         h1 {
-            font-size: 3.5rem;
-            color: var(--neon-blue);
-            text-shadow: 3px 3px 0px var(--neon-pink), 0 0 10px var(--neon-blue);
-            margin: 0;
-            letter-spacing: -2px;
-            transform: skew(-5deg);
-        }
-
-        .subtitle {
-            color: var(--theatre-gold);
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-top: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            line-height: 1;
+            font-style: italic;
+            margin-bottom: 30px;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
         }
 
         .intro {
-            font-style: italic;
-            text-align: center;
-            margin-bottom: 30px;
-            color: #bbb;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 300;
         }
 
-        .movie-grid {
+        .grid {
             display: grid;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
         }
 
-        .movie-card {
-            border-left: 4px solid var(--neon-blue);
-            padding-left: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            transition: 0.3s;
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 4px;
+            border: 1px solid #222;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
-        .movie-card:hover {
-            background: rgba(0, 255, 255, 0.05);
-            transform: translateX(5px);
+        .card:hover {
+            border-color: var(--accent-gold);
+            background-color: var(--card-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        .movie-title {
-            color: var(--neon-pink);
-            font-weight: bold;
-            font-size: 1.2rem;
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 0;
+            background-color: var(--accent-gold);
+            transition: height 0.4s ease;
+        }
+
+        .card:hover::before {
+            height: 100%;
+        }
+
+        .year {
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 10px;
             display: block;
-            margin-bottom: 5px;
         }
 
-        .appearance {
-            color: #ccc;
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 300;
         }
 
         footer {
-            margin-top: 50px;
+            margin-top: 150px;
+            padding-top: 40px;
+            border-top: 1px solid #222;
             text-align: center;
             font-size: 0.8rem;
-            color: #666;
-            border-top: 1px solid #333;
-            padding-top: 20px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
         }
 
-        .marquee {
-            background: #000;
-            color: var(--theatre-gold);
-            padding: 10px;
-            overflow: hidden;
-            white-space: nowrap;
-            border: 1px solid var(--theatre-gold);
-            margin-bottom: 20px;
+        /* Cinematic Decorative Elements */
+        .curtain-line {
+            width: 100px;
+            height: 2px;
+            background: var(--accent-red);
+            margin: 40px auto;
         }
 
-        .marquee span {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 15s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
+        @media (max-width: 768px) {
+            .container { padding: 40px 20px; }
+            header { margin-bottom: 60px; }
+            footer { margin-top: 80px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="marquee">
-                <span>NOW SHOWING: THE UNPRODUCED MASTERPIECE... SEE YOU NEXT WEDNESDAY... DIRECTED BY JOHN LANDIS...</span>
-            </div>
-            <h1>SEE YOU NEXT WEDNESDAY</h1>
-            <p class="subtitle">The John Landis Easter Egg</p>
+            <span class="kicker">An Inside Joke Since 1973</span>
+            <h1>See You Next Wednesday</h1>
+            <p class="intro">
+                Originally the title of a screenplay written by a teenage John Landis, the phrase has become cinema’s most enduring recurring Easter egg.
+            </p>
+            <div class="curtain-line"></div>
         </header>
 
-        <p class="intro">
-            Originated as the title of a screenplay written by a 16-year-old John Landis, 
-            this phrase has appeared in nearly every project he has directed since.
-        </p>
-
-        <div class="movie-grid">
-            <div class="movie-card">
-                <span class="movie-title">Schlock (1973)</span>
-                <span class="appearance">Mentioned twice and featured on a movie poster in the background.</span>
+        <main class="grid">
+            <div class="card">
+                <span class="year">1973</span>
+                <h2 class="title">Schlock</h2>
+                <p class="desc">The first appearance, mentioned twice and featured on a movie poster in the background.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">The Kentucky Fried Movie (1977)</span>
-                <span class="appearance">The title of the "Feel-a-Rama" movie being watched.</span>
+            <div class="card">
+                <span class="year">1977</span>
+                <h2 class="title">The Kentucky Fried Movie</h2>
+                <p class="desc">The title of the "Feel-a-Rama" movie being watched by the theater audience.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">The Blues Brothers (1980)</span>
-                <span class="appearance">Appears on multiple billboards throughout the city of Chicago.</span>
+            <div class="card">
+                <span class="year">1980</span>
+                <h2 class="title">The Blues Brothers</h2>
+                <p class="desc">Visible on multiple billboards throughout the city of Chicago during the high-speed chase.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">An American Werewolf in London (1981)</span>
-                <span class="appearance">The title of the fictional pornographic film playing in the Piccadilly Circus theater.</span>
+            <div class="card">
+                <span class="year">1981</span>
+                <h2 class="title">An American Werewolf in London</h2>
+                <p class="desc">The title of the fictional pornographic film playing in the theater where the transformation reaches its peak.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">Trading Places (1983)</span>
-                <span class="appearance">A movie poster in Ophelia's apartment.</span>
+            <div class="card">
+                <span class="year">1983</span>
+                <h2 class="title">Trading Places</h2>
+                <p class="desc">A movie poster visible in Ophelia's apartment, reimagined as a classic drama.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">Michael Jackson's Thriller (1983)</span>
-                <span class="appearance">Spoken by a deputy in the movie-within-the-video; also appears on a theater poster.</span>
+            <div class="card">
+                <span class="year">1983</span>
+                <h2 class="title">Michael Jackson's Thriller</h2>
+                <p class="desc">Spoken by a deputy in the movie-within-the-video; also appears on a theater poster in the background.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">Spies Like Us (1985)</span>
-                <span class="appearance">Appears on a U.S. Army recruiting poster.</span>
+            <div class="card">
+                <span class="year">1985</span>
+                <h2 class="title">Spies Like Us</h2>
+                <p class="desc">Featured on a U.S. Army recruiting poster in the background of a military base.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">Coming to America (1988)</span>
-                <span class="appearance">A subway poster advertising the film starring Jamie Lee Curtis and Dan Aykroyd.</span>
+            <div class="card">
+                <span class="year">1988</span>
+                <h2 class="title">Coming to America</h2>
+                <p class="desc">A subway poster advertising a film starring the director's frequent collaborators, Jamie Lee Curtis and Dan Aykroyd.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">Innocent Blood (1992)</span>
-                <span class="appearance">Advertised on a movie theater marquee in the background.</span>
+            <div class="card">
+                <span class="year">1992</span>
+                <h2 class="title">Innocent Blood</h2>
+                <p class="desc">The title is prominently displayed on a movie theater marquee in a background shot.</p>
             </div>
-            <div class="movie-card">
-                <span class="movie-title">The Stupids (1996)</span>
-                <span class="appearance">Visible on the side of a bus.</span>
+            <div class="card">
+                <span class="year">1996</span>
+                <h2 class="title">The Stupids</h2>
+                <p class="desc">A clever background placement visible on the side of a passing city bus.</p>
             </div>
-        </div>
+        </main>
 
         <footer>
-            "See you next Wednesday" - Originally from 2001: A Space Odyssey (1968)
+            Originally inspired by 2001: A Space Odyssey (1968)
         </footer>
     </div>
 </body>
