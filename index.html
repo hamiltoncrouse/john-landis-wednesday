@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>See You Next Wednesday | John Landis Archive</title>
+    <title>See You Next Wednesday | John Landis Redux</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400;1,6..96,700&family=Montserrat:wght@200;400;700&family=Syne:wght@400;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050505;
-            --accent-gold: #c5a059;
-            --accent-red: #8e1c1c;
-            --text-main: #e0e0e0;
-            --text-muted: #999;
-            --card-bg: #111;
-            --card-hover: #1a1a1a;
+            --deep-plum: #1a0b16;
+            --charcoal: #0a0a0c;
+            --gold: #d4af37;
+            --gold-bright: #f9e29c;
+            --text-silver: #c0c0c2;
+            --white: #ffffff;
+            --transition-smooth: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -25,227 +25,420 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            background-color: var(--charcoal);
+            color: var(--text-silver);
+            font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            background-attachment: fixed;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(46, 20, 40, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(30, 30, 50, 0.3) 0%, transparent 50%);
         }
 
-        /* Subtle Film Grain Overlay */
-        body::after {
-            content: "";
+        /* High-end Film Grain */
+        .grain {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
             background-image: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.04;
+            opacity: 0.08;
             pointer-events: none;
-            z-index: 1000;
+            z-index: 9999;
+            animation: grain 8s steps(10) infinite;
         }
 
+        @keyframes grain {
+            0%, 100% { transform:translate(0, 0); }
+            10% { transform:translate(-5%, -10%); }
+            20% { transform:translate(-15%, 5%); }
+            30% { transform:translate(7%, -25%); }
+            40% { transform:translate(-5%, 25%); }
+            50% { transform:translate(-15%, 10%); }
+            60% { transform:translate(15%, 0%); }
+            70% { transform:translate(0%, 15%); }
+            80% { transform:translate(3%, 35%); }
+            90% { transform:translate(-10%, 10%); }
+        }
+
+        /* Layout Structure */
         .container {
-            max-width: 1000px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 80px 20px;
+            padding: 100px 5vw;
+            position: relative;
         }
 
+        /* Hero Section - Asymmetrical */
         header {
-            text-align: center;
-            margin-bottom: 100px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
+            margin-bottom: 20vh;
+        }
+
+        .hero-bg-text {
+            position: absolute;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 25vw;
+            line-height: 0.8;
+            color: rgba(255,255,255,0.02);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .kicker {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
-            font-size: 0.75rem;
-            color: var(--accent-gold);
-            font-weight: 600;
+            letter-spacing: 0.5em;
+            font-size: 0.8rem;
+            color: var(--gold);
             margin-bottom: 20px;
-            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: reveal 1s forwards 0.5s;
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 10vw, 5.5rem);
-            line-height: 1;
-            font-style: italic;
-            margin-bottom: 30px;
-            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: 'Bodoni Moda', serif;
+            font-size: clamp(4rem, 12vw, 10rem);
+            line-height: 0.9;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 40px;
+            max-width: 900px;
             position: relative;
+            z-index: 2;
+            mix-blend-mode: difference;
         }
+
+        h1 span {
+            display: block;
+            opacity: 0;
+            transform: skewY(5deg) translateY(50px);
+            animation: titleReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        h1 .line-2 { animation-delay: 0.2s; font-style: italic; color: var(--gold); }
 
         .intro {
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            padding: 40px;
-            border-radius: 4px;
-            border: 1px solid #222;
-            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            max-width: 500px;
+            margin-left: auto; /* Asymmetrical push */
+            font-size: 1.2rem;
+            font-weight: 200;
+            line-height: 1.8;
+            color: var(--text-silver);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: reveal 1.5s forwards 0.8s;
             position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
         }
 
-        .card:hover {
-            border-color: var(--accent-gold);
-            background-color: var(--card-hover);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .card::before {
+        .intro::before {
             content: "";
             position: absolute;
-            top: 0;
+            left: -40px;
+            top: 10px;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+
+        /* Grid - Overlapping/Asymmetrical */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            margin-top: 100px;
+        }
+
+        .movie-card {
+            grid-column: span 6;
+            margin-bottom: 15vh;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        /* Offset positioning for asymmetry */
+        .movie-card:nth-child(even) {
+            grid-column: 7 / span 5;
+            margin-top: 10vh;
+        }
+        .movie-card:nth-child(odd) {
+            grid-column: 2 / span 5;
+        }
+
+        .card-inner {
+            padding: 60px;
+            background: rgba(26, 11, 22, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .movie-card:hover .card-inner {
+            border-color: rgba(212, 175, 55, 0.5);
+            background: rgba(26, 11, 22, 0.6);
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .card-year {
+            font-family: 'Syne', sans-serif;
+            font-size: 5rem;
+            font-weight: 800;
+            position: absolute;
+            top: -40px;
+            left: -20px;
+            color: rgba(212, 175, 55, 0.05);
+            line-height: 1;
+            z-index: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .movie-card:hover .card-year {
+            color: rgba(212, 175, 55, 0.15);
+            transform: translate(-10px, -10px);
+        }
+
+        .card-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .card-title::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
             left: 0;
-            width: 2px;
-            height: 0;
-            background-color: var(--accent-gold);
-            transition: height 0.4s ease;
-        }
-
-        .card:hover::before {
-            height: 100%;
-        }
-
-        .year {
-            font-size: 0.8rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        footer {
-            margin-top: 150px;
-            padding-top: 40px;
-            border-top: 1px solid #222;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-
-        /* Cinematic Decorative Elements */
-        .curtain-line {
-            width: 100px;
+            width: 0;
             height: 2px;
-            background: var(--accent-red);
-            margin: 40px auto;
+            background: var(--gold);
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @media (max-width: 768px) {
-            .container { padding: 40px 20px; }
-            header { margin-bottom: 60px; }
-            footer { margin-top: 80px; }
+        .movie-card:hover .card-title::after {
+            width: 100%;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 300;
+            color: var(--text-silver);
+            max-width: 90%;
+        }
+
+        /* Shimmer Effect for Gold Text */
+        .shimmer {
+            background: linear-gradient(90deg, #d4af37 0%, #f9e29c 50%, #d4af37 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes reveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes titleReveal {
+            to { opacity: 1; transform: skewY(0) translateY(0); }
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 10vh;
+            padding: 100px 0;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-text {
+            font-family: 'Syne', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1em;
+            font-size: 0.7rem;
+            color: var(--gold);
+        }
+
+        /* Decorative Elements */
+        .gold-leaf {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .movie-card, .movie-card:nth-child(even), .movie-card:nth-child(odd) {
+                grid-column: 2 / span 10;
+                margin-top: 5vh;
+                margin-bottom: 5vh;
+            }
+            h1 { font-size: 15vw; }
+        }
+
+        @media (max-width: 600px) {
+            .movie-card, .movie-card:nth-child(even), .movie-card:nth-child(odd) {
+                grid-column: 1 / span 12;
+            }
+            .card-inner { padding: 30px; }
+            h1 { font-size: 4rem; }
         }
     </style>
 </head>
 <body>
+    <div class="grain"></div>
+    <div class="gold-leaf" style="top: 10%; right: -10%;"></div>
+    <div class="gold-leaf" style="bottom: 20%; left: -10%;"></div>
+
     <div class="container">
         <header>
+            <div class="hero-bg-text">NEXT WEDNESDAY</div>
             <span class="kicker">An Inside Joke Since 1973</span>
-            <h1>See You Next Wednesday</h1>
+            <h1>
+                <span class="line-1">See You</span>
+                <span class="line-2 shimmer">Next Wednesday</span>
+            </h1>
             <p class="intro">
-                Originally the title of a screenplay written by a teenage John Landis, the phrase has become cinema’s most enduring recurring Easter egg.
+                Originally the title of a screenplay written by a teenage John Landis, the phrase has become cinema’s most enduring recurring Easter egg—a spectral signature appearing across decades of work.
             </p>
-            <div class="curtain-line"></div>
         </header>
 
-        <main class="grid">
-            <div class="card">
-                <span class="year">1973</span>
-                <h2 class="title">Schlock</h2>
-                <p class="desc">The first appearance, mentioned twice and featured on a movie poster in the background.</p>
+        <main class="movie-grid">
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1973</span>
+                <div class="card-inner">
+                    <h2 class="card-title">Schlock</h2>
+                    <p class="card-desc">The genesis. Mentioned twice and featured on a movie poster in the background of Landis' directorial debut.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1977</span>
-                <h2 class="title">The Kentucky Fried Movie</h2>
-                <p class="desc">The title of the "Feel-a-Rama" movie being watched by the theater audience.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1977</span>
+                <div class="card-inner">
+                    <h2 class="card-title">The Kentucky Fried Movie</h2>
+                    <p class="card-desc">The title of the "Feel-a-Rama" movie being watched by the theater audience—a tactile cinematic experience.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1980</span>
-                <h2 class="title">The Blues Brothers</h2>
-                <p class="desc">Visible on multiple billboards throughout the city of Chicago during the high-speed chase.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1980</span>
+                <div class="card-inner">
+                    <h2 class="card-title">The Blues Brothers</h2>
+                    <p class="card-desc">Woven into the urban fabric of Chicago; visible on multiple billboards during the high-speed pursuit of the divine mission.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1981</span>
-                <h2 class="title">An American Werewolf in London</h2>
-                <p class="desc">The title of the fictional pornographic film playing in the theater where the transformation reaches its peak.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1981</span>
+                <div class="card-inner">
+                    <h2 class="card-title">An American Werewolf in London</h2>
+                    <p class="card-desc">The title of the fictional pornographic film playing in the Piccadilly Circus theater during the visceral climax.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1983</span>
-                <h2 class="title">Trading Places</h2>
-                <p class="desc">A movie poster visible in Ophelia's apartment, reimagined as a classic drama.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1983</span>
+                <div class="card-inner">
+                    <h2 class="card-title">Trading Places</h2>
+                    <p class="card-desc">A classic drama poster in Ophelia's apartment, subverting the expectations of the Landis universe.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1983</span>
-                <h2 class="title">Michael Jackson's Thriller</h2>
-                <p class="desc">Spoken by a deputy in the movie-within-the-video; also appears on a theater poster in the background.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1983</span>
+                <div class="card-inner">
+                    <h2 class="card-title">Michael Jackson's Thriller</h2>
+                    <p class="card-desc">Spoken by a deputy in the movie-within-the-video; the line echoes through pop culture history.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1985</span>
-                <h2 class="title">Spies Like Us</h2>
-                <p class="desc">Featured on a U.S. Army recruiting poster in the background of a military base.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1985</span>
+                <div class="card-inner">
+                    <h2 class="card-title">Spies Like Us</h2>
+                    <p class="card-desc">Embedded in military bureaucracy on a U.S. Army recruiting poster in the background of the base.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1988</span>
-                <h2 class="title">Coming to America</h2>
-                <p class="desc">A subway poster advertising a film starring the director's frequent collaborators, Jamie Lee Curtis and Dan Aykroyd.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1988</span>
+                <div class="card-inner">
+                    <h2 class="card-title">Coming to America</h2>
+                    <p class="card-desc">A subway poster advertising a film starring frequent collaborators Jamie Lee Curtis and Dan Aykroyd.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1992</span>
-                <h2 class="title">Innocent Blood</h2>
-                <p class="desc">The title is prominently displayed on a movie theater marquee in a background shot.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1992</span>
+                <div class="card-inner">
+                    <h2 class="card-title">Innocent Blood</h2>
+                    <p class="card-desc">Prominently displayed on a movie theater marquee, continuing the tradition into the nineties.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="year">1996</span>
-                <h2 class="title">The Stupids</h2>
-                <p class="desc">A clever background placement visible on the side of a passing city bus.</p>
+
+            <div class="movie-card" data-aos="fade-up">
+                <span class="card-year">1996</span>
+                <div class="card-inner">
+                    <h2 class="card-title">The Stupids</h2>
+                    <p class="card-desc">A fleeting background placement on the side of a passing city bus, a hidden reward for the observant viewer.</p>
+                </div>
             </div>
         </main>
 
         <footer>
-            Originally inspired by 2001: A Space Odyssey (1968)
+            <div class="footer-text">Originally inspired by 2001: A Space Odyssey (1968)</div>
         </footer>
     </div>
+
+    <script>
+        // Simple parallax for the hero background text
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            const bgText = document.querySelector('.hero-bg-text');
+            bgText.style.transform = `translate(-50%, ${-50 + (scroll * 0.05)}%)`;
+            
+            // Subtle reveal on scroll for cards
+            const cards = document.querySelectorAll('.movie-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                if (cardTop < window.innerHeight * 0.8) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize cards as invisible for the reveal effect
+        document.querySelectorAll('.movie-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(40px)';
+            card.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
+        });
+    </script>
 </body>
 </html>
