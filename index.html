@@ -130,7 +130,18 @@
             overflow: visible; /* Prevent cut-off during animation */
         }
 
-        h1 .line-2 { animation-delay: 0.2s; font-style: italic; color: var(--gold); }
+        h1 .line-2 { 
+            animation-delay: 0.2s; 
+            font-style: italic; 
+            color: var(--gold);
+        }
+
+        /* Combined animation for line-2 to prevent titleReveal override */
+        h1 .line-2.shimmer {
+            animation: 
+                titleReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards,
+                shine 4s linear 1.4s infinite; /* Delay shine until reveal finishes */
+        }
 
         .intro {
             max-width: 500px;
@@ -449,21 +460,26 @@
     </div>
 
     <script>
-        // Simple parallax for the hero background text
-        window.addEventListener('scroll', () => {
-            const scroll = window.pageYOffset;
-            const bgText = document.querySelector('.hero-bg-text');
-            bgText.style.transform = `translate(-50%, ${-50 + (scroll * 0.05)}%)`;
-            
-            // Subtle reveal on scroll for cards
+        // Reveal function for cards
+        const revealCards = () => {
             const cards = document.querySelectorAll('.movie-card');
             cards.forEach(card => {
                 const cardTop = card.getBoundingClientRect().top;
-                if (cardTop < window.innerHeight * 0.8) {
+                if (cardTop < window.innerHeight * 0.9) {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
                 }
             });
+        };
+
+        // Simple parallax for the hero background text
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            const bgText = document.querySelector('.hero-bg-text');
+            if (bgText) {
+                bgText.style.transform = `translate(-50%, ${-50 + (scroll * 0.05)}%)`;
+            }
+            revealCards();
         });
 
         // Initialize cards as invisible for the reveal effect
@@ -472,6 +488,11 @@
             card.style.transform = 'translateY(40px)';
             card.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
         });
+
+        // Run reveal on initial load
+        window.addEventListener('DOMContentLoaded', revealCards);
+        // Also run once immediately in case DOM is already ready
+        revealCards();
     </script>
 </body>
 </html>
