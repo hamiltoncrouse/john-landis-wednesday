@@ -492,9 +492,25 @@
             card.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
         });
 
-        // Run reveal on initial load
-        window.addEventListener('DOMContentLoaded', revealCards);
-        // Also run once immediately in case DOM is already ready
+        // Use Intersection Observer for better reveal reliability
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.movie-card').forEach(card => observer.observe(card));
+
+        // Fallback for initial load
+        window.addEventListener('load', revealCards);
         revealCards();
     </script>
 </body>
