@@ -180,11 +180,11 @@
             margin-bottom: 15vh;
             position: relative;
             transition: var(--transition-smooth);
-            text-decoration: none;
             display: block;
             opacity: 0;
             transform: translateY(40px);
             perspective: 1000px;
+            cursor: pointer;
         }
 
         .movie-card.is-visible {
@@ -226,13 +226,14 @@
             background: rgba(26, 11, 22, 0.95);
             transform: rotateY(180deg);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 40px;
+            justify-content: space-between;
+            padding: 30px;
             border: 1px solid var(--gold);
         }
 
-        .movie-card:hover .card-inner {
+        .movie-card.is-flipped .card-inner {
             border-color: rgba(212, 175, 55, 0.5);
             background: rgba(26, 11, 22, 0.6);
             transform: rotateY(180deg);
@@ -240,9 +241,28 @@
 
         .card-back img {
             width: 100%;
-            height: 100%;
+            height: 75%;
             object-fit: contain;
             filter: sepia(0.2) contrast(1.1);
+        }
+
+        .imdb-btn {
+            background: var(--gold);
+            color: var(--deep-plum);
+            padding: 10px 20px;
+            text-decoration: none;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            transition: var(--transition-smooth);
+            border: none;
+            display: inline-block;
+        }
+
+        .imdb-btn:hover {
+            background: var(--gold-bright);
+            transform: scale(1.05);
         }
 
         .card-year {
@@ -411,7 +431,7 @@
         </header>
 
         <main class="movie-grid">
-            <a href="https://www.imdb.com/title/tt0070652/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1973</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -419,12 +439,13 @@
                         <p class="card-desc">The genesis. Mentioned twice and featured on a movie poster in the background of Landis' directorial debut.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/pr9DXClc5hHJDUZ7iCmMbmqHXur.jpg" alt="Schlock Poster">
+                        <img src="https://i.etsystatic.com/11260460/r/il/5a5494/1271047805/il_fullxfull.1271047805_9p9n.jpg" alt="SYNW Schlock Poster">
+                        <a href="https://www.imdb.com/title/tt0070652/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0076257/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1977</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -432,12 +453,13 @@
                         <p class="card-desc">The title of the "Feel-a-Rama" movie being watched by the theater audience—a tactile cinematic experience.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/qk0iXBQgP6b4xfS2bIUNBSENJAn.jpg" alt="The Kentucky Fried Movie Poster">
+                        <img src="https://placehold.co/300x450/1a0b16/d4af37?text=SYNW+Feel-a-Rama" alt="SYNW Feel-a-Rama Poster">
+                        <a href="https://www.imdb.com/title/tt0076257/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0080455/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1980</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -445,12 +467,13 @@
                         <p class="card-desc">Woven into the urban fabric of Chicago; visible on multiple billboards during the high-speed pursuit of the divine mission.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/rhYJKOt6UrQq7JQgLyQcSWW5R86.jpg" alt="The Blues Brothers Poster">
+                        <img src="https://i.etsystatic.com/11260460/r/il/6b6859/1271049965/il_fullxfull.1271049965_446z.jpg" alt="SYNW Blues Brothers Poster">
+                        <a href="https://www.imdb.com/title/tt0080455/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0082096/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1981</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -458,12 +481,13 @@
                         <p class="card-desc">The title of the fictional pornographic film playing in the Piccadilly Circus theater during the visceral climax.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/hVEqUASJmCQaolkKFEySCHZ8uKG.jpg" alt="An American Werewolf in London Poster">
+                        <img src="https://i.etsystatic.com/11260460/r/il/9d31f2/1223842602/il_fullxfull.1223842602_j3re.jpg" alt="SYNW American Werewolf Poster">
+                        <a href="https://www.imdb.com/title/tt0082096/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0086465/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1983</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -471,12 +495,13 @@
                         <p class="card-desc">A classic drama poster in Ophelia's apartment, subverting the expectations of the Landis universe.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/8mBuLCOcpWnmYtZc4aqtvDXslv6.jpg" alt="Trading Places Poster">
+                        <img src="https://www.replicapropstore.com/cdn/shop/products/SYNW_Trading_Places_1024x1024.jpg" alt="SYNW Trading Places Poster">
+                        <a href="https://www.imdb.com/title/tt0086465/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0086438/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1983</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -484,12 +509,13 @@
                         <p class="card-desc">Spoken by a deputy in the movie-within-the-video; the line echoes through pop culture history.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/dYHGoPMkZMVuBA4EydmDQMo1EEv.jpg" alt="Michael Jackson's Thriller Poster">
+                        <img src="https://placehold.co/300x450/1a0b16/d4af37?text=SYNW+Thriller" alt="SYNW Thriller Poster">
+                        <a href="https://www.imdb.com/title/tt0086438/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0090056/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1985</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -497,12 +523,13 @@
                         <p class="card-desc">Embedded in military bureaucracy on a U.S. Army recruiting poster in the background of the base.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/s0Sx8nd9Irq0aCPbsN78s0DYVlG.jpg" alt="Spies Like Us Poster">
+                        <img src="https://horror.land/wp-content/uploads/2017/04/spies-like-us-synw.jpg" alt="SYNW Spies Like Us Poster">
+                        <a href="https://www.imdb.com/title/tt0090056/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0094898/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1988</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -510,12 +537,13 @@
                         <p class="card-desc">A subway poster advertising a film starring frequent collaborators Jamie Lee Curtis and Dan Aykroyd.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/8YZiA1o264dk0cr1USyMdph6SZl.jpg" alt="Coming to America Poster">
+                        <img src="https://www.replicapropstore.com/cdn/shop/products/SYNW_Coming_to_America_1024x1024.jpg" alt="SYNW Coming to America Poster">
+                        <a href="https://www.imdb.com/title/tt0094898/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0104511/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1992</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -523,12 +551,13 @@
                         <p class="card-desc">Prominently displayed on a movie theater marquee, continuing the tradition into the nineties.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/vUrvRiIdZ9lMLnj8DEw4Rl2X23f.jpg" alt="Innocent Blood Poster">
+                        <img src="https://placehold.co/300x450/1a0b16/d4af37?text=SYNW+Innocent+Blood" alt="SYNW Innocent Blood Poster">
+                        <a href="https://www.imdb.com/title/tt0104511/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://www.imdb.com/title/tt0117768/" target="_blank" class="movie-card" data-aos="fade-up">
+            <div class="movie-card" data-aos="fade-up">
                 <span class="card-year">1996</span>
                 <div class="card-inner">
                     <div class="card-front">
@@ -536,10 +565,11 @@
                         <p class="card-desc">A fleeting background placement on the side of a passing city bus, a hidden reward for the observant viewer.</p>
                     </div>
                     <div class="card-back">
-                        <img src="https://media.themoviedb.org/t/p/w300_and_h450_face/uR0EPkE66y2DU21NOZAu6xtfpQL.jpg" alt="The Stupids Poster">
+                        <img src="https://placehold.co/300x450/1a0b16/d4af37?text=SYNW+The+Stupids" alt="SYNW The Stupids Poster">
+                        <a href="https://www.imdb.com/title/tt0117768/" target="_blank" class="imdb-btn">VIEW ON IMDB</a>
                     </div>
                 </div>
-            </a>
+            </div>
         </main>
 
         <footer>
@@ -588,7 +618,16 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.movie-card').forEach(card => observer.observe(card));
+        document.querySelectorAll('.movie-card').forEach(card => {
+            observer.observe(card);
+            
+            // Toggle flip on click
+            card.addEventListener('click', (e) => {
+                // Don't flip if the IMDb button was clicked
+                if (e.target.closest('.imdb-btn')) return;
+                card.classList.toggle('is-flipped');
+            });
+        });
 
         // Fallback for initial load
         window.addEventListener('load', revealCards);
