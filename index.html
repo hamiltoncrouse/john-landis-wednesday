@@ -55,8 +55,20 @@ body {
 .rules-box h3 { margin-bottom: 7px; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; }
 
 /* GAME SCREEN */
-#game-screen { display: none; flex-direction: column; padding: 0; }
+#game-screen { display: none; flex-direction: column; padding: 0; position: relative; }
 #game-screen.active { display: flex; height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; overflow: hidden; padding-top: env(safe-area-inset-top, 0px); }
+#dealer-chip {
+  position: absolute; display: none; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--gold); color: #1a0b00;
+  font-size: 0.58rem; font-weight: bold; font-family: Georgia, serif;
+  border: 2px solid #7a5500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.55);
+  z-index: 20; pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: top 0.35s ease, left 0.35s ease;
+  letter-spacing: 0;
+}
 
 /* SCORE BAR */
 #scorebar { display: flex; justify-content: space-between; align-items: center; padding: 4px 12px; background: rgba(0,0,0,0.45); border-bottom: 1px solid rgba(255,215,0,0.18); min-height: 38px; flex-shrink: 0; }
@@ -655,6 +667,8 @@ body {
 
   <div id="player-hand"></div>
 
+  <div id="dealer-chip" title="Dealer">D</div>
+
   <div id="bid-panel" class="hidden">
     <div id="bid-label">Your turn to bid</div>
     <div class="bid-row" id="bid-buttons"></div>
@@ -782,14 +796,44 @@ function playFanfare() {
 }
 function playSad() {
   snd(ctx => {
-    [392, 349, 294, 261].forEach((fr, i) => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'sine'; o.frequency.value = fr;
-      const t = ctx.currentTime + i * 0.2;
-      g.gain.setValueAtTime(0.22, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
-      o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.42);
-    });
+    const t = ctx.currentTime;
+    // Sad trombone: wah wah wah wahhhh (Price is Right losing horn)
+    [{from:466,to:415,s:0,d:0.36},{from:415,to:370,s:0.33,d:0.36},{from:370,to:349,s:0.66,d:0.36},{from:349,to:116,s:0.99,d:1.9}]
+      .forEach(n => {
+        const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(n.from, t + n.s);
+        o.frequency.linearRampToValueAtTime(n.to, t + n.s + n.d);
+        f.type = 'lowpass'; f.frequency.value = 1100;
+        g.gain.setValueAtTime(0, t + n.s);
+        g.gain.linearRampToValueAtTime(0.28, t + n.s + 0.05);
+        g.gain.setValueAtTime(0.28, t + n.s + n.d - 0.08);
+        g.gain.linearRampToValueAtTime(0, t + n.s + n.d + 0.06);
+        o.connect(f); f.connect(g); g.connect(ctx.destination);
+        o.start(t + n.s); o.stop(t + n.s + n.d + 0.1);
+      });
   });
+}
+function updateDealerChip() {
+  const chip = document.getElementById('dealer-chip');
+  if (!chip) return;
+  const positions = [
+    {id:'player-hand', side:'top'},
+    {id:'zone-left',   side:'right'},
+    {id:'zone-top',    side:'bottom'},
+    {id:'zone-right',  side:'left'},
+  ];
+  const {id, side} = positions[G.dealer];
+  const anchor = document.getElementById(id);
+  const game   = document.getElementById('game-screen');
+  if (!anchor || !game) return;
+  const ar = anchor.getBoundingClientRect(), gr = game.getBoundingClientRect();
+  let top, left;
+  if (side==='top')    { top=ar.top-gr.top;              left=ar.left-gr.left+ar.width/2; }
+  if (side==='bottom') { top=ar.bottom-gr.top;           left=ar.left-gr.left+ar.width/2; }
+  if (side==='left')   { top=ar.top-gr.top+ar.height/2;  left=ar.left-gr.left; }
+  if (side==='right')  { top=ar.top-gr.top+ar.height/2;  left=ar.right-gr.left; }
+  chip.style.top=top+'px'; chip.style.left=left+'px'; chip.style.display='flex';
 }
 
 const LOLA_IDS = ['lola-jacket','lola-blouse','lola-skirt','lola-shoes','lola-stockings','lola-bikini-top','lola-bikini-bottom'];
@@ -996,6 +1040,7 @@ function newHand() {
   G.trickLeader=(G.dealer+1)%4; G.currentPlayer=G.trickLeader;
   document.getElementById('last-trick-btn').style.display='none';
   renderAll(); setStatus('');
+  requestAnimationFrame(updateDealerChip);
   setTimeout(()=>startBid1(),400);
 }
 function nextHand() {
@@ -1012,6 +1057,7 @@ function resetGame() {
 }
 function goHome() {
   document.getElementById('gameover-overlay').classList.remove('show');
+  document.getElementById('dealer-chip').style.display='none';
   document.getElementById('game-screen').classList.remove('active');
   document.getElementById('start-screen').classList.add('active');
 }
@@ -1203,6 +1249,7 @@ function showRoundOverlay(title,desc,quip,breakdown){
 function showGameOver(){
   const w=G.gameScore[0]>=10;
   if(w) { playFanfare(); setTimeout(showConfetti,300); } else playSad();
+  document.getElementById('gameover-rob').src=w?'rob.png':'rob-barrel.png';
   document.getElementById('gameover-title').textContent=w?'You Win!':'Game Over';
   document.getElementById('gameover-score').textContent='Final Score: '+G.gameScore[0]+' – '+G.gameScore[1];
   const msgs=w
