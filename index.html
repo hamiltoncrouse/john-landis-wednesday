@@ -414,6 +414,43 @@ body {
 .gameover-card .final-score { font-size: 0.88rem; opacity: 0.68; margin-bottom: 8px; }
 .gameover-msg { font-size: 0.8rem; font-style: italic; color: #FF69B4; margin-bottom: 20px; line-height: 1.55; }
 
+/* Last trick replay */
+#last-trick-btn {
+  font-size: 0.6rem;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 4px 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  margin-top: 5px;
+  display: none;
+}
+#last-trick-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 150; opacity: 0; pointer-events: none;
+  transition: opacity 0.2s;
+}
+#last-trick-overlay.show { opacity: 1; pointer-events: all; }
+.lt-card {
+  background: linear-gradient(135deg, #1a0033, #2d1060);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  padding: 18px 20px;
+  max-width: 280px;
+  width: 90%;
+  text-align: center;
+}
+.lt-card h3 { color: var(--gold); font-size: 1rem; margin-bottom: 12px; letter-spacing: 0.05em; }
+#lt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.lt-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 0.68rem; opacity: 0.8; }
+.lt-item.winner { opacity: 1; color: var(--gold); font-weight: bold; }
+#lt-winner { font-size: 0.78rem; opacity: 0.7; margin-bottom: 14px; font-style: italic; }
+
 .dealer-chip { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; display: inline-block; box-shadow: 0 0 4px var(--gold); flex-shrink: 0; }
 .active-player-indicator { width: 7px; height: 7px; background: #fff; border-radius: 50%; animation: pulse 1s infinite; flex-shrink: 0; }
 @keyframes pulse { 0%,100%{ opacity: 1; } 50%{ opacity: 0.25; } }
@@ -476,20 +513,20 @@ body {
       <svg id="lady-svg" viewBox="0 0 80 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
         <!-- SKIN BASE -->
-        <path d="M29,90 L25,128 L34,128 L37,98 Z" fill="#F4A67A"/>
-        <path d="M51,90 L55,128 L46,128 L43,98 Z" fill="#F4A67A"/>
-        <path d="M20,50 Q40,44 60,50 L58,90 Q40,95 22,90 Z" fill="#F4A67A"/>
-        <path d="M21,52 L9,84 L15,87 L25,58 Z" fill="#F4A67A"/>
-        <path d="M59,52 L71,84 L65,87 L55,58 Z" fill="#F4A67A"/>
-        <path d="M34,38 L36,50 L44,50 L46,38 Q40,34 34,38 Z" fill="#F4A67A"/>
-        <circle cx="40" cy="22" r="17" fill="#F4A67A"/>
+        <path d="M29,90 L25,128 L34,128 L37,98 Z" fill="#C8956A"/>
+        <path d="M51,90 L55,128 L46,128 L43,98 Z" fill="#C8956A"/>
+        <path d="M20,50 Q40,44 60,50 L58,90 Q40,95 22,90 Z" fill="#C8956A"/>
+        <path d="M21,52 L9,84 L15,87 L25,58 Z" fill="#C8956A"/>
+        <path d="M59,52 L71,84 L65,87 L55,58 Z" fill="#C8956A"/>
+        <path d="M34,38 L36,50 L44,50 L46,38 Q40,34 34,38 Z" fill="#C8956A"/>
+        <circle cx="40" cy="22" r="17" fill="#C8956A"/>
 
         <!-- HAIR -->
-        <ellipse cx="40" cy="9" rx="18" ry="12" fill="#A0522D"/>
-        <path d="M23,16 Q16,28 19,46 L25,44 Q22,30 27,20 Z" fill="#A0522D"/>
-        <path d="M57,16 Q64,28 61,46 L55,44 Q58,30 53,20 Z" fill="#A0522D"/>
-        <path d="M23,12 Q16,22 18,34" stroke="#7a3e20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <path d="M57,12 Q64,22 62,34" stroke="#7a3e20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="40" cy="9" rx="18" ry="12" fill="#1C1C1C"/>
+        <path d="M23,16 Q16,28 19,46 L25,44 Q22,30 27,20 Z" fill="#1C1C1C"/>
+        <path d="M57,16 Q64,28 61,46 L55,44 Q58,30 53,20 Z" fill="#1C1C1C"/>
+        <path d="M23,12 Q16,22 18,34" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M57,12 Q64,22 62,34" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 
         <!-- FACE -->
         <ellipse cx="33" cy="21" rx="3.5" ry="4" fill="white"/>
@@ -498,8 +535,8 @@ body {
         <circle cx="48" cy="22" r="2.2" fill="#4A3728"/>
         <circle cx="34.8" cy="21.2" r="0.6" fill="white"/>
         <circle cx="48.8" cy="21.2" r="0.6" fill="white"/>
-        <path d="M30,17 Q33.5,14.5 37,17" stroke="#8B4513" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-        <path d="M43,17 Q46.5,14.5 50,17" stroke="#8B4513" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path d="M30,17 Q33.5,14.5 37,17" stroke="#222222" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path d="M43,17 Q46.5,14.5 50,17" stroke="#222222" stroke-width="1.3" fill="none" stroke-linecap="round"/>
         <path d="M38.5,26 Q40,29 41.5,26" stroke="#D4887A" stroke-width="1.1" fill="none" stroke-linecap="round"/>
         <path d="M34,32 Q40,38 46,32" stroke="#D43F5A" stroke-width="2.1" fill="none" stroke-linecap="round"/>
         <path d="M34,32 Q40,36.5 46,32 Q40,34 34,32 Z" fill="#E83E5A" opacity="0.65"/>
@@ -507,11 +544,11 @@ body {
         <ellipse cx="51" cy="27" rx="5.5" ry="3.5" fill="#FFB3C6" opacity="0.38"/>
 
         <!-- BIKINI TOP - always visible -->
-        <path d="M29,57 Q40,66 51,57 Q46,50 40,52 Q34,50 29,57 Z" fill="#FF1744"/>
-        <circle cx="40" cy="57" r="2.4" fill="#CC0000"/>
-        <line x1="33" y1="56" x2="37" y2="47" stroke="#FF1744" stroke-width="1.7"/>
-        <line x1="47" y1="56" x2="43" y2="47" stroke="#FF1744" stroke-width="1.7"/>
-        <line x1="37" y1="47" x2="43" y2="47" stroke="#FF1744" stroke-width="1.7"/>
+        <path d="M26,56 Q40,74 54,56 Q48,46 40,49 Q32,46 26,56 Z" fill="#FF1744"/>
+        <circle cx="40" cy="60" r="3.2" fill="#CC0000"/>
+        <line x1="30" y1="55" x2="35" y2="45" stroke="#FF1744" stroke-width="1.7"/>
+        <line x1="50" y1="55" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
+        <line x1="35" y1="45" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
 
         <!-- BIKINI BOTTOM - always visible -->
         <path d="M25,90 Q40,99 55,90 L52,81 Q40,88 28,81 Z" fill="#FF1744"/>
@@ -573,7 +610,7 @@ body {
       </svg>
     </div><!-- end character-frame -->
     <div id="char-info">
-      <div id="char-name">&#10024; Veronica &#10024;</div>
+      <div id="char-name">&#10024; Carmen &#10024;</div>
       <div id="clothing-dots"></div>
       <div id="char-quip">"Feeling lucky, darling?"</div>
     </div>
@@ -597,6 +634,7 @@ body {
         <div class="trick-card-slot" id="slot-bottom"></div>
       </div>
       <div id="kitty-area" style="display:none"></div>
+      <button id="last-trick-btn" onclick="showLastTrick()">&#8617; Last Trick</button>
     </div>
     <div id="zone-right" class="player-zone"></div>
   </div>
@@ -626,6 +664,15 @@ body {
     </div>
     <div class="score-breakdown" id="round-breakdown"></div>
     <button class="btn" onclick="nextHand()">Next Hand</button>
+  </div>
+</div>
+
+<div id="last-trick-overlay">
+  <div class="lt-card">
+    <h3>Last Trick</h3>
+    <div id="lt-grid"></div>
+    <div id="lt-winner"></div>
+    <button class="btn btn-secondary" style="padding:10px 28px" onclick="hideLastTrick()">Close</button>
   </div>
 </div>
 
@@ -701,6 +748,7 @@ function initState() {
     handNum:      0,
     clothingLevel:5,
     lastQuip:     IDLE_QUIPS[0],
+    lastCompletedTrick: null,
   };
 }
 
@@ -842,6 +890,7 @@ function newHand() {
   deal();
   G.trickLeader = (G.dealer + 1) % 4;
   G.currentPlayer = G.trickLeader;
+  document.getElementById('last-trick-btn').style.display = 'none';
   renderAll();
   setStatus('');
   setTimeout(() => startBid1(), 400);
@@ -1047,6 +1096,8 @@ function advanceTrick() {
     playTurn();
   } else {
     const winner = trickWinner(G.currentTrick, G.trump);
+    G.lastCompletedTrick = { trick: [...G.currentTrick], winner };
+    document.getElementById('last-trick-btn').style.display = '';
     const winTeam = TEAM[winner];
     G.tricksWon[winTeam]++;
     updateTrickScore();
@@ -1317,6 +1368,27 @@ function showTrickBanner(msg, callback) {
   document.getElementById('trick-banner').textContent = msg;
   overlay.classList.add('show');
   setTimeout(() => { overlay.classList.remove('show'); setTimeout(callback, 200); }, 900);
+}
+function showLastTrick() {
+  if (!G.lastCompletedTrick) return;
+  const { trick, winner } = G.lastCompletedTrick;
+  const grid = document.getElementById('lt-grid');
+  grid.innerHTML = '';
+  trick.forEach(({player, card}) => {
+    const item = document.createElement('div');
+    item.className = 'lt-item' + (player === winner ? ' winner' : '');
+    const cardEl = makeCardEl(card, false);
+    const name = document.createElement('div');
+    name.textContent = PLAYER_NAMES[player] + (player === winner ? ' ★' : '');
+    item.appendChild(cardEl);
+    item.appendChild(name);
+    grid.appendChild(item);
+  });
+  document.getElementById('lt-winner').textContent = PLAYER_NAMES[winner] + ' won this trick';
+  document.getElementById('last-trick-overlay').classList.add('show');
+}
+function hideLastTrick() {
+  document.getElementById('last-trick-overlay').classList.remove('show');
 }
 function toggleRules() {
   const box = document.getElementById('rules-box');
