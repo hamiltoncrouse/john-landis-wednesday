@@ -60,6 +60,20 @@ body {
 #trump-display { font-size: 1.3rem; display: flex; flex-direction: column; align-items: center; line-height: 1; }
 #trump-display .trump-label { font-size: 0.48rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
 
+/* MUSIC TOGGLE */
+#music-btn {
+  position: fixed; bottom: 14px; right: 14px; z-index: 500;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(30,0,60,0.82); border: 1.5px solid rgba(255,215,0,0.4);
+  color: var(--gold); font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: border-color 0.2s, background 0.2s;
+}
+#music-btn.muted { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.3); }
+#music-btn:active { transform: scale(0.92); }
+
 /* CHARACTER PANEL — 3 avatars */
 #character-panel {
   display: flex;
@@ -212,6 +226,9 @@ body {
 </style>
 </head>
 <body>
+<audio id="bg-music" src="music.mp3" loop preload="auto"></audio>
+<button id="music-btn" onclick="toggleMusic()" title="Toggle music">♪</button>
+
 <div id="app">
 
 <!-- START -->
@@ -1220,6 +1237,34 @@ function showTrickBanner(msg,cb){
   setTimeout(()=>{ov.classList.remove('show');setTimeout(cb,200);},900);
 }
 function toggleRules(){const b=document.getElementById('rules-box');b.style.display=b.style.display==='none'?'block':'none';}
+
+// MUSIC
+let musicOn = true;
+const _bgMusic = document.getElementById('bg-music');
+_bgMusic.volume = 0.45;
+
+function startMusic() {
+  if (musicOn) _bgMusic.play().catch(()=>{});
+}
+function toggleMusic() {
+  musicOn = !musicOn;
+  const btn = document.getElementById('music-btn');
+  if (musicOn) {
+    _bgMusic.play().catch(()=>{});
+    btn.textContent = '♪';
+    btn.classList.remove('muted');
+  } else {
+    _bgMusic.pause();
+    btn.textContent = '♪';
+    btn.classList.add('muted');
+  }
+}
+
+// Kick off music on first user interaction (browser autoplay policy)
+document.addEventListener('click', function _startOnce() {
+  startMusic();
+  document.removeEventListener('click', _startOnce);
+}, { once: true });
 </script>
 </body>
 </html>
