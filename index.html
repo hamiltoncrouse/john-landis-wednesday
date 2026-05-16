@@ -136,8 +136,7 @@ body {
 /* CARDS */
 .card { width: 46px; height: 66px; background: var(--card-bg); border-radius: var(--card-radius); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 3px; font-size: 0.82rem; font-weight: bold; color: #111; position: relative; border: 1px solid rgba(0,0,0,0.07); flex-shrink: 0; }
 .card.red { color: var(--red); }
-.card.back { background: linear-gradient(135deg, #2d1060 25%, #1a0033 100%); border: 1px solid rgba(255,215,0,0.18); }
-.card.back::after { content: '♥'; font-size: 1.2rem; color: rgba(255,105,180,0.2); }
+/* card back — see override below */
 .card-corner { display: flex; flex-direction: column; align-items: center; line-height: 1; }
 .card-corner.bottom { transform: rotate(180deg); }
 .card-rank { font-size: 0.72rem; line-height: 1; }
@@ -223,6 +222,38 @@ body {
 .trick-card-slot .card { animation: card-drop 0.2s ease-out; }
 .bid-btn.suit-red { background: #FFF0F2; }
 .bid-btn.suit-black { background: rgba(255,255,255,0.92); }
+
+/* CARD BACK PATTERN */
+.card.back { background: linear-gradient(135deg, #1e0048 0%, #2d1060 60%, #180030 100%); border: 1.5px solid rgba(255,215,0,0.28); }
+.card.back::before { content:''; position:absolute; inset:3px; border-radius:4px; background: repeating-linear-gradient(45deg, rgba(255,215,0,0.08) 0, rgba(255,215,0,0.08) 1px, transparent 0, transparent 7px), repeating-linear-gradient(-45deg, rgba(255,215,0,0.08) 0, rgba(255,215,0,0.08) 1px, transparent 0, transparent 7px); border:1px solid rgba(255,215,0,0.1); }
+.card.back::after { content:'♠'; font-size:1rem; color:rgba(255,105,180,0.3); position:absolute; z-index:1; }
+
+/* SCREEN SHAKE */
+@keyframes shake-it { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-8px) rotate(-0.8deg)} 30%{transform:translateX(9px) rotate(0.8deg)} 45%{transform:translateX(-6px)} 60%{transform:translateX(7px)} 75%{transform:translateX(-3px)} 90%{transform:translateX(3px)} }
+#app.shaking { animation: shake-it 0.5s ease-in-out; }
+
+/* ACHIEVEMENT TOAST */
+#achievement-toast { position:fixed; top:58px; left:50%; transform:translateX(-50%) translateY(-90px); background:linear-gradient(135deg,#1a0033,#2d1060); border:1.5px solid var(--gold); color:var(--gold); padding:9px 22px; border-radius:30px; font-size:0.74rem; text-align:center; z-index:600; transition:transform 0.38s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s; opacity:0; white-space:nowrap; pointer-events:none; box-shadow:0 4px 22px rgba(0,0,0,0.55); }
+#achievement-toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+/* CONFETTI CANVAS */
+#confetti-canvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:700; display:none; }
+
+/* DIFFICULTY BUTTONS */
+.diff-row { display:flex; gap:8px; margin:-8px 0 20px; }
+.diff-btn { padding:8px 18px; border:1.5px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.55); border-radius:20px; font-family:Georgia,serif; font-size:0.76rem; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; transition:all 0.15s; min-height:38px; }
+.diff-btn.active { background:var(--gold); color:#1a0b00; border-color:var(--gold); font-weight:bold; }
+.diff-btn:active { transform:scale(0.93); }
+
+/* STATS IN GAME OVER */
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin:10px 0 16px; }
+.stat-item { background:rgba(0,0,0,0.3); border-radius:8px; padding:7px 8px; text-align:center; }
+.stat-val { font-size:1.1rem; font-weight:bold; color:var(--gold); display:block; }
+.stat-lbl { opacity:0.5; font-size:0.54rem; text-transform:uppercase; letter-spacing:0.07em; }
+
+/* CHARACTER QUIP BUBBLE */
+#char-quip { font-size:0.63rem; opacity:0.75; font-style:italic; line-height:1.4; color:#ddd; cursor:pointer; }
+.side-char { cursor:pointer; }
 </style>
 </head>
 <body>
@@ -234,13 +265,18 @@ body {
 <!-- START -->
 <div id="start-screen" class="screen active">
   <div class="start-content">
-    <div class="title-badge">&#9824; Adults Only &#9829;</div>
+    <div class="title-badge">&#9824; Rascally Rob Presents &#9829;</div>
     <h1>Strip Euchre</h1>
     <div class="subtitle">The card game that undresses for success</div>
     <div class="suit-row">&#9824; &#9829; &#9830; &#9827;</div>
-    <div class="tagline">"Beat the opponents and watch the clothes fly. Eyes on the cards, Larry."</div>
+    <div class="tagline">"Beat the opponents and watch the clothes fly. Eyes on the cards, Rob."</div>
     <button class="btn" onclick="startGame()">Deal Me In!</button>
     <button class="btn btn-secondary" onclick="toggleRules()">How to Play</button>
+    <div class="diff-row">
+      <button class="diff-btn active" id="diff-0" onclick="setDifficulty(0)">Easy</button>
+      <button class="diff-btn" id="diff-1" onclick="setDifficulty(1)">Medium</button>
+      <button class="diff-btn" id="diff-2" onclick="setDifficulty(2)">Hard</button>
+    </div>
     <div class="rules-box" id="rules-box" style="display:none">
       <h3>The Rules</h3>
       &bull; You &amp; Partner vs. Amber &amp; Sofia<br>
@@ -282,7 +318,7 @@ body {
   <div id="character-panel">
 
     <!-- AMBER (left opponent) -->
-    <div class="side-char">
+    <div class="side-char" onclick="tapCharacter('amber')">
       <div id="amber-frame" class="side-frame" style="width:54px;height:88px">
         <svg viewBox="0 0 80 130" width="54" height="88" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
           <!-- skin -->
@@ -379,7 +415,7 @@ body {
     </div>
 
     <!-- LOLA (center, our character) -->
-    <div id="lola-section">
+    <div id="lola-section" onclick="tapCharacter('lola')">
       <div id="lola-frame">
         <svg id="lola-svg" viewBox="0 0 80 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
           <!-- skin -->
@@ -485,7 +521,7 @@ body {
     </div>
 
     <!-- SOFIA (right opponent) -->
-    <div class="side-char">
+    <div class="side-char" onclick="tapCharacter('sofia')">
       <div id="sofia-frame" class="side-frame" style="width:54px;height:88px">
         <svg viewBox="0 0 80 130" width="54" height="88" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
           <!-- skin -->
@@ -615,6 +651,8 @@ body {
   </div>
 
 </div><!-- end game-screen -->
+<div id="achievement-toast"></div>
+<canvas id="confetti-canvas"></canvas>
 </div><!-- end app -->
 
 <!-- OVERLAYS -->
@@ -646,6 +684,7 @@ body {
   <div class="gameover-card">
     <h2 id="gameover-title"></h2>
     <div class="final-score" id="gameover-score"></div>
+    <div class="stats-grid" id="gameover-stats"></div>
     <div class="gameover-msg" id="gameover-msg"></div>
     <button class="btn" onclick="resetGame()">Play Again</button>
     <button class="btn btn-secondary" style="margin-top:10px" onclick="goHome()">Main Menu</button>
@@ -772,9 +811,36 @@ const IDLE_QUIPS = [
   '"Oh my... keep going!"',
 ];
 
+let G_DIFFICULTY = 1; // 0=easy,1=medium,2=hard
+
+const AMBER_QUIPS = [
+  '"You got lucky, honey."',
+  '"Don\'t get cocky, sweetie."',
+  '"Is that all you\'ve got, Rob?"',
+  '"Maybe I wanted to lose this layer..."',
+  '"Eyes on the CARDS, Rascally Rob."',
+  '"Keep dreaming, darling."',
+];
+const SOFIA_QUIPS = [
+  '"Impressive. For a beginner."',
+  '"I\'ve faced tougher cards in Ibiza."',
+  '"Don\'t celebrate yet, Rob."',
+  '"Hmm. Not terrible."',
+  '"You\'ll need more than luck."',
+  '"Lucky Rob... for now."',
+];
+const LOLA_TAP_QUIPS = [
+  '"Eyes up here, Rascally Rob."',
+  '"Focus on the cards, amor."',
+  '"You\'re doing great... for a Rob."',
+  '"Don\'t stop now, I\'m just getting comfortable."',
+  '"Win a few more and see what happens."',
+];
+
 let G = {};
 
 function initState() {
+  const prevStats = G.stats || {handsWon:0,handsLost:0,lonersWon:0,euchredes:0,euchres:0,currentStreak:0,gamesPlayed:0};
   G = {
     gameScore:[0,0], handScore:[0,0],
     dealer: Math.floor(Math.random()*4),
@@ -786,6 +852,9 @@ function initState() {
     lolaLevel:7, oppLevel:7,
     lastQuip: IDLE_QUIPS[0],
     lastCompletedTrick: null,
+    difficulty: G_DIFFICULTY,
+    stats: {...prevStats, currentStreak:0},
+    achievements: G.achievements || {},
   };
 }
 
@@ -825,7 +894,10 @@ function trickWinner(trick,t) {
 
 // AI
 function aiShouldOrderUp(hand,flip,pos,dlr) {
-  return handStrength(hand,flip.s) >= (TEAM[pos]===TEAM[dlr] ? 5 : 6);
+  const d=G.difficulty||1;
+  const base=TEAM[pos]===TEAM[dlr]?5:6;
+  const thresh=d===0?base-1.5:d===2?base+1:base;
+  return handStrength(hand,flip.s)>=thresh;
 }
 function handStrength(hand,t) {
   let s=0;
@@ -845,18 +917,41 @@ function aiBestTrump(hand,excl) {
   return bs>=5?best:null;
 }
 function aiChooseCard(pi) {
-  const hand=G.hands[pi],t=G.trump;
+  const hand=G.hands[pi],t=G.trump,d=G.difficulty||1;
   const ls=G.currentTrick.length>0?effectiveSuit(G.currentTrick[0].card,t):null;
   const legal=legalCards(hand,ls,t);
-  let pw=false;
-  if(G.currentTrick.length>=1) pw=TEAM[trickWinner(G.currentTrick,t)]===TEAM[pi];
-  if(pw&&G.currentTrick.length>0) return legal.reduce((a,b)=>cardValue(a,t,ls)<cardValue(b,t,ls)?a:b);
-  if(!ls) {
+  const bestOf=arr=>arr.reduce((a,b)=>cardValue(a,t,ls)>cardValue(b,t,ls)?a:b);
+  const worstOf=arr=>arr.reduce((a,b)=>cardValue(a,t,ls)<cardValue(b,t,ls)?a:b);
+
+  // Easy: occasionally random, no finesse
+  if(d===0) return d===0&&Math.random()<0.28 ? legal[Math.floor(Math.random()*legal.length)] : bestOf(legal);
+
+  const pw=G.currentTrick.length>=1 && TEAM[trickWinner(G.currentTrick,t)]===TEAM[pi];
+
+  // If partner winning and not last to play, dump cheapest
+  if(pw && G.currentTrick.length<3) return worstOf(legal);
+
+  if(!ls) { // leading
+    if(d>=2) {
+      // Hard: lead trump if maker, else lead aces
+      if(TEAM[pi]===G.makerTeam){ const tc=legal.filter(c=>effectiveSuit(c,t)===t); if(tc.length>=2) return tc.reduce((a,b)=>cardValue(a,t,null)>cardValue(b,t,null)?a:b); }
+      const aces=legal.filter(c=>c.r==='A'&&effectiveSuit(c,t)!==t);
+      if(aces.length) return aces[0];
+    }
     const tc=legal.filter(c=>effectiveSuit(c,t)===t);
-    if(tc.length>0) return tc.reduce((a,b)=>cardValue(a,t,null)>cardValue(b,t,null)?a:b);
+    if(tc.length) return tc.reduce((a,b)=>cardValue(a,t,null)>cardValue(b,t,null)?a:b);
     return legal.reduce((a,b)=>cardValue(a,t,null)>cardValue(b,t,null)?a:b);
   }
-  return legal.reduce((a,b)=>cardValue(a,t,ls)>cardValue(b,t,ls)?a:b);
+
+  if(d>=2&&!pw) {
+    // Hard: play cheapest winning card; else dump worst
+    const curBest=G.currentTrick.length?G.currentTrick.reduce((a,b)=>cardValue(a.card,t,ls)>cardValue(b.card,t,ls)?a:b).card:null;
+    const canWin=curBest?legal.filter(c=>cardValue(c,t,ls)>cardValue(curBest,t,ls)):[];
+    if(canWin.length) return canWin.reduce((a,b)=>cardValue(a,t,ls)<cardValue(b,t,ls)?a:b);
+    return worstOf(legal);
+  }
+
+  return bestOf(legal);
 }
 function aiDiscard(pi) {
   const hand=G.hands[pi],t=G.trump;
@@ -1051,6 +1146,20 @@ function scoreHand(){
     G.gameScore[def]+=pts;weScored=(makers===1);
   }
 
+  // Update stats
+  if(G.stats) {
+    if(weScored) { G.stats.handsWon++; G.stats.currentStreak++; }
+    else { G.stats.handsLost++; G.stats.currentStreak=0; }
+    if(title==='Euchred!') G.stats.euchredes++;
+    if(title==='Euchre!') G.stats.euchres++;
+    if(title==='Loner March!'&&makers===0) G.stats.lonersWon++;
+  }
+  // Screen shake on euchre
+  if(title==='Euchred!') shakeScreen();
+  // Confetti on march/loner
+  if((title==='March!'||title==='Loner March!')&&makers===0) setTimeout(showConfetti,200);
+  checkAchievements();
+
   const prevLola=G.lolaLevel, prevOpp=G.oppLevel;
   if(weScored) G.oppLevel=Math.max(0,G.oppLevel-1);
   else         G.lolaLevel=Math.max(0,G.lolaLevel-1);
@@ -1082,13 +1191,21 @@ function showRoundOverlay(title,desc,quip,breakdown){
 
 function showGameOver(){
   const w=G.gameScore[0]>=10;
-  if(w) playFanfare(); else playSad();
+  if(w) { playFanfare(); setTimeout(showConfetti,300); } else playSad();
   document.getElementById('gameover-title').textContent=w?'You Win!':'Game Over';
   document.getElementById('gameover-score').textContent='Final Score: '+G.gameScore[0]+' – '+G.gameScore[1];
   const msgs=w
-    ?['"Not bad, hotshot. Not bad at all." 😎','"Lucky cards… Lola thinks it\'s luck." 😈','"You cleaned up! Amber & Sofia are impressed. 🏆"']
-    :['"Better luck next time, Larry." 😅','"Amber & Sofia send their regards." 😈','"Don\'t feel too bad — the girls always win in the end." 😈'];
+    ?['"Not bad, Rascally Rob. Not bad at all." 😎','"Lucky cards… Lola thinks it\'s luck." 😈','"You cleaned up! The ladies are impressed. 🏆"']
+    :['"Better luck next time, Rascally Rob." 😅','"Amber & Sofia send their regards." 😈','"Don\'t feel too bad — the girls always win in the end." 😈'];
   document.getElementById('gameover-msg').textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  const sg=document.getElementById('gameover-stats');
+  if(sg&&G.stats){
+    const s=G.stats;
+    sg.innerHTML=[
+      ['Hands Won',s.handsWon],['Hands Lost',s.handsLost],
+      ['Loners Made',s.lonersWon],['Times Euchred',s.euchredes],
+    ].map(([l,v])=>`<div class="stat-item"><span class="stat-val">${v}</span><span class="stat-lbl">${l}</span></div>`).join('');
+  }
   document.getElementById('gameover-overlay').classList.add('show');
 }
 
@@ -1237,6 +1354,77 @@ function showTrickBanner(msg,cb){
   setTimeout(()=>{ov.classList.remove('show');setTimeout(cb,200);},900);
 }
 function toggleRules(){const b=document.getElementById('rules-box');b.style.display=b.style.display==='none'?'block':'none';}
+
+// DIFFICULTY
+function setDifficulty(d) {
+  G_DIFFICULTY=d;
+  document.querySelectorAll('.diff-btn').forEach((b,i)=>b.classList.toggle('active',i===d));
+}
+
+// SCREEN SHAKE
+function shakeScreen() {
+  const el=document.getElementById('app');
+  el.classList.remove('shaking');
+  void el.offsetWidth;
+  el.classList.add('shaking');
+  setTimeout(()=>el.classList.remove('shaking'),550);
+}
+
+// CONFETTI
+function showConfetti() {
+  const canvas=document.getElementById('confetti-canvas');
+  if(!canvas) return;
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  canvas.style.display='block';
+  const ctx=canvas.getContext('2d');
+  const colors=['#FFD700','#FF1744','#FF69B4','#00E676','#40C4FF','#FFAB40','#E040FB'];
+  const particles=Array.from({length:90},()=>({
+    x:Math.random()*canvas.width, y:-10-Math.random()*80,
+    r:3+Math.random()*5, color:colors[Math.floor(Math.random()*colors.length)],
+    vx:(Math.random()-0.5)*3.5, vy:2.5+Math.random()*4,
+    angle:Math.random()*Math.PI*2, va:(Math.random()-0.5)*0.18,
+    rect:Math.random()>0.45
+  }));
+  const end=Date.now()+2800;
+  (function draw(){
+    if(Date.now()>end){ctx.clearRect(0,0,canvas.width,canvas.height);canvas.style.display='none';return;}
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.angle+=p.va;
+      if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;}
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle); ctx.fillStyle=p.color;
+      if(p.rect) ctx.fillRect(-p.r/2,-p.r*1.5,p.r,p.r*3);
+      else{ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  })();
+}
+
+// ACHIEVEMENTS
+function checkAchievements() {
+  if(!G.achievements||!G.stats) return;
+  const s=G.stats,a=G.achievements;
+  if(!a.firstLoner&&s.lonersWon>=1){a.firstLoner=true;showAchievement('🎯 First Loner! Rascally Rob goes solo!');}
+  if(!a.firstEuchre&&s.euchres>=1){a.firstEuchre=true;showAchievement('⚡ You euchred them! Rascally Rob strikes!');}
+  if(!a.streak3&&s.currentStreak>=3){a.streak3=true;showAchievement('🔥 3 hands in a row! They\'re melting!');}
+  if(!a.fullStripOpp&&G.oppLevel===0){a.fullStripOpp=true;showAchievement('👀 Amber & Sofia have nothing left! Rob wins!');}
+  if(!a.fullStripLola&&G.lolaLevel===0){a.fullStripLola=true;showAchievement('😅 Lola\'s got nothing left... try harder, Rob!');}
+}
+function showAchievement(msg) {
+  const t=document.getElementById('achievement-toast');
+  if(!t) return;
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3600);
+}
+
+// CHARACTER TAP QUIPS
+function tapCharacter(who) {
+  const pool=who==='amber'?AMBER_QUIPS:who==='sofia'?SOFIA_QUIPS:LOLA_TAP_QUIPS;
+  const q=pool[Math.floor(Math.random()*pool.length)];
+  const el=document.getElementById('char-quip');
+  if(el){el.textContent=q;el.style.color='#FFD700';setTimeout(()=>el.style.color='',1800);}
+}
 
 // MUSIC
 let musicOn = true;
