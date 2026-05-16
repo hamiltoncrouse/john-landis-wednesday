@@ -229,7 +229,7 @@ body {
       &bull; You &amp; Partner vs. Amber &amp; Sofia<br>
       &bull; You win a hand &rarr; Amber &amp; Sofia lose a layer<br>
       &bull; They win a hand &rarr; Lola loses a layer<br>
-      &bull; 5 layers each &rarr; down to bikini only<br><br>
+      &bull; 7 layers each &rarr; all the way down!<br><br>
       <strong>Euchre basics:</strong><br>
       &bull; 24 cards (9&ndash;Ace), 5 tricks per hand<br>
       &bull; Trump Jack = Right Bower (highest)<br>
@@ -295,18 +295,28 @@ body {
           <path d="M34.5,33 Q40,37 45.5,33 Q40,35.5 34.5,33 Z" fill="#E83E5A" opacity="0.65"/>
           <ellipse cx="29" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
           <ellipse cx="51" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
-          <!-- blue bikini top -->
-          <path d="M28,56 Q40,66 52,56 Q47,48 40,50 Q33,48 28,56 Z" fill="#1565C0"/>
-          <circle cx="40" cy="57" r="2.6" fill="#0D47A1"/>
-          <line x1="31" y1="55" x2="36" y2="46" stroke="#1565C0" stroke-width="1.6"/>
-          <line x1="49" y1="55" x2="44" y2="46" stroke="#1565C0" stroke-width="1.6"/>
-          <line x1="36" y1="46" x2="44" y2="46" stroke="#1565C0" stroke-width="1.6"/>
+          <!-- breast base — shows when top removed -->
+          <ellipse cx="31" cy="63" rx="9" ry="7.5" fill="#FFD5B8"/>
+          <ellipse cx="49" cy="63" rx="9" ry="7.5" fill="#FFD5B8"/>
+          <path d="M37,59 Q40,67 43,59" fill="none" stroke="#D0A080" stroke-width="1.3" opacity="0.35"/>
+          <!-- blue bikini top (two triangle cups) -->
+          <g id="amber-bikini-top">
+            <path d="M22,62 Q30,77 40,73 L37,47 Q28,51 22,58 Z" fill="#1565C0"/>
+            <path d="M58,62 Q50,77 40,73 L43,47 Q52,51 58,58 Z" fill="#1565C0"/>
+            <circle cx="40" cy="73" r="2.8" fill="#0D47A1"/>
+            <line x1="37" y1="47" x2="40" y2="41" stroke="#1565C0" stroke-width="1.7"/>
+            <line x1="43" y1="47" x2="40" y2="41" stroke="#1565C0" stroke-width="1.7"/>
+            <line x1="22" y1="60" x2="16" y2="62" stroke="#1565C0" stroke-width="1.5"/>
+            <line x1="58" y1="60" x2="64" y2="62" stroke="#1565C0" stroke-width="1.5"/>
+          </g>
           <!-- blue bikini bottom -->
-          <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#1565C0"/>
-          <line x1="24" y1="88" x2="21" y2="78" stroke="#1565C0" stroke-width="1.6"/>
-          <line x1="56" y1="88" x2="59" y2="78" stroke="#1565C0" stroke-width="1.6"/>
-          <line x1="21" y1="78" x2="40" y2="75" stroke="#1565C0" stroke-width="1.3"/>
-          <line x1="59" y1="78" x2="40" y2="75" stroke="#1565C0" stroke-width="1.3"/>
+          <g id="amber-bikini-bottom">
+            <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#1565C0"/>
+            <line x1="24" y1="88" x2="21" y2="78" stroke="#1565C0" stroke-width="1.6"/>
+            <line x1="56" y1="88" x2="59" y2="78" stroke="#1565C0" stroke-width="1.6"/>
+            <line x1="21" y1="78" x2="40" y2="75" stroke="#1565C0" stroke-width="1.3"/>
+            <line x1="59" y1="78" x2="40" y2="75" stroke="#1565C0" stroke-width="1.3"/>
+          </g>
           <!-- stockings -->
           <g id="amber-stockings">
             <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#C4A882"/>
@@ -383,18 +393,28 @@ body {
           <path d="M34.5,33 Q40,37 45.5,33 Q40,35.5 34.5,33 Z" fill="#E83E5A" opacity="0.65"/>
           <ellipse cx="29" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
           <ellipse cx="51" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
-          <!-- red bikini top — BIGGER -->
-          <path d="M26,56 Q40,72 54,56 Q48,46 40,49 Q32,46 26,56 Z" fill="#FF1744"/>
-          <circle cx="40" cy="59" r="3.2" fill="#CC0000"/>
-          <line x1="30" y1="55" x2="35" y2="45" stroke="#FF1744" stroke-width="1.7"/>
-          <line x1="50" y1="55" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
-          <line x1="35" y1="45" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
+          <!-- breast base — shows when top removed -->
+          <ellipse cx="31" cy="63" rx="9" ry="7.5" fill="#C8956A"/>
+          <ellipse cx="49" cy="63" rx="9" ry="7.5" fill="#C8956A"/>
+          <path d="M37,59 Q40,67 43,59" fill="none" stroke="#9A6840" stroke-width="1.3" opacity="0.35"/>
+          <!-- red bikini top (two triangle cups) -->
+          <g id="lola-bikini-top">
+            <path d="M22,62 Q30,77 40,73 L37,47 Q28,51 22,58 Z" fill="#FF1744"/>
+            <path d="M58,62 Q50,77 40,73 L43,47 Q52,51 58,58 Z" fill="#FF1744"/>
+            <circle cx="40" cy="73" r="2.8" fill="#CC0000"/>
+            <line x1="37" y1="47" x2="40" y2="41" stroke="#FF1744" stroke-width="1.7"/>
+            <line x1="43" y1="47" x2="40" y2="41" stroke="#FF1744" stroke-width="1.7"/>
+            <line x1="22" y1="60" x2="16" y2="62" stroke="#FF1744" stroke-width="1.5"/>
+            <line x1="58" y1="60" x2="64" y2="62" stroke="#FF1744" stroke-width="1.5"/>
+          </g>
           <!-- red bikini bottom -->
-          <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#FF1744"/>
-          <line x1="24" y1="88" x2="21" y2="78" stroke="#FF1744" stroke-width="1.7"/>
-          <line x1="56" y1="88" x2="59" y2="78" stroke="#FF1744" stroke-width="1.7"/>
-          <line x1="21" y1="78" x2="40" y2="75" stroke="#FF1744" stroke-width="1.4"/>
-          <line x1="59" y1="78" x2="40" y2="75" stroke="#FF1744" stroke-width="1.4"/>
+          <g id="lola-bikini-bottom">
+            <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#FF1744"/>
+            <line x1="24" y1="88" x2="21" y2="78" stroke="#FF1744" stroke-width="1.7"/>
+            <line x1="56" y1="88" x2="59" y2="78" stroke="#FF1744" stroke-width="1.7"/>
+            <line x1="21" y1="78" x2="40" y2="75" stroke="#FF1744" stroke-width="1.4"/>
+            <line x1="59" y1="78" x2="40" y2="75" stroke="#FF1744" stroke-width="1.4"/>
+          </g>
           <!-- stockings -->
           <g id="lola-stockings">
             <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#1C1C3A"/>
@@ -479,18 +499,28 @@ body {
           <path d="M34.5,33 Q40,37 45.5,33 Q40,35.5 34.5,33 Z" fill="#E83E5A" opacity="0.65"/>
           <ellipse cx="29" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.32"/>
           <ellipse cx="51" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.32"/>
-          <!-- teal bikini top -->
-          <path d="M28,56 Q40,66 52,56 Q47,48 40,50 Q33,48 28,56 Z" fill="#00838F"/>
-          <circle cx="40" cy="57" r="2.6" fill="#006064"/>
-          <line x1="31" y1="55" x2="36" y2="46" stroke="#00838F" stroke-width="1.6"/>
-          <line x1="49" y1="55" x2="44" y2="46" stroke="#00838F" stroke-width="1.6"/>
-          <line x1="36" y1="46" x2="44" y2="46" stroke="#00838F" stroke-width="1.6"/>
+          <!-- breast base — shows when top removed -->
+          <ellipse cx="31" cy="63" rx="9" ry="7.5" fill="#C49070"/>
+          <ellipse cx="49" cy="63" rx="9" ry="7.5" fill="#C49070"/>
+          <path d="M37,59 Q40,67 43,59" fill="none" stroke="#9A6840" stroke-width="1.3" opacity="0.35"/>
+          <!-- teal bikini top (two triangle cups) -->
+          <g id="sofia-bikini-top">
+            <path d="M22,62 Q30,77 40,73 L37,47 Q28,51 22,58 Z" fill="#00838F"/>
+            <path d="M58,62 Q50,77 40,73 L43,47 Q52,51 58,58 Z" fill="#00838F"/>
+            <circle cx="40" cy="73" r="2.8" fill="#006064"/>
+            <line x1="37" y1="47" x2="40" y2="41" stroke="#00838F" stroke-width="1.7"/>
+            <line x1="43" y1="47" x2="40" y2="41" stroke="#00838F" stroke-width="1.7"/>
+            <line x1="22" y1="60" x2="16" y2="62" stroke="#00838F" stroke-width="1.5"/>
+            <line x1="58" y1="60" x2="64" y2="62" stroke="#00838F" stroke-width="1.5"/>
+          </g>
           <!-- teal bikini bottom -->
-          <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#00838F"/>
-          <line x1="24" y1="88" x2="21" y2="78" stroke="#00838F" stroke-width="1.6"/>
-          <line x1="56" y1="88" x2="59" y2="78" stroke="#00838F" stroke-width="1.6"/>
-          <line x1="21" y1="78" x2="40" y2="75" stroke="#00838F" stroke-width="1.3"/>
-          <line x1="59" y1="78" x2="40" y2="75" stroke="#00838F" stroke-width="1.3"/>
+          <g id="sofia-bikini-bottom">
+            <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#00838F"/>
+            <line x1="24" y1="88" x2="21" y2="78" stroke="#00838F" stroke-width="1.6"/>
+            <line x1="56" y1="88" x2="59" y2="78" stroke="#00838F" stroke-width="1.6"/>
+            <line x1="21" y1="78" x2="40" y2="75" stroke="#00838F" stroke-width="1.3"/>
+            <line x1="59" y1="78" x2="40" y2="75" stroke="#00838F" stroke-width="1.3"/>
+          </g>
           <!-- stockings -->
           <g id="sofia-stockings">
             <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#2E2E2E"/>
@@ -695,23 +725,27 @@ function playSad() {
   });
 }
 
-const LOLA_IDS = ['lola-jacket','lola-blouse','lola-skirt','lola-shoes','lola-stockings'];
+const LOLA_IDS = ['lola-jacket','lola-blouse','lola-skirt','lola-shoes','lola-stockings','lola-bikini-top','lola-bikini-bottom'];
 const OPP_PREFIXES = ['amber','sofia'];
-const LAYER_NAMES = ['jacket','blouse','skirt','shoes','stockings'];
+const LAYER_NAMES = ['jacket','blouse','skirt','shoes','stockings','bikini-top','bikini-bottom'];
 
 const LOLA_REMOVAL = [
   'Off comes the jacket! Getting cozy... 😈',
   'The blouse hits the floor! Now we\'re playing! 🔥',
   'Lola\'s skirt is gone! Hubba hubba! 😜',
   'Heels off — she\'s getting very comfortable. 👠',
-  'Lola\'s down to the bikini! Hold on! 🎰'
+  'Down to the bikini! You\'re on a roll! 🎰',
+  'Top\'s off! Lola is ALL in now! 🔥🔥',
+  'Nothing left to hide, darling! 💫'
 ];
 const OPP_REMOVAL = [
   'Amber & Sofia ditch the jackets! 🔥',
   'The blouses are off! Now it\'s getting real! 😈',
   'Skirts gone! Looking great, ladies! 😜',
   'Heels flying! They\'re almost there! 👠',
-  'Amber & Sofia in bikinis! Keep going! 🎰'
+  'Amber & Sofia down to bikinis! Keep going! 🎰',
+  'Tops are history! Amber & Sofia go for broke! 🔥🔥',
+  'Amber & Sofia have nothing left to lose! 💫'
 ];
 const IDLE_QUIPS = [
   '"Feeling lucky, darling?"',
@@ -732,7 +766,7 @@ function initState() {
     hands:[[],[],[],[]], kitty:[], flipCard:null,
     currentTrick:[], trickLeader:0, currentPlayer:0,
     tricksWon:[0,0], handNum:0,
-    lolaLevel:5, oppLevel:5,
+    lolaLevel:7, oppLevel:7,
     lastQuip: IDLE_QUIPS[0],
     lastCompletedTrick: null,
   };
@@ -1008,8 +1042,8 @@ function scoreHand(){
   else if(G.lolaLevel<prevLola) setTimeout(()=>{playStrip();flashCharacter('lola');},420);
 
   let quip;
-  if(!weScored&&G.lolaLevel<prevLola) quip=LOLA_REMOVAL[5-prevLola];
-  else if(weScored&&G.oppLevel<prevOpp) quip=OPP_REMOVAL[5-prevOpp];
+  if(!weScored&&G.lolaLevel<prevLola) quip=LOLA_REMOVAL[7-prevLola];
+  else if(weScored&&G.oppLevel<prevOpp) quip=OPP_REMOVAL[7-prevOpp];
   else quip=IDLE_QUIPS[Math.floor(Math.random()*IDLE_QUIPS.length)];
   G.lastQuip=quip;
 
@@ -1055,10 +1089,10 @@ function flashCharacter(who) {
 }
 function updateAllCharacters(){
   updateDots('lola-dots',G.lolaLevel,'#d4af37');
-  LOLA_IDS.forEach((id,i)=>{const el=document.getElementById(id);if(el)el.style.display=G.lolaLevel>=(5-i)?'':'none';});
+  LOLA_IDS.forEach((id,i)=>{const el=document.getElementById(id);if(el)el.style.display=G.lolaLevel>=(7-i)?'':'none';});
 
   OPP_PREFIXES.forEach(pfx=>{
-    LAYER_NAMES.forEach((ln,i)=>{const el=document.getElementById(pfx+'-'+ln);if(el)el.style.display=G.oppLevel>=(5-i)?'':'none';});
+    LAYER_NAMES.forEach((ln,i)=>{const el=document.getElementById(pfx+'-'+ln);if(el)el.style.display=G.oppLevel>=(7-i)?'':'none';});
   });
   updateDots('amber-dots',G.oppLevel,'#1565C0');
   updateDots('sofia-dots',G.oppLevel,'#00838F');
@@ -1070,7 +1104,7 @@ function updateDots(containerId,level,color){
   const el=document.getElementById(containerId);
   if(!el) return;
   el.innerHTML='';
-  for(let i=0;i<5;i++){
+  for(let i=0;i<7;i++){
     const d=document.createElement('div');
     d.className='char-dot'+(i>=level?' off':'');
     if(i<level) d.style.background=color;
