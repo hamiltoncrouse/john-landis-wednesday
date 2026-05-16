@@ -23,473 +23,207 @@ body {
   user-select: none;
   -webkit-user-select: none;
 }
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 480px;
-  margin: 0 auto;
-  position: relative;
-}
+#app { display: flex; flex-direction: column; min-height: 100vh; max-width: 480px; margin: 0 auto; }
 
-/* ===== SCREENS ===== */
 .screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
 .screen.active { display: flex; }
 
-/* ===== START SCREEN ===== */
+/* START SCREEN */
 #start-screen { position: relative; overflow: hidden; }
 #start-screen::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px);
-  pointer-events: none;
-  z-index: 1;
+  pointer-events: none; z-index: 1;
 }
 .start-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
-.title-badge {
-  background: var(--hot-pink);
-  color: #fff;
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  padding: 4px 14px;
-  border-radius: 20px;
-  margin-bottom: 10px;
-  font-family: monospace;
-}
-#start-screen h1 {
-  font-size: 2.9rem;
-  letter-spacing: 0.04em;
-  text-shadow: 0 0 24px rgba(255,105,180,0.7), 2px 4px 8px rgba(0,0,0,0.6);
-  margin-bottom: 4px;
-  color: #FFD700;
-  text-transform: uppercase;
-}
-#start-screen .subtitle {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  color: #FF69B4;
-}
-.suit-row { font-size: 1.6rem; letter-spacing: 0.25em; margin-bottom: 24px; opacity: 0.8; }
-.tagline {
-  font-size: 0.76rem;
-  font-style: italic;
-  opacity: 0.62;
-  margin-bottom: 28px;
-  color: #ddd;
-  text-align: center;
-  max-width: 250px;
-  line-height: 1.55;
-}
-.btn {
-  background: var(--gold);
-  color: #1a0b00;
-  border: none;
-  padding: 15px 42px;
-  font-size: 1.05rem;
-  font-family: Georgia, serif;
-  font-weight: bold;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(212,175,55,0.45), 0 0 30px rgba(212,175,55,0.15);
-  letter-spacing: 0.05em;
-  transition: transform 0.1s, box-shadow 0.1s;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  min-height: 50px;
-}
-.btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-.btn-secondary {
-  background: rgba(255,255,255,0.09);
-  color: #fff;
-  margin-top: 10px;
-  box-shadow: none;
-  border: 1px solid rgba(255,255,255,0.18);
-}
-.rules-box {
-  margin-top: 26px;
-  background: rgba(0,0,0,0.38);
-  border-radius: 12px;
-  padding: 15px 18px;
-  font-size: 0.76rem;
-  line-height: 1.7;
-  opacity: 0.9;
-  max-width: 310px;
-  text-align: left;
-  border: 1px solid rgba(255,215,0,0.18);
-}
-.rules-box h3 { margin-bottom: 8px; font-size: 0.82rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; }
+.title-badge { background: var(--hot-pink); color: #fff; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 10px; font-family: monospace; }
+#start-screen h1 { font-size: 2.9rem; letter-spacing: 0.04em; text-shadow: 0 0 24px rgba(255,105,180,0.7), 2px 4px 8px rgba(0,0,0,0.6); margin-bottom: 4px; color: #FFD700; text-transform: uppercase; }
+#start-screen .subtitle { font-size: 0.75rem; opacity: 0.7; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; color: #FF69B4; }
+.suit-row { font-size: 1.6rem; letter-spacing: 0.25em; margin-bottom: 22px; opacity: 0.8; }
+.tagline { font-size: 0.76rem; font-style: italic; opacity: 0.62; margin-bottom: 26px; color: #ddd; text-align: center; max-width: 250px; line-height: 1.55; }
+.btn { background: var(--gold); color: #1a0b00; border: none; padding: 15px 42px; font-size: 1.05rem; font-family: Georgia, serif; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 16px rgba(212,175,55,0.45); letter-spacing: 0.05em; transition: transform 0.1s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 50px; }
+.btn:active { transform: scale(0.96); }
+.btn-secondary { background: rgba(255,255,255,0.09); color: #fff; margin-top: 10px; box-shadow: none; border: 1px solid rgba(255,255,255,0.18); }
+.rules-box { margin-top: 24px; background: rgba(0,0,0,0.38); border-radius: 12px; padding: 14px 16px; font-size: 0.75rem; line-height: 1.7; max-width: 310px; text-align: left; border: 1px solid rgba(255,215,0,0.18); }
+.rules-box h3 { margin-bottom: 7px; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; }
 
-/* ===== GAME SCREEN ===== */
+/* GAME SCREEN */
 #game-screen { display: none; flex-direction: column; min-height: 100vh; padding: 0; }
 #game-screen.active { display: flex; }
 
-/* Score bar */
-#scorebar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 12px;
-  background: rgba(0,0,0,0.45);
-  border-bottom: 1px solid rgba(255,215,0,0.18);
-  min-height: 46px;
-}
+/* SCORE BAR */
+#scorebar { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; background: rgba(0,0,0,0.45); border-bottom: 1px solid rgba(255,215,0,0.18); min-height: 44px; }
 .score-team { display: flex; flex-direction: column; align-items: center; gap: 1px; }
-.score-label { opacity: 0.5; font-size: 0.58rem; text-transform: uppercase; }
-.score-val { font-size: 1.35rem; font-weight: bold; color: var(--gold); }
-.score-tricks { font-size: 0.6rem; opacity: 0.6; }
-#trump-display { font-size: 1.35rem; display: flex; flex-direction: column; align-items: center; line-height: 1; }
-#trump-display .trump-label { font-size: 0.5rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
+.score-label { opacity: 0.5; font-size: 0.56rem; text-transform: uppercase; }
+.score-val { font-size: 1.3rem; font-weight: bold; color: var(--gold); }
+.score-tricks { font-size: 0.58rem; opacity: 0.6; }
+#trump-display { font-size: 1.3rem; display: flex; flex-direction: column; align-items: center; line-height: 1; }
+#trump-display .trump-label { font-size: 0.48rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
 
-/* ===== CHARACTER PANEL ===== */
+/* CHARACTER PANEL — 3 avatars */
 #character-panel {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 7px 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 6px 8px 5px;
+  gap: 5px;
   background: rgba(0,0,0,0.32);
   border-bottom: 1px solid rgba(255,105,180,0.2);
 }
-#character-frame {
-  width: 58px;
-  height: 84px;
+.side-char { display: flex; flex-direction: column; align-items: center; gap: 3px; flex-shrink: 0; }
+.side-frame {
+  border: 1.5px solid rgba(255,215,0,0.5);
+  border-radius: 5px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #1a0030, #0d0018);
+  display: block;
+}
+.side-frame svg { display: block; }
+.side-label { font-size: 0.5rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.05em; }
+.side-dots { display: flex; gap: 2px; margin-top: 1px; }
+.char-dot { width: 7px; height: 7px; border-radius: 50%; transition: background 0.4s; flex-shrink: 0; }
+.char-dot.off { background: transparent !important; border: 1px solid rgba(255,255,255,0.15); }
+
+#lola-section { flex: 1; display: flex; align-items: center; gap: 8px; justify-content: center; min-width: 0; }
+#lola-frame {
+  width: 56px; height: 80px;
   border: 1.5px solid var(--gold);
   border-radius: 6px;
   overflow: hidden;
-  background: linear-gradient(to bottom, #200040, #100020);
+  background: linear-gradient(to bottom, #1a0030, #0d0018);
   flex-shrink: 0;
-  box-shadow: 0 0 10px rgba(212,175,55,0.25);
+  box-shadow: 0 0 10px rgba(212,175,55,0.2);
 }
-#lady-svg { width: 100%; height: 100%; display: block; }
-#char-info { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
-#char-name { font-size: 0.74rem; color: #FF69B4; letter-spacing: 0.04em; }
-#clothing-dots { display: flex; gap: 4px; }
-.clothing-dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--gold);
-  transition: background 0.4s, transform 0.4s;
-  flex-shrink: 0;
-}
-.clothing-dot.off { background: transparent; border: 1.5px solid rgba(255,255,255,0.18); }
-#char-quip { font-size: 0.66rem; opacity: 0.72; font-style: italic; line-height: 1.4; color: #ddd; }
+#lola-frame svg { width: 100%; height: 100%; display: block; }
+#char-info { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+#char-name { font-size: 0.72rem; color: #FF69B4; }
+#lola-dots { display: flex; gap: 3px; }
+#char-quip { font-size: 0.63rem; opacity: 0.7; font-style: italic; line-height: 1.4; color: #ddd; }
 
-/* Table area */
-#table-area {
-  flex: 1;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.player-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 5px 6px;
-}
-.player-name-tag {
-  position: absolute;
-  font-size: 0.58rem;
-  opacity: 0.6;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  background: rgba(0,0,0,0.3);
-  padding: 2px 7px;
-  border-radius: 20px;
-}
-#top-name { top: 64px; }
-#left-name { left: 3px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
-#right-name { right: 3px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
-#middle-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex: 1;
-  position: relative;
-  min-height: 140px;
-}
-#zone-left { flex-direction: column; padding: 0 3px; }
-#zone-right { flex-direction: column; padding: 0 3px; }
-#center-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  min-height: 130px;
-  min-width: 130px;
-}
-#trick-area { position: relative; width: 124px; height: 114px; }
+/* TABLE */
+.player-zone { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 4px 5px; }
+.player-name-tag { position: absolute; font-size: 0.56rem; opacity: 0.58; text-transform: uppercase; letter-spacing: 0.07em; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 20px; }
+#top-name { top: 58px; }
+#left-name { left: 2px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
+#right-name { right: 2px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
+#middle-row { display: flex; align-items: center; justify-content: center; width: 100%; flex: 1; position: relative; min-height: 130px; }
+#zone-left { flex-direction: column; padding: 0 2px; }
+#zone-right { flex-direction: column; padding: 0 2px; }
+#center-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; min-height: 120px; min-width: 120px; }
+#trick-area { position: relative; width: 118px; height: 108px; }
 .trick-card-slot { position: absolute; display: flex; align-items: center; justify-content: center; }
 #slot-top    { top: 0;    left: 50%; transform: translateX(-50%); }
 #slot-left   { left: 0;   top: 50%;  transform: translateY(-50%); }
 #slot-right  { right: 0;  top: 50%;  transform: translateY(-50%); }
 #slot-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
-#kitty-area { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-#status-msg {
-  text-align: center;
-  font-size: 0.76rem;
-  padding: 5px 12px;
-  min-height: 24px;
-  opacity: 0.85;
-  letter-spacing: 0.02em;
-}
+#kitty-area { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+#status-msg { text-align: center; font-size: 0.74rem; padding: 4px 10px; min-height: 22px; opacity: 0.85; }
 
-/* ===== CARDS ===== */
-.card {
-  width: 48px;
-  height: 70px;
-  background: var(--card-bg);
-  border-radius: var(--card-radius);
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #111;
-  position: relative;
-  border: 1.5px solid rgba(0,0,0,0.07);
-  flex-shrink: 0;
-}
+/* CARDS */
+.card { width: 46px; height: 66px; background: var(--card-bg); border-radius: var(--card-radius); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 3px; font-size: 0.82rem; font-weight: bold; color: #111; position: relative; border: 1px solid rgba(0,0,0,0.07); flex-shrink: 0; }
 .card.red { color: var(--red); }
-.card.back {
-  background: linear-gradient(135deg, #2d1060 25%, #1a0033 100%);
-  border: 1.5px solid rgba(255,215,0,0.18);
-}
-.card.back::after { content: '♥'; font-size: 1.3rem; color: rgba(255,105,180,0.2); }
+.card.back { background: linear-gradient(135deg, #2d1060 25%, #1a0033 100%); border: 1px solid rgba(255,215,0,0.18); }
+.card.back::after { content: '♥'; font-size: 1.2rem; color: rgba(255,105,180,0.2); }
 .card-corner { display: flex; flex-direction: column; align-items: center; line-height: 1; }
 .card-corner.bottom { transform: rotate(180deg); }
-.card-rank { font-size: 0.75rem; line-height: 1; }
-.card-suit { font-size: 0.7rem; line-height: 1; }
-.card-center { font-size: 1.25rem; }
-.card.small { width: 32px; height: 48px; font-size: 0.58rem; padding: 2px; }
-.card.small .card-center { font-size: 0.85rem; }
-.card.small .card-rank { font-size: 0.52rem; }
-.card.small .card-suit { font-size: 0.5rem; }
-.card.small.back::after { font-size: 0.9rem; }
+.card-rank { font-size: 0.72rem; line-height: 1; }
+.card-suit { font-size: 0.68rem; line-height: 1; }
+.card-center { font-size: 1.2rem; }
+.card.small { width: 30px; height: 44px; padding: 2px; }
+.card.small .card-center { font-size: 0.78rem; }
+.card.small .card-rank { font-size: 0.5rem; }
+.card.small .card-suit { font-size: 0.48rem; }
+.card.small.back::after { font-size: 0.85rem; }
 
-#player-hand { display: flex; justify-content: center; padding: 6px 4px 10px; gap: 4px; flex-wrap: nowrap; }
-.hand-card {
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.hand-card:active { transform: translateY(-12px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+#player-hand { display: flex; justify-content: center; padding: 5px 4px 9px; gap: 3px; }
+.hand-card { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.hand-card:active { transform: translateY(-11px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
 .hand-card.not-playable { opacity: 0.38; cursor: default; }
-.hand-card.selected { transform: translateY(-14px); box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 0 3px var(--gold); }
-#zone-top .card { margin: 0 -13px; }
+#zone-top .card { margin: 0 -12px; }
 
-/* ===== BID PANEL ===== */
-#bid-panel {
-  padding: 8px 12px;
-  background: rgba(0,0,0,0.4);
-  border-top: 1px solid rgba(255,215,0,0.12);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  min-height: 70px;
-}
+/* BID PANEL */
+#bid-panel { padding: 7px 12px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,215,0,0.12); display: flex; flex-direction: column; align-items: center; gap: 7px; min-height: 66px; }
 #bid-panel.hidden { display: none; }
-.bid-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-.bid-btn {
-  padding: 10px 18px;
-  font-size: 0.86rem;
-  background: rgba(255,255,255,0.92);
-  color: #1a0b00;
-  border: none;
-  border-radius: 24px;
-  font-family: Georgia, serif;
-  font-weight: bold;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  transition: transform 0.1s;
-  min-height: 44px;
-  min-width: 44px;
-}
+.bid-row { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; }
+.bid-btn { padding: 9px 16px; font-size: 0.84rem; background: rgba(255,255,255,0.92); color: #1a0b00; border: none; border-radius: 24px; font-family: Georgia, serif; font-weight: bold; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 44px; min-width: 44px; }
 .bid-btn:active { transform: scale(0.95); }
-.bid-btn.suit-btn { font-size: 1.1rem; padding: 10px 15px; }
+.bid-btn.suit-btn { font-size: 1.05rem; }
 .bid-btn.pass { background: rgba(255,255,255,0.18); color: #fff; }
 .bid-btn.order-up { background: var(--gold); }
 .bid-btn.go-alone { background: #e74c3c; color: #fff; }
-#bid-label { font-size: 0.68rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; }
+#bid-label { font-size: 0.66rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; }
 
-/* ===== OVERLAYS ===== */
-#trick-overlay {
-  position: fixed; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none; z-index: 100;
-}
-#trick-overlay .banner {
-  background: rgba(0,0,0,0.78);
-  color: #fff;
-  padding: 11px 26px;
-  border-radius: 40px;
-  font-size: 0.96rem;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: opacity 0.2s, transform 0.2s;
-  border: 1px solid rgba(255,215,0,0.25);
-}
+/* LAST TRICK BTN */
+#last-trick-btn { font-size: 0.58rem; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 3px 9px; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; margin-top: 4px; display: none; }
+
+/* OVERLAYS */
+#trick-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 100; }
+#trick-overlay .banner { background: rgba(0,0,0,0.78); color: #fff; padding: 10px 24px; border-radius: 40px; font-size: 0.93rem; opacity: 0; transform: scale(0.8); transition: opacity 0.2s, transform 0.2s; border: 1px solid rgba(255,215,0,0.22); }
 #trick-overlay.show .banner { opacity: 1; transform: scale(1); }
 
-#round-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.82);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 200; opacity: 0; pointer-events: none;
-  transition: opacity 0.3s;
-}
-#round-overlay.show { opacity: 1; pointer-events: all; }
-.round-card {
-  background: linear-gradient(135deg, #1a0033, #2d1060);
-  border: 2px solid var(--gold);
-  border-radius: 16px;
-  padding: 22px 26px;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-  max-width: 300px;
-  width: 92%;
-}
-.round-card h2 { font-size: 1.45rem; margin-bottom: 6px; color: var(--gold); }
-.round-card p { opacity: 0.85; margin-bottom: 10px; font-size: 0.86rem; line-height: 1.6; }
-.score-breakdown { font-size: 0.74rem; opacity: 0.55; margin-bottom: 6px; font-style: italic; }
-#round-char-area {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-  padding: 10px;
-  background: rgba(0,0,0,0.35);
-  border-radius: 10px;
-  border: 1px solid rgba(255,105,180,0.18);
-}
-#round-char-svg-wrap {
-  width: 50px;
-  height: 74px;
-  border: 1.5px solid var(--gold);
-  border-radius: 5px;
-  overflow: hidden;
-  background: linear-gradient(to bottom, #200040, #100020);
-  flex-shrink: 0;
-}
-#round-quip { font-size: 0.75rem; font-style: italic; color: #FF69B4; flex: 1; text-align: left; line-height: 1.5; }
-
-#gameover-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 300; opacity: 0; pointer-events: none;
-  transition: opacity 0.4s;
-}
-#gameover-overlay.show { opacity: 1; pointer-events: all; }
-.gameover-card {
-  background: linear-gradient(135deg, #1a0033, #2d1060);
-  border: 2px solid var(--gold);
-  border-radius: 20px;
-  padding: 30px 26px;
-  text-align: center;
-  max-width: 300px;
-  width: 92%;
-  box-shadow: 0 0 40px rgba(212,175,55,0.25);
-}
-.gameover-card h2 { font-size: 1.75rem; margin-bottom: 6px; color: var(--gold); }
-.gameover-card .final-score { font-size: 0.88rem; opacity: 0.68; margin-bottom: 8px; }
-.gameover-msg { font-size: 0.8rem; font-style: italic; color: #FF69B4; margin-bottom: 20px; line-height: 1.55; }
-
-/* Last trick replay */
-#last-trick-btn {
-  font-size: 0.6rem;
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.5);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 20px;
-  padding: 4px 10px;
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  margin-top: 5px;
-  display: none;
-}
-#last-trick-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.88);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 150; opacity: 0; pointer-events: none;
-  transition: opacity 0.2s;
-}
+#last-trick-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); display: flex; align-items: center; justify-content: center; z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
 #last-trick-overlay.show { opacity: 1; pointer-events: all; }
-.lt-card {
-  background: linear-gradient(135deg, #1a0033, #2d1060);
-  border: 2px solid var(--gold);
-  border-radius: 14px;
-  padding: 18px 20px;
-  max-width: 280px;
-  width: 90%;
-  text-align: center;
-}
-.lt-card h3 { color: var(--gold); font-size: 1rem; margin-bottom: 12px; letter-spacing: 0.05em; }
-#lt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.lt-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 0.68rem; opacity: 0.8; }
+.lt-card { background: linear-gradient(135deg, #1a0033, #2d1060); border: 2px solid var(--gold); border-radius: 14px; padding: 18px 18px; max-width: 280px; width: 90%; text-align: center; }
+.lt-card h3 { color: var(--gold); font-size: 0.95rem; margin-bottom: 11px; }
+#lt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 11px; }
+.lt-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 0.66rem; opacity: 0.78; }
 .lt-item.winner { opacity: 1; color: var(--gold); font-weight: bold; }
-#lt-winner { font-size: 0.78rem; opacity: 0.7; margin-bottom: 14px; font-style: italic; }
+#lt-winner { font-size: 0.76rem; opacity: 0.65; margin-bottom: 13px; font-style: italic; }
 
-.dealer-chip { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; display: inline-block; box-shadow: 0 0 4px var(--gold); flex-shrink: 0; }
-.active-player-indicator { width: 7px; height: 7px; background: #fff; border-radius: 50%; animation: pulse 1s infinite; flex-shrink: 0; }
-@keyframes pulse { 0%,100%{ opacity: 1; } 50%{ opacity: 0.25; } }
+#round-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.82); display: flex; align-items: center; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+#round-overlay.show { opacity: 1; pointer-events: all; }
+.round-card { background: linear-gradient(135deg, #1a0033, #2d1060); border: 2px solid var(--gold); border-radius: 16px; padding: 20px 24px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.6); max-width: 300px; width: 92%; }
+.round-card h2 { font-size: 1.4rem; margin-bottom: 5px; color: var(--gold); }
+.round-card p { opacity: 0.85; margin-bottom: 9px; font-size: 0.84rem; line-height: 1.6; }
+.score-breakdown { font-size: 0.72rem; opacity: 0.52; margin-bottom: 5px; font-style: italic; }
+#round-char-area { display: flex; align-items: center; gap: 11px; margin-bottom: 13px; padding: 9px; background: rgba(0,0,0,0.35); border-radius: 9px; border: 1px solid rgba(255,105,180,0.16); }
+#round-char-svg-wrap { width: 48px; height: 70px; border: 1.5px solid var(--gold); border-radius: 5px; overflow: hidden; background: linear-gradient(to bottom, #1a0030, #0d0018); flex-shrink: 0; }
+#round-quip { font-size: 0.73rem; font-style: italic; color: #FF69B4; flex: 1; text-align: left; line-height: 1.5; }
+
+#gameover-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+#gameover-overlay.show { opacity: 1; pointer-events: all; }
+.gameover-card { background: linear-gradient(135deg, #1a0033, #2d1060); border: 2px solid var(--gold); border-radius: 20px; padding: 28px 24px; text-align: center; max-width: 300px; width: 92%; box-shadow: 0 0 40px rgba(212,175,55,0.22); }
+.gameover-card h2 { font-size: 1.7rem; margin-bottom: 6px; color: var(--gold); }
+.gameover-card .final-score { font-size: 0.86rem; opacity: 0.66; margin-bottom: 7px; }
+.gameover-msg { font-size: 0.78rem; font-style: italic; color: #FF69B4; margin-bottom: 18px; line-height: 1.5; }
+
+.active-player-indicator { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: pulse 1s infinite; flex-shrink: 0; }
+@keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
 </style>
 </head>
 <body>
 <div id="app">
 
-<!-- START SCREEN -->
+<!-- START -->
 <div id="start-screen" class="screen active">
   <div class="start-content">
     <div class="title-badge">&#9824; Adults Only &#9829;</div>
     <h1>Strip Euchre</h1>
     <div class="subtitle">The card game that undresses for success</div>
     <div class="suit-row">&#9824; &#9829; &#9830; &#9827;</div>
-    <div class="tagline">"Beat the opponents and watch the clothes disappear. Eyes on the cards, Larry."</div>
+    <div class="tagline">"Beat the opponents and watch the clothes fly. Eyes on the cards, Larry."</div>
     <button class="btn" onclick="startGame()">Deal Me In!</button>
     <button class="btn btn-secondary" onclick="toggleRules()">How to Play</button>
     <div class="rules-box" id="rules-box" style="display:none">
       <h3>The Rules</h3>
-      &bull; You &amp; Partner vs. 2 Opponents<br>
-      &bull; Opponents win a hand &rarr; she loses a layer<br>
-      &bull; You win a hand &rarr; she covers back up<br>
-      &bull; 5 layers of clothing &rarr; down to bikini only<br><br>
+      &bull; You &amp; Partner vs. Amber &amp; Sofia<br>
+      &bull; You win a hand &rarr; Amber &amp; Sofia lose a layer<br>
+      &bull; They win a hand &rarr; Lola loses a layer<br>
+      &bull; 5 layers each &rarr; down to bikini only<br><br>
       <strong>Euchre basics:</strong><br>
       &bull; 24 cards (9&ndash;Ace), 5 tricks per hand<br>
-      &bull; Trump Jack = Right Bower (highest card)<br>
-      &bull; Same-color Jack = Left Bower (2nd highest)<br>
+      &bull; Trump Jack = Right Bower (highest)<br>
+      &bull; Same-color Jack = Left Bower (2nd)<br>
       &bull; Make 3+ tricks as maker to score<br>
       &bull; Get euchred = opponents score 2 pts<br>
-      &bull; First team to 10 points wins!
+      &bull; First to 10 points wins!
     </div>
   </div>
 </div>
 
-<!-- GAME SCREEN -->
+<!-- GAME -->
 <div id="game-screen" class="screen">
 
-  <!-- Score bar -->
   <div id="scorebar">
     <div class="score-team">
       <span class="score-label">You &amp; Partner</span>
@@ -507,122 +241,289 @@ body {
     </div>
   </div>
 
-  <!-- Character Panel -->
+  <!-- 3-CHARACTER PANEL -->
   <div id="character-panel">
-    <div id="character-frame">
-      <svg id="lady-svg" viewBox="0 0 80 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
-        <!-- SKIN BASE -->
-        <path d="M29,90 L25,128 L34,128 L37,98 Z" fill="#C8956A"/>
-        <path d="M51,90 L55,128 L46,128 L43,98 Z" fill="#C8956A"/>
-        <path d="M20,50 Q40,44 60,50 L58,90 Q40,95 22,90 Z" fill="#C8956A"/>
-        <path d="M21,52 L9,84 L15,87 L25,58 Z" fill="#C8956A"/>
-        <path d="M59,52 L71,84 L65,87 L55,58 Z" fill="#C8956A"/>
-        <path d="M34,38 L36,50 L44,50 L46,38 Q40,34 34,38 Z" fill="#C8956A"/>
-        <circle cx="40" cy="22" r="17" fill="#C8956A"/>
-
-        <!-- HAIR -->
-        <ellipse cx="40" cy="9" rx="18" ry="12" fill="#1C1C1C"/>
-        <path d="M23,16 Q16,28 19,46 L25,44 Q22,30 27,20 Z" fill="#1C1C1C"/>
-        <path d="M57,16 Q64,28 61,46 L55,44 Q58,30 53,20 Z" fill="#1C1C1C"/>
-        <path d="M23,12 Q16,22 18,34" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <path d="M57,12 Q64,22 62,34" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-
-        <!-- FACE -->
-        <ellipse cx="33" cy="21" rx="3.5" ry="4" fill="white"/>
-        <ellipse cx="47" cy="21" rx="3.5" ry="4" fill="white"/>
-        <circle cx="34" cy="22" r="2.2" fill="#4A3728"/>
-        <circle cx="48" cy="22" r="2.2" fill="#4A3728"/>
-        <circle cx="34.8" cy="21.2" r="0.6" fill="white"/>
-        <circle cx="48.8" cy="21.2" r="0.6" fill="white"/>
-        <path d="M30,17 Q33.5,14.5 37,17" stroke="#222222" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-        <path d="M43,17 Q46.5,14.5 50,17" stroke="#222222" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-        <path d="M38.5,26 Q40,29 41.5,26" stroke="#D4887A" stroke-width="1.1" fill="none" stroke-linecap="round"/>
-        <path d="M34,32 Q40,38 46,32" stroke="#D43F5A" stroke-width="2.1" fill="none" stroke-linecap="round"/>
-        <path d="M34,32 Q40,36.5 46,32 Q40,34 34,32 Z" fill="#E83E5A" opacity="0.65"/>
-        <ellipse cx="29" cy="27" rx="5.5" ry="3.5" fill="#FFB3C6" opacity="0.38"/>
-        <ellipse cx="51" cy="27" rx="5.5" ry="3.5" fill="#FFB3C6" opacity="0.38"/>
-
-        <!-- BIKINI TOP - always visible -->
-        <path d="M26,56 Q40,74 54,56 Q48,46 40,49 Q32,46 26,56 Z" fill="#FF1744"/>
-        <circle cx="40" cy="60" r="3.2" fill="#CC0000"/>
-        <line x1="30" y1="55" x2="35" y2="45" stroke="#FF1744" stroke-width="1.7"/>
-        <line x1="50" y1="55" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
-        <line x1="35" y1="45" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
-
-        <!-- BIKINI BOTTOM - always visible -->
-        <path d="M25,90 Q40,99 55,90 L52,81 Q40,88 28,81 Z" fill="#FF1744"/>
-        <line x1="25" y1="90" x2="22" y2="80" stroke="#FF1744" stroke-width="1.7"/>
-        <line x1="55" y1="90" x2="58" y2="80" stroke="#FF1744" stroke-width="1.7"/>
-        <line x1="22" y1="80" x2="40" y2="77" stroke="#FF1744" stroke-width="1.4"/>
-        <line x1="58" y1="80" x2="40" y2="77" stroke="#FF1744" stroke-width="1.4"/>
-
-        <!-- STOCKINGS - removed last (visible when clothingLevel >= 1) -->
-        <g id="clothes-stockings">
-          <path d="M29,90 L25,128 L34,128 L37,98 Z" fill="#1C1C3A"/>
-          <path d="M51,90 L55,128 L46,128 L43,98 Z" fill="#1C1C3A"/>
-          <path d="M26,97 Q31,100 37,97" stroke="#2e2e55" stroke-width="1.4" fill="none"/>
-          <path d="M54,97 Q49,100 43,97" stroke="#2e2e55" stroke-width="1.4" fill="none"/>
-        </g>
-
-        <!-- SHOES/HEELS - removed 4th (visible when clothingLevel >= 2) -->
-        <g id="clothes-shoes">
-          <path d="M20,124 Q27,130 36,126 L35,121 Q27,123 22,119 Z" fill="#880E4F"/>
-          <rect x="21" y="115" width="4.5" height="9" rx="1.5" fill="#880E4F"/>
-          <path d="M60,124 Q53,130 44,126 L45,121 Q53,123 58,119 Z" fill="#880E4F"/>
-          <rect x="54.5" y="115" width="4.5" height="9" rx="1.5" fill="#880E4F"/>
-        </g>
-
-        <!-- SKIRT - removed 3rd (visible when clothingLevel >= 3) -->
-        <g id="clothes-skirt">
-          <path d="M22,90 Q40,98 58,90 L64,128 L16,128 Z" fill="#7B1FA2"/>
-          <rect x="22" y="87" width="36" height="6" rx="3" fill="#6A1B9A"/>
-          <line x1="31" y1="93" x2="24" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
-          <line x1="40" y1="93" x2="40" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
-          <line x1="49" y1="93" x2="56" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
-        </g>
-
-        <!-- BLOUSE - removed 2nd (visible when clothingLevel >= 4) -->
-        <g id="clothes-blouse">
-          <path d="M20,50 Q40,44 60,50 L58,90 Q40,95 22,90 Z" fill="#E3F2FD"/>
-          <path d="M21,52 L9,84 L15,87 L25,58 Z" fill="#E3F2FD"/>
-          <path d="M59,52 L71,84 L65,87 L55,58 Z" fill="#E3F2FD"/>
-          <path d="M35,50 L32,62 L40,57 L48,62 L45,50 Q40,44 35,50 Z" fill="#BBDEFB" stroke="#90CAF9" stroke-width="0.5"/>
-          <circle cx="40" cy="66" r="1.4" fill="#90CAF9"/>
-          <circle cx="40" cy="74" r="1.4" fill="#90CAF9"/>
-          <circle cx="40" cy="82" r="1.4" fill="#90CAF9"/>
-          <rect x="10" y="82" width="6" height="3.5" rx="1" fill="#BBDEFB"/>
-          <rect x="64" y="82" width="6" height="3.5" rx="1" fill="#BBDEFB"/>
-        </g>
-
-        <!-- JACKET - removed first (visible when clothingLevel >= 5) -->
-        <g id="clothes-jacket">
-          <path d="M18,50 Q40,43 62,50 L60,90 Q40,95 20,90 Z" fill="#1A237E"/>
-          <path d="M19,52 L6,86 L14,89 L24,58 Z" fill="#1A237E"/>
-          <path d="M61,52 L74,86 L66,89 L56,58 Z" fill="#1A237E"/>
-          <path d="M34,50 L27,68 L37,76 L40,58 Z" fill="#283593"/>
-          <path d="M46,50 L53,68 L43,76 L40,58 Z" fill="#283593"/>
-          <path d="M49,62 L55,62 L55,68 L52,65 L49,68 Z" fill="#FF1744" opacity="0.85"/>
-          <rect x="7" y="84" width="7.5" height="4" rx="1.5" fill="#283593"/>
-          <rect x="65.5" y="84" width="7.5" height="4" rx="1.5" fill="#283593"/>
-        </g>
-
-      </svg>
-    </div><!-- end character-frame -->
-    <div id="char-info">
-      <div id="char-name">&#10024; Lola &#10024;</div>
-      <div id="clothing-dots"></div>
-      <div id="char-quip">"Feeling lucky, darling?"</div>
+    <!-- AMBER (left opponent) -->
+    <div class="side-char">
+      <div class="side-frame" style="width:42px;height:62px">
+        <svg viewBox="0 0 80 130" width="42" height="62" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- skin -->
+          <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#FFD5B8"/>
+          <path d="M52,88 L56,128 L47,128 L44,96 Z" fill="#FFD5B8"/>
+          <path d="M19,48 Q40,43 61,48 L59,88 Q40,93 21,88 Z" fill="#FFD5B8"/>
+          <path d="M20,50 L8,82 L14,85 L23,56 Z" fill="#FFD5B8"/>
+          <path d="M60,50 L72,82 L66,85 L57,56 Z" fill="#FFD5B8"/>
+          <path d="M35,38 L37,48 L43,48 L45,38 Q40,34 35,38 Z" fill="#FFD5B8"/>
+          <circle cx="40" cy="23" r="15" fill="#FFD5B8"/>
+          <!-- blonde hair -->
+          <ellipse cx="40" cy="11" rx="16" ry="11" fill="#C8A830"/>
+          <path d="M24,17 Q17,30 20,46 L26,45 Q23,32 28,21 Z" fill="#C8A830"/>
+          <path d="M56,17 Q63,30 60,46 L54,45 Q57,32 52,21 Z" fill="#C8A830"/>
+          <path d="M37,9 Q40,6 43,9 L43,15 Q40,17 37,15 Z" fill="#DDB840" opacity="0.7"/>
+          <!-- face -->
+          <ellipse cx="33" cy="23" rx="3.2" ry="3.8" fill="white"/>
+          <ellipse cx="47" cy="23" rx="3.2" ry="3.8" fill="white"/>
+          <circle cx="33.8" cy="23.8" r="2.1" fill="#5B4030"/>
+          <circle cx="47.8" cy="23.8" r="2.1" fill="#5B4030"/>
+          <circle cx="34.5" cy="22.8" r="0.6" fill="white"/>
+          <circle cx="48.5" cy="22.8" r="0.6" fill="white"/>
+          <path d="M30,18 Q33.5,15.5 37,17.5" stroke="#9A7010" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <path d="M43,17.5 Q46.5,15.5 50,18" stroke="#9A7010" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <path d="M38.5,28 Q40,31 41.5,28" stroke="#C8887A" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M34.5,33 Q40,39 45.5,33" stroke="#D43F5A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M34.5,33 Q40,37 45.5,33 Q40,35.5 34.5,33 Z" fill="#E83E5A" opacity="0.65"/>
+          <ellipse cx="29" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
+          <ellipse cx="51" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
+          <!-- blue bikini top -->
+          <path d="M28,56 Q40,66 52,56 Q47,48 40,50 Q33,48 28,56 Z" fill="#1565C0"/>
+          <circle cx="40" cy="57" r="2.6" fill="#0D47A1"/>
+          <line x1="31" y1="55" x2="36" y2="46" stroke="#1565C0" stroke-width="1.6"/>
+          <line x1="49" y1="55" x2="44" y2="46" stroke="#1565C0" stroke-width="1.6"/>
+          <line x1="36" y1="46" x2="44" y2="46" stroke="#1565C0" stroke-width="1.6"/>
+          <!-- blue bikini bottom -->
+          <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#1565C0"/>
+          <line x1="24" y1="88" x2="21" y2="78" stroke="#1565C0" stroke-width="1.6"/>
+          <line x1="56" y1="88" x2="59" y2="78" stroke="#1565C0" stroke-width="1.6"/>
+          <line x1="21" y1="78" x2="40" y2="75" stroke="#1565C0" stroke-width="1.3"/>
+          <line x1="59" y1="78" x2="40" y2="75" stroke="#1565C0" stroke-width="1.3"/>
+          <!-- stockings -->
+          <g id="amber-stockings">
+            <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#C4A882"/>
+            <path d="M52,88 L56,128 L47,128 L44,96 Z" fill="#C4A882"/>
+          </g>
+          <!-- shoes -->
+          <g id="amber-shoes">
+            <path d="M19,122 Q27,129 35,126 L34,121 Q27,123 22,118 Z" fill="#B8860B"/>
+            <rect x="20" y="113" width="4" height="9" rx="1.5" fill="#B8860B"/>
+            <path d="M61,122 Q53,129 45,126 L46,121 Q53,123 58,118 Z" fill="#B8860B"/>
+            <rect x="56" y="113" width="4" height="9" rx="1.5" fill="#B8860B"/>
+          </g>
+          <!-- skirt -->
+          <g id="amber-skirt">
+            <path d="M21,88 Q40,96 59,88 L65,128 L15,128 Z" fill="#212121"/>
+            <rect x="21" y="85" width="38" height="6" rx="3" fill="#333"/>
+          </g>
+          <!-- blouse -->
+          <g id="amber-blouse">
+            <path d="M19,48 Q40,43 61,48 L59,88 Q40,93 21,88 Z" fill="#FCE4EC"/>
+            <path d="M20,50 L8,82 L14,85 L23,56 Z" fill="#FCE4EC"/>
+            <path d="M60,50 L72,82 L66,85 L57,56 Z" fill="#FCE4EC"/>
+            <path d="M35,48 L32,60 L40,55 L48,60 L45,48 Q40,43 35,48 Z" fill="#F8BBD0" stroke="#F48FB1" stroke-width="0.5"/>
+            <circle cx="40" cy="68" r="1.4" fill="#F48FB1"/>
+            <circle cx="40" cy="76" r="1.4" fill="#F48FB1"/>
+            <circle cx="40" cy="84" r="1.4" fill="#F48FB1"/>
+          </g>
+          <!-- jacket -->
+          <g id="amber-jacket">
+            <path d="M17,48 Q40,42 63,48 L61,88 Q40,93 19,88 Z" fill="#1B5E20"/>
+            <path d="M18,50 L5,84 L13,87 L23,58 Z" fill="#1B5E20"/>
+            <path d="M62,50 L75,84 L67,87 L57,58 Z" fill="#1B5E20"/>
+            <path d="M34,48 L26,66 L36,74 L40,56 Z" fill="#2E7D32"/>
+            <path d="M46,48 L54,66 L44,74 L40,56 Z" fill="#2E7D32"/>
+            <path d="M48,62 L54,62 L54,68 L51,65 L48,68 Z" fill="#FFD700" opacity="0.8"/>
+            <rect x="6" y="82" width="7" height="4" rx="1.5" fill="#2E7D32"/>
+            <rect x="67" y="82" width="7" height="4" rx="1.5" fill="#2E7D32"/>
+          </g>
+        </svg>
+      </div>
+      <div id="amber-dots" class="side-dots"></div>
+      <div class="side-label">Amber</div>
     </div>
+
+    <!-- LOLA (center, our character) -->
+    <div id="lola-section">
+      <div id="lola-frame">
+        <svg id="lola-svg" viewBox="0 0 80 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- skin -->
+          <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#C8956A"/>
+          <path d="M52,88 L56,128 L47,128 L44,96 Z" fill="#C8956A"/>
+          <path d="M19,48 Q40,43 61,48 L59,88 Q40,93 21,88 Z" fill="#C8956A"/>
+          <path d="M20,50 L8,82 L14,85 L23,56 Z" fill="#C8956A"/>
+          <path d="M60,50 L72,82 L66,85 L57,56 Z" fill="#C8956A"/>
+          <path d="M35,38 L37,48 L43,48 L45,38 Q40,34 35,38 Z" fill="#C8956A"/>
+          <circle cx="40" cy="23" r="15" fill="#C8956A"/>
+          <!-- black hair -->
+          <ellipse cx="40" cy="11" rx="16" ry="11" fill="#1C1C1C"/>
+          <path d="M24,17 Q17,30 20,46 L26,45 Q23,32 28,21 Z" fill="#1C1C1C"/>
+          <path d="M56,17 Q63,30 60,46 L54,45 Q57,32 52,21 Z" fill="#1C1C1C"/>
+          <path d="M24,13 Q17,24 19,38" stroke="#111111" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+          <path d="M56,13 Q63,24 61,38" stroke="#111111" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+          <!-- face -->
+          <ellipse cx="33" cy="23" rx="3.2" ry="3.8" fill="white"/>
+          <ellipse cx="47" cy="23" rx="3.2" ry="3.8" fill="white"/>
+          <circle cx="33.8" cy="23.8" r="2.1" fill="#3D2B1F"/>
+          <circle cx="47.8" cy="23.8" r="2.1" fill="#3D2B1F"/>
+          <circle cx="34.5" cy="22.8" r="0.6" fill="white"/>
+          <circle cx="48.5" cy="22.8" r="0.6" fill="white"/>
+          <path d="M30,18 Q33.5,15.5 37,17.5" stroke="#222222" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <path d="M43,17.5 Q46.5,15.5 50,18" stroke="#222222" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <path d="M38.5,28 Q40,31 41.5,28" stroke="#A8765A" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M34.5,33 Q40,39 45.5,33" stroke="#D43F5A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M34.5,33 Q40,37 45.5,33 Q40,35.5 34.5,33 Z" fill="#E83E5A" opacity="0.65"/>
+          <ellipse cx="29" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
+          <ellipse cx="51" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.35"/>
+          <!-- red bikini top — BIGGER -->
+          <path d="M26,56 Q40,72 54,56 Q48,46 40,49 Q32,46 26,56 Z" fill="#FF1744"/>
+          <circle cx="40" cy="59" r="3.2" fill="#CC0000"/>
+          <line x1="30" y1="55" x2="35" y2="45" stroke="#FF1744" stroke-width="1.7"/>
+          <line x1="50" y1="55" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
+          <line x1="35" y1="45" x2="45" y2="45" stroke="#FF1744" stroke-width="1.7"/>
+          <!-- red bikini bottom -->
+          <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#FF1744"/>
+          <line x1="24" y1="88" x2="21" y2="78" stroke="#FF1744" stroke-width="1.7"/>
+          <line x1="56" y1="88" x2="59" y2="78" stroke="#FF1744" stroke-width="1.7"/>
+          <line x1="21" y1="78" x2="40" y2="75" stroke="#FF1744" stroke-width="1.4"/>
+          <line x1="59" y1="78" x2="40" y2="75" stroke="#FF1744" stroke-width="1.4"/>
+          <!-- stockings -->
+          <g id="lola-stockings">
+            <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#1C1C3A"/>
+            <path d="M52,88 L56,128 L47,128 L44,96 Z" fill="#1C1C3A"/>
+            <path d="M25,96 Q30,99 36,96" stroke="#2e2e55" stroke-width="1.3" fill="none"/>
+            <path d="M55,96 Q50,99 44,96" stroke="#2e2e55" stroke-width="1.3" fill="none"/>
+          </g>
+          <!-- shoes -->
+          <g id="lola-shoes">
+            <path d="M19,122 Q27,129 35,126 L34,121 Q27,123 22,118 Z" fill="#880E4F"/>
+            <rect x="20" y="113" width="4" height="9" rx="1.5" fill="#880E4F"/>
+            <path d="M61,122 Q53,129 45,126 L46,121 Q53,123 58,118 Z" fill="#880E4F"/>
+            <rect x="56" y="113" width="4" height="9" rx="1.5" fill="#880E4F"/>
+          </g>
+          <!-- skirt -->
+          <g id="lola-skirt">
+            <path d="M21,88 Q40,96 59,88 L65,128 L15,128 Z" fill="#7B1FA2"/>
+            <rect x="21" y="85" width="38" height="6" rx="3" fill="#6A1B9A"/>
+            <line x1="30" y1="91" x2="23" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
+            <line x1="40" y1="91" x2="40" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
+            <line x1="50" y1="91" x2="57" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
+          </g>
+          <!-- blouse -->
+          <g id="lola-blouse">
+            <path d="M19,48 Q40,43 61,48 L59,88 Q40,93 21,88 Z" fill="#E3F2FD"/>
+            <path d="M20,50 L8,82 L14,85 L23,56 Z" fill="#E3F2FD"/>
+            <path d="M60,50 L72,82 L66,85 L57,56 Z" fill="#E3F2FD"/>
+            <path d="M35,48 L32,60 L40,55 L48,60 L45,48 Q40,43 35,48 Z" fill="#BBDEFB" stroke="#90CAF9" stroke-width="0.5"/>
+            <circle cx="40" cy="68" r="1.4" fill="#90CAF9"/>
+            <circle cx="40" cy="76" r="1.4" fill="#90CAF9"/>
+            <circle cx="40" cy="84" r="1.4" fill="#90CAF9"/>
+          </g>
+          <!-- jacket -->
+          <g id="lola-jacket">
+            <path d="M17,48 Q40,42 63,48 L61,88 Q40,93 19,88 Z" fill="#1A237E"/>
+            <path d="M18,50 L5,84 L13,87 L23,58 Z" fill="#1A237E"/>
+            <path d="M62,50 L75,84 L67,87 L57,58 Z" fill="#1A237E"/>
+            <path d="M34,48 L26,66 L36,74 L40,56 Z" fill="#283593"/>
+            <path d="M46,48 L54,66 L44,74 L40,56 Z" fill="#283593"/>
+            <path d="M49,62 L55,62 L55,68 L52,65 L49,68 Z" fill="#FF1744" opacity="0.85"/>
+            <rect x="6" y="82" width="7.5" height="4" rx="1.5" fill="#283593"/>
+            <rect x="66.5" y="82" width="7.5" height="4" rx="1.5" fill="#283593"/>
+          </g>
+        </svg>
+      </div>
+      <div id="char-info">
+        <div id="char-name">&#10024; Lola &#10024;</div>
+        <div id="lola-dots"></div>
+        <div id="char-quip">"Feeling lucky, darling?"</div>
+      </div>
+    </div>
+
+    <!-- SOFIA (right opponent) -->
+    <div class="side-char">
+      <div class="side-frame" style="width:42px;height:62px">
+        <svg viewBox="0 0 80 130" width="42" height="62" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- skin -->
+          <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#C49070"/>
+          <path d="M52,88 L56,128 L47,128 L44,96 Z" fill="#C49070"/>
+          <path d="M19,48 Q40,43 61,48 L59,88 Q40,93 21,88 Z" fill="#C49070"/>
+          <path d="M20,50 L8,82 L14,85 L23,56 Z" fill="#C49070"/>
+          <path d="M60,50 L72,82 L66,85 L57,56 Z" fill="#C49070"/>
+          <path d="M35,38 L37,48 L43,48 L45,38 Q40,34 35,38 Z" fill="#C49070"/>
+          <circle cx="40" cy="23" r="15" fill="#C49070"/>
+          <!-- dark brown hair -->
+          <ellipse cx="40" cy="11" rx="16" ry="11" fill="#3E2723"/>
+          <path d="M24,17 Q17,30 20,46 L26,45 Q23,32 28,21 Z" fill="#3E2723"/>
+          <path d="M56,17 Q63,30 60,46 L54,45 Q57,32 52,21 Z" fill="#3E2723"/>
+          <path d="M24,13 Q17,24 19,38" stroke="#2d1a10" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+          <path d="M56,13 Q63,24 61,38" stroke="#2d1a10" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+          <!-- face -->
+          <ellipse cx="33" cy="23" rx="3.2" ry="3.8" fill="white"/>
+          <ellipse cx="47" cy="23" rx="3.2" ry="3.8" fill="white"/>
+          <circle cx="33.8" cy="23.8" r="2.1" fill="#3D2B1F"/>
+          <circle cx="47.8" cy="23.8" r="2.1" fill="#3D2B1F"/>
+          <circle cx="34.5" cy="22.8" r="0.6" fill="white"/>
+          <circle cx="48.5" cy="22.8" r="0.6" fill="white"/>
+          <path d="M30,18 Q33.5,15.5 37,17.5" stroke="#3E2723" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <path d="M43,17.5 Q46.5,15.5 50,18" stroke="#3E2723" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <path d="M38.5,28 Q40,31 41.5,28" stroke="#A8765A" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M34.5,33 Q40,39 45.5,33" stroke="#D43F5A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M34.5,33 Q40,37 45.5,33 Q40,35.5 34.5,33 Z" fill="#E83E5A" opacity="0.65"/>
+          <ellipse cx="29" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.32"/>
+          <ellipse cx="51" cy="28" rx="5" ry="3" fill="#FFB3C6" opacity="0.32"/>
+          <!-- teal bikini top -->
+          <path d="M28,56 Q40,66 52,56 Q47,48 40,50 Q33,48 28,56 Z" fill="#00838F"/>
+          <circle cx="40" cy="57" r="2.6" fill="#006064"/>
+          <line x1="31" y1="55" x2="36" y2="46" stroke="#00838F" stroke-width="1.6"/>
+          <line x1="49" y1="55" x2="44" y2="46" stroke="#00838F" stroke-width="1.6"/>
+          <line x1="36" y1="46" x2="44" y2="46" stroke="#00838F" stroke-width="1.6"/>
+          <!-- teal bikini bottom -->
+          <path d="M24,88 Q40,97 56,88 L53,79 Q40,86 27,79 Z" fill="#00838F"/>
+          <line x1="24" y1="88" x2="21" y2="78" stroke="#00838F" stroke-width="1.6"/>
+          <line x1="56" y1="88" x2="59" y2="78" stroke="#00838F" stroke-width="1.6"/>
+          <line x1="21" y1="78" x2="40" y2="75" stroke="#00838F" stroke-width="1.3"/>
+          <line x1="59" y1="78" x2="40" y2="75" stroke="#00838F" stroke-width="1.3"/>
+          <!-- stockings -->
+          <g id="sofia-stockings">
+            <path d="M28,88 L24,128 L33,128 L36,96 Z" fill="#2E2E2E"/>
+            <path d="M52,88 L56,128 L47,128 L44,96 Z" fill="#2E2E2E"/>
+          </g>
+          <!-- shoes -->
+          <g id="sofia-shoes">
+            <path d="M19,122 Q27,129 35,126 L34,121 Q27,123 22,118 Z" fill="#212121"/>
+            <rect x="20" y="113" width="4" height="9" rx="1.5" fill="#212121"/>
+            <path d="M61,122 Q53,129 45,126 L46,121 Q53,123 58,118 Z" fill="#212121"/>
+            <rect x="56" y="113" width="4" height="9" rx="1.5" fill="#212121"/>
+          </g>
+          <!-- skirt -->
+          <g id="sofia-skirt">
+            <path d="M21,88 Q40,96 59,88 L65,128 L15,128 Z" fill="#1A237E"/>
+            <rect x="21" y="85" width="38" height="6" rx="3" fill="#283593"/>
+          </g>
+          <!-- blouse -->
+          <g id="sofia-blouse">
+            <path d="M19,48 Q40,43 61,48 L59,88 Q40,93 21,88 Z" fill="#FFF8E1"/>
+            <path d="M20,50 L8,82 L14,85 L23,56 Z" fill="#FFF8E1"/>
+            <path d="M60,50 L72,82 L66,85 L57,56 Z" fill="#FFF8E1"/>
+            <path d="M35,48 L32,60 L40,55 L48,60 L45,48 Q40,43 35,48 Z" fill="#FFF3CD" stroke="#FFE082" stroke-width="0.5"/>
+            <circle cx="40" cy="68" r="1.4" fill="#FFE082"/>
+            <circle cx="40" cy="76" r="1.4" fill="#FFE082"/>
+            <circle cx="40" cy="84" r="1.4" fill="#FFE082"/>
+          </g>
+          <!-- jacket -->
+          <g id="sofia-jacket">
+            <path d="M17,48 Q40,42 63,48 L61,88 Q40,93 19,88 Z" fill="#880E4F"/>
+            <path d="M18,50 L5,84 L13,87 L23,58 Z" fill="#880E4F"/>
+            <path d="M62,50 L75,84 L67,87 L57,58 Z" fill="#880E4F"/>
+            <path d="M34,48 L26,66 L36,74 L40,56 Z" fill="#AD1457"/>
+            <path d="M46,48 L54,66 L44,74 L40,56 Z" fill="#AD1457"/>
+            <path d="M48,62 L54,62 L54,68 L51,65 L48,68 Z" fill="#FFD700" opacity="0.8"/>
+            <rect x="6" y="82" width="7" height="4" rx="1.5" fill="#AD1457"/>
+            <rect x="67" y="82" width="7" height="4" rx="1.5" fill="#AD1457"/>
+          </g>
+        </svg>
+      </div>
+      <div id="sofia-dots" class="side-dots"></div>
+      <div class="side-label">Sofia</div>
+    </div>
+
   </div><!-- end character-panel -->
 
-  <!-- Top player -->
+  <!-- top player -->
   <div style="position:relative;display:flex;align-items:center;justify-content:center;padding:4px 0 2px">
     <span class="player-name-tag" id="top-name">Partner</span>
   </div>
   <div id="zone-top" class="player-zone"></div>
 
-  <!-- Middle row -->
+  <!-- middle row -->
   <div id="middle-row">
     <div id="zone-left" class="player-zone"></div>
     <div id="center-area">
@@ -639,10 +540,8 @@ body {
     <div id="zone-right" class="player-zone"></div>
   </div>
 
-  <!-- Player hand -->
   <div id="player-hand"></div>
 
-  <!-- Bid panel -->
   <div id="bid-panel" class="hidden">
     <div id="bid-label">Your turn to bid</div>
     <div class="bid-row" id="bid-buttons"></div>
@@ -653,6 +552,15 @@ body {
 
 <!-- OVERLAYS -->
 <div id="trick-overlay"><div class="banner" id="trick-banner"></div></div>
+
+<div id="last-trick-overlay">
+  <div class="lt-card">
+    <h3>Last Trick</h3>
+    <div id="lt-grid"></div>
+    <div id="lt-winner"></div>
+    <button class="btn btn-secondary" style="padding:10px 28px" onclick="hideLastTrick()">Close</button>
+  </div>
+</div>
 
 <div id="round-overlay">
   <div class="round-card">
@@ -667,15 +575,6 @@ body {
   </div>
 </div>
 
-<div id="last-trick-overlay">
-  <div class="lt-card">
-    <h3>Last Trick</h3>
-    <div id="lt-grid"></div>
-    <div id="lt-winner"></div>
-    <button class="btn btn-secondary" style="padding:10px 28px" onclick="hideLastTrick()">Close</button>
-  </div>
-</div>
-
 <div id="gameover-overlay">
   <div class="gameover-card">
     <h2 id="gameover-title"></h2>
@@ -687,9 +586,6 @@ body {
 </div>
 
 <script>
-// ============================
-// CONSTANTS
-// ============================
 const SUITS = ['♠','♥','♦','♣'];
 const RANKS = ['9','10','J','Q','K','A'];
 const RED = new Set(['♥','♦']);
@@ -698,22 +594,23 @@ const TEAM = [0,1,0,1];
 const PLAYER_NAMES = ['You','Left','Partner','Right'];
 const SLOTS = ['slot-bottom','slot-left','slot-top','slot-right'];
 
-// index 0=jacket(outermost first removed), 1=blouse, 2=skirt, 3=shoes, 4=stockings(last removed)
-const CLOTHING_IDS = ['clothes-jacket','clothes-blouse','clothes-skirt','clothes-shoes','clothes-stockings'];
+const LOLA_IDS = ['lola-jacket','lola-blouse','lola-skirt','lola-shoes','lola-stockings'];
+const OPP_PREFIXES = ['amber','sofia'];
+const LAYER_NAMES = ['jacket','blouse','skirt','shoes','stockings'];
 
-const REMOVAL_QUIPS = [
-  'Off comes the jacket! Getting cozy in here... 😈',
-  'The blouse hits the floor! Now we\'re really playing! 🔥',
-  'Skirt\'s gone! Hubba hubba! Stay focused now... 😜',
-  'Heels off — she\'s getting *very* comfortable. 👠',
-  'Jackpot! She\'s down to the bikini! Can you hold on? 🎰'
+const LOLA_REMOVAL = [
+  'Off comes the jacket! Getting cozy... 😈',
+  'The blouse hits the floor! Now we\'re playing! 🔥',
+  'Lola\'s skirt is gone! Hubba hubba! 😜',
+  'Heels off — she\'s getting very comfortable. 👠',
+  'Lola\'s down to the bikini! Hold on! 🎰'
 ];
-const REPLACE_QUIPS = [
-  'She slips the jacket back on. Nice try! 😤',
-  'Covering back up! She fights back! 😈',
-  'Skirt\'s back. Playing hard to get... 😈',
-  'Heels back on. This isn\'t over! 😤',
-  'Fully covered again. Back to square one!'
+const OPP_REMOVAL = [
+  'Amber & Sofia ditch the jackets! 🔥',
+  'The blouses are off! Now it\'s getting real! 😈',
+  'Skirts gone! Looking great, ladies! 😜',
+  'Heels flying! They\'re almost there! 👠',
+  'Amber & Sofia in bikinis! Keep going! 🎰'
 ];
 const IDLE_QUIPS = [
   '"Feeling lucky, darling?"',
@@ -723,190 +620,137 @@ const IDLE_QUIPS = [
   '"Oh my... keep going!"',
 ];
 
-// ============================
-// GAME STATE
-// ============================
 let G = {};
 
 function initState() {
   G = {
-    gameScore:    [0, 0],
-    handScore:    [0, 0],
-    dealer:       Math.floor(Math.random() * 4),
-    phase:        'deal',
-    trump:        null,
-    makerTeam:    null,
-    goingAlone:   false,
-    alonePlayer:  -1,
-    hands:        [[],[],[],[]],
-    kitty:        [],
-    flipCard:     null,
-    currentTrick: [],
-    trickLeader:  0,
-    currentPlayer:0,
-    tricksWon:    [0, 0],
-    handNum:      0,
-    clothingLevel:5,
-    lastQuip:     IDLE_QUIPS[0],
+    gameScore:[0,0], handScore:[0,0],
+    dealer: Math.floor(Math.random()*4),
+    phase:'deal', trump:null, makerTeam:null,
+    goingAlone:false, alonePlayer:-1,
+    hands:[[],[],[],[]], kitty:[], flipCard:null,
+    currentTrick:[], trickLeader:0, currentPlayer:0,
+    tricksWon:[0,0], handNum:0,
+    lolaLevel:5, oppLevel:5,
+    lastQuip: IDLE_QUIPS[0],
     lastCompletedTrick: null,
   };
 }
 
-// ============================
-// DECK & CARD LOGIC
-// ============================
+// DECK
 function makeDeck() {
-  let d = [];
-  for (let s of SUITS) for (let r of RANKS) d.push({r, s});
+  let d=[];
+  for (let s of SUITS) for (let r of RANKS) d.push({r,s});
   return shuffle(d);
 }
 function shuffle(arr) {
-  let a = [...arr];
-  for (let i = a.length-1; i > 0; i--) {
-    let j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
-  }
+  let a=[...arr];
+  for (let i=a.length-1;i>0;i--) { let j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
   return a;
 }
-function isRed(suit) { return RED.has(suit); }
-function effectiveSuit(card, trump) {
-  if (card.r === 'J' && card.s === SAME_COLOR[trump]) return trump;
-  return card.s;
+function isRed(s) { return RED.has(s); }
+function effectiveSuit(c,t) { return (c.r==='J'&&c.s===SAME_COLOR[t]) ? t : c.s; }
+function cardValue(c,t,ls) {
+  const es=effectiveSuit(c,t);
+  if(c.r==='J'&&c.s===t) return 100;
+  if(c.r==='J'&&c.s===SAME_COLOR[t]) return 99;
+  if(es===t) return 50+RANKS.indexOf(c.r);
+  if(es===ls) return 20+RANKS.indexOf(c.r);
+  return RANKS.indexOf(c.r);
 }
-function cardValue(card, trump, ledSuit) {
-  const es = effectiveSuit(card, trump);
-  if (card.r === 'J' && card.s === trump) return 100;
-  if (card.r === 'J' && card.s === SAME_COLOR[trump]) return 99;
-  if (es === trump) return 50 + RANKS.indexOf(card.r);
-  if (es === ledSuit) return 20 + RANKS.indexOf(card.r);
-  return RANKS.indexOf(card.r);
-}
-function canFollow(hand, ledSuit, trump) {
-  return hand.some(c => effectiveSuit(c, trump) === ledSuit);
-}
-function legalCards(hand, ledSuit, trump) {
-  if (!ledSuit) return hand;
-  if (canFollow(hand, ledSuit, trump)) return hand.filter(c => effectiveSuit(c, trump) === ledSuit);
+function canFollow(hand,ls,t) { return hand.some(c=>effectiveSuit(c,t)===ls); }
+function legalCards(hand,ls,t) {
+  if(!ls) return hand;
+  if(canFollow(hand,ls,t)) return hand.filter(c=>effectiveSuit(c,t)===ls);
   return hand;
 }
-function trickWinner(trick, trump) {
-  const ledSuit = effectiveSuit(trick[0].card, trump);
-  let best = trick[0];
-  for (let i = 1; i < trick.length; i++) {
-    if (cardValue(trick[i].card, trump, ledSuit) > cardValue(best.card, trump, ledSuit)) best = trick[i];
-  }
+function trickWinner(trick,t) {
+  const ls=effectiveSuit(trick[0].card,t);
+  let best=trick[0];
+  for(let i=1;i<trick.length;i++) if(cardValue(trick[i].card,t,ls)>cardValue(best.card,t,ls)) best=trick[i];
   return best.player;
 }
 
-// ============================
 // AI
-// ============================
-function aiShouldOrderUp(hand, flipCard, position, dealerIdx) {
-  const trump = flipCard.s;
-  const score = handStrength(hand, trump);
-  const isPartner = TEAM[position] === TEAM[dealerIdx];
-  return score >= (isPartner ? 5 : 6);
+function aiShouldOrderUp(hand,flip,pos,dlr) {
+  return handStrength(hand,flip.s) >= (TEAM[pos]===TEAM[dlr] ? 5 : 6);
 }
-function handStrength(hand, trump) {
-  let score = 0;
-  for (let c of hand) {
-    if (c.r === 'J' && c.s === trump) score += 4;
-    else if (c.r === 'J' && c.s === SAME_COLOR[trump]) score += 3.5;
-    else if (c.s === trump && c.r === 'A') score += 3;
-    else if (c.s === trump && c.r === 'K') score += 2;
-    else if (c.s === trump) score += 1;
-    else if (c.r === 'A') score += 0.5;
+function handStrength(hand,t) {
+  let s=0;
+  for(let c of hand) {
+    if(c.r==='J'&&c.s===t) s+=4;
+    else if(c.r==='J'&&c.s===SAME_COLOR[t]) s+=3.5;
+    else if(c.s===t&&c.r==='A') s+=3;
+    else if(c.s===t&&c.r==='K') s+=2;
+    else if(c.s===t) s+=1;
+    else if(c.r==='A') s+=0.5;
   }
-  return score;
+  return s;
 }
-function aiBestTrump(hand, excludeSuit) {
-  let best = null, bestScore = -1;
-  for (let s of SUITS) {
-    if (s === excludeSuit) continue;
-    const sc = handStrength(hand, s);
-    if (sc > bestScore) { bestScore = sc; best = s; }
-  }
-  return bestScore >= 5 ? best : null;
+function aiBestTrump(hand,excl) {
+  let best=null,bs=-1;
+  for(let s of SUITS) { if(s===excl) continue; let sc=handStrength(hand,s); if(sc>bs){bs=sc;best=s;} }
+  return bs>=5?best:null;
 }
-function aiChooseCard(playerIdx) {
-  const hand = G.hands[playerIdx];
-  const trump = G.trump;
-  const ledSuit = G.currentTrick.length > 0 ? effectiveSuit(G.currentTrick[0].card, trump) : null;
-  const legal = legalCards(hand, ledSuit, trump);
-  let partnerWinning = false;
-  if (G.currentTrick.length >= 1) {
-    partnerWinning = TEAM[trickWinner(G.currentTrick, trump)] === TEAM[playerIdx];
+function aiChooseCard(pi) {
+  const hand=G.hands[pi],t=G.trump;
+  const ls=G.currentTrick.length>0?effectiveSuit(G.currentTrick[0].card,t):null;
+  const legal=legalCards(hand,ls,t);
+  let pw=false;
+  if(G.currentTrick.length>=1) pw=TEAM[trickWinner(G.currentTrick,t)]===TEAM[pi];
+  if(pw&&G.currentTrick.length>0) return legal.reduce((a,b)=>cardValue(a,t,ls)<cardValue(b,t,ls)?a:b);
+  if(!ls) {
+    const tc=legal.filter(c=>effectiveSuit(c,t)===t);
+    if(tc.length>0) return tc.reduce((a,b)=>cardValue(a,t,null)>cardValue(b,t,null)?a:b);
+    return legal.reduce((a,b)=>cardValue(a,t,null)>cardValue(b,t,null)?a:b);
   }
-  if (partnerWinning && G.currentTrick.length > 0) {
-    return legal.reduce((a, b) => cardValue(a, trump, ledSuit) < cardValue(b, trump, ledSuit) ? a : b);
-  }
-  if (!ledSuit) {
-    const trumpCards = legal.filter(c => effectiveSuit(c, trump) === trump);
-    if (trumpCards.length > 0) return trumpCards.reduce((a, b) => cardValue(a, trump, null) > cardValue(b, trump, null) ? a : b);
-    return legal.reduce((a, b) => cardValue(a, trump, null) > cardValue(b, trump, null) ? a : b);
-  }
-  return legal.reduce((a, b) => cardValue(a, trump, ledSuit) > cardValue(b, trump, ledSuit) ? a : b);
+  return legal.reduce((a,b)=>cardValue(a,t,ls)>cardValue(b,t,ls)?a:b);
 }
-function aiDiscard(playerIdx) {
-  const hand = G.hands[playerIdx];
-  const trump = G.trump;
-  const nonTrump = hand.filter(c => effectiveSuit(c, trump) !== trump);
-  const pool = nonTrump.length > 0 ? nonTrump : hand;
-  const discard = pool.reduce((a, b) => cardValue(a, trump, null) < cardValue(b, trump, null) ? a : b);
-  hand.splice(hand.indexOf(discard), 1);
+function aiDiscard(pi) {
+  const hand=G.hands[pi],t=G.trump;
+  const nt=hand.filter(c=>effectiveSuit(c,t)!==t);
+  const pool=nt.length>0?nt:hand;
+  const d=pool.reduce((a,b)=>cardValue(a,t,null)<cardValue(b,t,null)?a:b);
+  hand.splice(hand.indexOf(d),1);
 }
 
-// ============================
 // DEAL
-// ============================
 function deal() {
-  const deck = makeDeck();
-  for (let i = 0; i < 4; i++) G.hands[i] = [];
-  for (let round = 0; round < 5; round++) for (let p = 0; p < 4; p++) G.hands[p].push(deck.pop());
-  G.kitty = [deck.pop(), deck.pop(), deck.pop(), deck.pop()];
-  G.flipCard = G.kitty[0];
-  G.tricksWon = [0, 0];
-  G.handScore = [0, 0];
-  G.currentTrick = [];
-  G.trump = null;
-  G.makerTeam = null;
-  G.goingAlone = false;
-  G.alonePlayer = -1;
+  const deck=makeDeck();
+  for(let i=0;i<4;i++) G.hands[i]=[];
+  for(let r=0;r<5;r++) for(let p=0;p<4;p++) G.hands[p].push(deck.pop());
+  G.kitty=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
+  G.flipCard=G.kitty[0];
+  G.tricksWon=[0,0]; G.handScore=[0,0]; G.currentTrick=[];
+  G.trump=null; G.makerTeam=null; G.goingAlone=false; G.alonePlayer=-1;
 }
 
-// ============================
-// GAME FLOW
-// ============================
+// FLOW
 function startGame() {
   initState();
   document.getElementById('start-screen').classList.remove('active');
   document.getElementById('game-screen').classList.add('active');
-  updateCharacter();
+  updateAllCharacters();
   newHand();
 }
 function newHand() {
-  G.phase = 'deal';
-  G.dealer = (G.dealer + 1) % 4;
-  deal();
-  G.trickLeader = (G.dealer + 1) % 4;
-  G.currentPlayer = G.trickLeader;
-  document.getElementById('last-trick-btn').style.display = 'none';
-  renderAll();
-  setStatus('');
-  setTimeout(() => startBid1(), 400);
+  G.phase='deal'; G.dealer=(G.dealer+1)%4; deal();
+  G.trickLeader=(G.dealer+1)%4; G.currentPlayer=G.trickLeader;
+  document.getElementById('last-trick-btn').style.display='none';
+  renderAll(); setStatus('');
+  setTimeout(()=>startBid1(),400);
 }
 function nextHand() {
   document.getElementById('round-overlay').classList.remove('show');
-  if (G.gameScore[0] >= 10 || G.gameScore[1] >= 10) { showGameOver(); return; }
+  if(G.gameScore[0]>=10||G.gameScore[1]>=10){showGameOver();return;}
   newHand();
 }
 function resetGame() {
   document.getElementById('gameover-overlay').classList.remove('show');
   initState();
-  document.getElementById('score-us').textContent = '0';
-  document.getElementById('score-them').textContent = '0';
-  updateCharacter();
-  newHand();
+  document.getElementById('score-us').textContent='0';
+  document.getElementById('score-them').textContent='0';
+  updateAllCharacters(); newHand();
 }
 function goHome() {
   document.getElementById('gameover-overlay').classList.remove('show');
@@ -914,486 +758,314 @@ function goHome() {
   document.getElementById('start-screen').classList.add('active');
 }
 
-// ============================
 // BIDDING
-// ============================
-function startBid1() {
-  G.phase = 'bid1';
-  G.currentPlayer = (G.dealer + 1) % 4;
-  showKitty();
-  doBidRound();
-}
-function doBidRound() {
-  renderAll();
-  if (G.phase === 'bid1') bid1Turn();
-  else if (G.phase === 'bid2') bid2Turn();
-}
+function startBid1() { G.phase='bid1'; G.currentPlayer=(G.dealer+1)%4; showKitty(); doBidRound(); }
+function doBidRound() { renderAll(); if(G.phase==='bid1') bid1Turn(); else if(G.phase==='bid2') bid2Turn(); }
 function bid1Turn() {
-  const p = G.currentPlayer;
-  if (p === 0) {
-    showBidPanel('Order up ' + suitSpan(G.flipCard.s) + ' as trump?', [
-      { label: 'Order Up ' + suitSpan(G.flipCard.s), cls: 'order-up', action: () => humanOrderUp(false) },
-      { label: 'Go Alone ' + suitSpan(G.flipCard.s), cls: 'go-alone', action: () => humanOrderUp(true) },
-      { label: 'Pass', cls: 'pass', action: humanPass },
+  const p=G.currentPlayer;
+  if(p===0) {
+    showBidPanel('Order up '+suitSpan(G.flipCard.s)+' as trump?',[
+      {label:'Order Up '+suitSpan(G.flipCard.s),cls:'order-up',action:()=>humanOrderUp(false)},
+      {label:'Go Alone '+suitSpan(G.flipCard.s),cls:'go-alone',action:()=>humanOrderUp(true)},
+      {label:'Pass',cls:'pass',action:humanPass},
     ]);
   } else {
     hideBidPanel();
-    setTimeout(() => {
-      const ordered = aiShouldOrderUp(G.hands[p], G.flipCard, p, G.dealer);
-      if (ordered) { setStatus(PLAYER_NAMES[p] + ' orders up ' + G.flipCard.s); aiOrderUp(p); }
-      else { setStatus(PLAYER_NAMES[p] + ' passes'); advanceBid1(); }
-    }, 700);
+    setTimeout(()=>{
+      if(aiShouldOrderUp(G.hands[p],G.flipCard,p,G.dealer)){setStatus(PLAYER_NAMES[p]+' orders up '+G.flipCard.s);aiOrderUp(p);}
+      else{setStatus(PLAYER_NAMES[p]+' passes');advanceBid1();}
+    },700);
   }
 }
 function humanOrderUp(alone) {
-  hideBidPanel();
-  G.makerTeam = TEAM[0];
-  G.trump = G.flipCard.s;
-  G.goingAlone = alone;
-  G.alonePlayer = alone ? 0 : -1;
+  hideBidPanel(); G.makerTeam=TEAM[0]; G.trump=G.flipCard.s; G.goingAlone=alone; G.alonePlayer=alone?0:-1;
   G.hands[G.dealer].push(G.flipCard);
-  if (G.dealer === 0) {
-    G.phase = 'discard';
-    renderAll();
-    setStatus('Pick a card to discard');
-    showBidPanel('Tap a card in your hand to discard it', []);
-  } else {
-    aiDiscard(G.dealer);
-    startPlay();
-  }
+  if(G.dealer===0){G.phase='discard';renderAll();setStatus('Pick a card to discard');showBidPanel('Tap a card to discard it',[]);}
+  else{aiDiscard(G.dealer);startPlay();}
 }
-function aiOrderUp(playerIdx) {
-  G.makerTeam = TEAM[playerIdx];
-  G.trump = G.flipCard.s;
-  G.hands[G.dealer].push(G.flipCard);
-  if (G.dealer === 0) {
-    G.phase = 'discard';
-    setTimeout(() => { renderAll(); setStatus('Pick a card to discard (dealer picks up)'); }, 400);
-  } else {
-    aiDiscard(G.dealer);
-    setTimeout(() => startPlay(), 500);
-  }
+function aiOrderUp(pi) {
+  G.makerTeam=TEAM[pi]; G.trump=G.flipCard.s; G.hands[G.dealer].push(G.flipCard);
+  if(G.dealer===0){G.phase='discard';setTimeout(()=>{renderAll();setStatus('Pick a card to discard');},400);}
+  else{aiDiscard(G.dealer);setTimeout(()=>startPlay(),500);}
 }
 function advanceBid1() {
-  if (G.currentPlayer === G.dealer) {
-    setStatus('All passed. Choose a suit.');
-    setTimeout(() => { G.phase = 'bid2'; G.currentPlayer = (G.dealer + 1) % 4; hideKitty(); doBidRound(); }, 500);
-  } else {
-    G.currentPlayer = (G.currentPlayer + 1) % 4;
-    setTimeout(() => bid1Turn(), 600);
-  }
+  if(G.currentPlayer===G.dealer){setStatus('All passed. Choose a suit.');setTimeout(()=>{G.phase='bid2';G.currentPlayer=(G.dealer+1)%4;hideKitty();doBidRound();},500);}
+  else{G.currentPlayer=(G.currentPlayer+1)%4;setTimeout(()=>bid1Turn(),600);}
 }
-function humanPass() { hideBidPanel(); setStatus('You pass'); advanceBid1(); }
+function humanPass(){hideBidPanel();setStatus('You pass');advanceBid1();}
 function bid2Turn() {
-  const p = G.currentPlayer;
-  if (p === 0) {
-    const otherSuits = SUITS.filter(s => s !== G.flipCard.s);
-    const buttons = otherSuits.map(s => ({ label: suitSpan(s), cls: 'suit-btn', action: () => humanCallSuit(s) }));
-    buttons.push({ label: 'Pass', cls: 'pass', action: humanPass2 });
-    showBidPanel('Name a trump suit (or pass):', buttons);
+  const p=G.currentPlayer;
+  if(p===0){
+    const os=SUITS.filter(s=>s!==G.flipCard.s);
+    const btns=os.map(s=>({label:suitSpan(s),cls:'suit-btn',action:()=>humanCallSuit(s)}));
+    btns.push({label:'Pass',cls:'pass',action:humanPass2});
+    showBidPanel('Name a trump suit (or pass):',btns);
   } else {
     hideBidPanel();
-    setTimeout(() => {
-      const chosen = aiBestTrump(G.hands[p], G.flipCard.s);
-      if (chosen || p === G.dealer) {
-        const suit = chosen || bestSuitForHand(G.hands[p], G.flipCard.s);
-        G.trump = suit; G.makerTeam = TEAM[p];
-        setStatus(PLAYER_NAMES[p] + ' calls ' + suit);
-        setTimeout(() => startPlay(), 500);
-      } else {
-        setStatus(PLAYER_NAMES[p] + ' passes');
-        advanceBid2();
-      }
-    }, 700);
+    setTimeout(()=>{
+      const ch=aiBestTrump(G.hands[p],G.flipCard.s);
+      if(ch||p===G.dealer){const s=ch||bestSuit(G.hands[p],G.flipCard.s);G.trump=s;G.makerTeam=TEAM[p];setStatus(PLAYER_NAMES[p]+' calls '+s);setTimeout(()=>startPlay(),500);}
+      else{setStatus(PLAYER_NAMES[p]+' passes');advanceBid2();}
+    },700);
   }
 }
-function bestSuitForHand(hand, excludeSuit) {
-  let best = null, bestScore = -1;
-  for (let s of SUITS) {
-    if (s === excludeSuit) continue;
-    const sc = handStrength(hand, s);
-    if (sc > bestScore) { bestScore = sc; best = s; }
-  }
-  return best || SUITS.find(s => s !== excludeSuit);
+function bestSuit(hand,excl){
+  let best=null,bs=-1;
+  for(let s of SUITS){if(s===excl)continue;const sc=handStrength(hand,s);if(sc>bs){bs=sc;best=s;}}
+  return best||SUITS.find(s=>s!==excl);
 }
-function humanCallSuit(suit) {
-  hideBidPanel(); G.trump = suit; G.makerTeam = TEAM[0];
-  setStatus('You call ' + suit + ' as trump');
-  setTimeout(() => startPlay(), 400);
-}
-function humanPass2() {
+function humanCallSuit(s){hideBidPanel();G.trump=s;G.makerTeam=TEAM[0];setStatus('You call '+s+' as trump');setTimeout(()=>startPlay(),400);}
+function humanPass2(){
   hideBidPanel();
-  if (G.currentPlayer === G.dealer) {
-    const suit = bestSuitForHand(G.hands[0], G.flipCard.s);
-    G.trump = suit; G.makerTeam = TEAM[0];
-    setStatus('You call ' + suit + ' (stuck as dealer)');
-    setTimeout(() => startPlay(), 400);
-    return;
-  }
-  setStatus('You pass'); advanceBid2();
+  if(G.currentPlayer===G.dealer){const s=bestSuit(G.hands[0],G.flipCard.s);G.trump=s;G.makerTeam=TEAM[0];setStatus('You call '+s+' (stuck as dealer)');setTimeout(()=>startPlay(),400);return;}
+  setStatus('You pass');advanceBid2();
 }
-function advanceBid2() {
-  if (G.currentPlayer === G.dealer) {
-    const p = G.dealer;
-    if (p === 0) { bid2Turn(); return; }
-    const suit = bestSuitForHand(G.hands[p], G.flipCard.s);
-    G.trump = suit; G.makerTeam = TEAM[p];
-    setStatus(PLAYER_NAMES[p] + ' is stuck — calls ' + suit);
-    setTimeout(() => startPlay(), 500);
-  } else {
-    G.currentPlayer = (G.currentPlayer + 1) % 4;
-    setTimeout(() => bid2Turn(), 600);
-  }
+function advanceBid2(){
+  if(G.currentPlayer===G.dealer){
+    const p=G.dealer;
+    if(p===0){bid2Turn();return;}
+    const s=bestSuit(G.hands[p],G.flipCard.s);G.trump=s;G.makerTeam=TEAM[p];
+    setStatus(PLAYER_NAMES[p]+' is stuck — calls '+s);setTimeout(()=>startPlay(),500);
+  } else {G.currentPlayer=(G.currentPlayer+1)%4;setTimeout(()=>bid2Turn(),600);}
 }
 
-// ============================
 // PLAY
-// ============================
-function startPlay() {
-  G.phase = 'play';
-  G.currentTrick = [];
-  G.trickLeader = (G.dealer + 1) % 4;
-  G.currentPlayer = G.trickLeader;
-  if (G.goingAlone && G.alonePlayer >= 0) G.hands[(G.alonePlayer + 2) % 4] = [];
-  hideKitty(); hideBidPanel(); updateTrumpDisplay(); renderAll();
-  setStatus(G.trump + ' is trump. ' + PLAYER_NAMES[G.trickLeader] + ' leads.');
-  setTimeout(() => playTurn(), 600);
+function startPlay(){
+  G.phase='play';G.currentTrick=[];G.trickLeader=(G.dealer+1)%4;G.currentPlayer=G.trickLeader;
+  if(G.goingAlone&&G.alonePlayer>=0) G.hands[(G.alonePlayer+2)%4]=[];
+  hideKitty();hideBidPanel();updateTrumpDisplay();renderAll();
+  setStatus(G.trump+' is trump. '+PLAYER_NAMES[G.trickLeader]+' leads.');
+  setTimeout(()=>playTurn(),600);
 }
-function playTurn() {
-  const p = G.currentPlayer;
-  if (G.goingAlone && G.alonePlayer >= 0) {
-    const partner = (G.alonePlayer + 2) % 4;
-    if (p === partner) { G.currentPlayer = (p + 1) % 4; playTurn(); return; }
-  }
+function playTurn(){
+  const p=G.currentPlayer;
+  if(G.goingAlone&&G.alonePlayer>=0){const partner=(G.alonePlayer+2)%4;if(p===partner){G.currentPlayer=(p+1)%4;playTurn();return;}}
   renderAll();
-  if (p === 0) {
-    setStatus('Your turn — tap a card to play');
-    enableHandCards();
-  } else {
-    setStatus(PLAYER_NAMES[p] + ' is thinking...');
-    setTimeout(() => {
-      const card = aiChooseCard(p);
-      G.hands[p].splice(G.hands[p].indexOf(card), 1);
-      G.currentTrick.push({ player: p, card });
-      renderAll(); advanceTrick();
-    }, 700);
+  if(p===0){setStatus('Your turn — tap a card to play');enableHandCards();}
+  else{
+    setStatus(PLAYER_NAMES[p]+' is thinking...');
+    setTimeout(()=>{
+      const card=aiChooseCard(p);
+      G.hands[p].splice(G.hands[p].indexOf(card),1);
+      G.currentTrick.push({player:p,card});
+      renderAll();advanceTrick();
+    },700);
   }
 }
-function humanPlayCard(card) {
+function humanPlayCard(card){
   disableHandCards();
-  G.hands[0].splice(G.hands[0].indexOf(card), 1);
-  G.currentTrick.push({ player: 0, card });
-  renderAll(); advanceTrick();
+  G.hands[0].splice(G.hands[0].indexOf(card),1);
+  G.currentTrick.push({player:0,card});
+  renderAll();advanceTrick();
 }
-function advanceTrick() {
-  const trickSize = G.goingAlone ? 3 : 4;
-  if (G.currentTrick.length < trickSize) {
-    G.currentPlayer = (G.currentPlayer + 1) % 4;
-    if (G.goingAlone && G.alonePlayer >= 0) {
-      const partner = (G.alonePlayer + 2) % 4;
-      if (G.currentPlayer === partner) G.currentPlayer = (G.currentPlayer + 1) % 4;
-    }
+function advanceTrick(){
+  const sz=G.goingAlone?3:4;
+  if(G.currentTrick.length<sz){
+    G.currentPlayer=(G.currentPlayer+1)%4;
+    if(G.goingAlone&&G.alonePlayer>=0){const p=(G.alonePlayer+2)%4;if(G.currentPlayer===p)G.currentPlayer=(G.currentPlayer+1)%4;}
     playTurn();
   } else {
-    const winner = trickWinner(G.currentTrick, G.trump);
-    G.lastCompletedTrick = { trick: [...G.currentTrick], winner };
-    document.getElementById('last-trick-btn').style.display = '';
-    const winTeam = TEAM[winner];
-    G.tricksWon[winTeam]++;
-    updateTrickScore();
-    const msg = winTeam === 0
-      ? PLAYER_NAMES[winner] + ' wins the trick!'
-      : PLAYER_NAMES[winner] + ' takes the trick';
-    showTrickBanner(msg, () => {
-      G.currentTrick = [];
-      G.trickLeader = winner;
-      G.currentPlayer = winner;
-      renderAll();
-      if (G.tricksWon[0] + G.tricksWon[1] >= 5) scoreHand();
-      else { setStatus(PLAYER_NAMES[winner] + ' leads next.'); setTimeout(() => playTurn(), 400); }
+    const winner=trickWinner(G.currentTrick,G.trump);
+    G.lastCompletedTrick={trick:[...G.currentTrick],winner};
+    document.getElementById('last-trick-btn').style.display='';
+    const wt=TEAM[winner];
+    G.tricksWon[wt]++;updateTrickScore();
+    const msg=wt===0?PLAYER_NAMES[winner]+' wins the trick!':PLAYER_NAMES[winner]+' takes the trick';
+    showTrickBanner(msg,()=>{
+      G.currentTrick=[];G.trickLeader=winner;G.currentPlayer=winner;renderAll();
+      if(G.tricksWon[0]+G.tricksWon[1]>=5) scoreHand();
+      else{setStatus(PLAYER_NAMES[winner]+' leads next.');setTimeout(()=>playTurn(),400);}
     });
   }
 }
 
-// ============================
-// SCORING + CLOTHING
-// ============================
-function scoreHand() {
-  G.phase = 'handEnd';
-  const makers = G.makerTeam;
-  const makerTricks = G.tricksWon[makers];
-  let pts = 0, title = '', desc = '';
-  let weScored = false;
-
-  if (makerTricks >= 3) {
-    if (makerTricks === 5) {
-      pts = G.goingAlone ? 4 : 2;
-      title = G.goingAlone ? 'Loner March!' : 'March!';
-      desc = (makers === 0 ? 'Your team' : 'Opponents') + ' won all 5 tricks!';
-    } else {
-      pts = 1;
-      title = makers === 0 ? 'You made it!' : 'Opponents made it';
-      desc = (makers === 0 ? 'Your team' : 'They') + ' won ' + makerTricks + ' tricks.';
-    }
-    G.gameScore[makers] += pts;
-    weScored = (makers === 0);
+// SCORING
+function scoreHand(){
+  G.phase='handEnd';
+  const makers=G.makerTeam, mt=G.tricksWon[makers];
+  let pts=0,title='',desc='',weScored=false;
+  if(mt>=3){
+    if(mt===5){pts=G.goingAlone?4:2;title=G.goingAlone?'Loner March!':'March!';desc=(makers===0?'Your team':'Opponents')+' won all 5 tricks!';}
+    else{pts=1;title=makers===0?'You made it!':'Opponents made it';desc=(makers===0?'Your team':'They')+' won '+mt+' tricks.';}
+    G.gameScore[makers]+=pts;weScored=(makers===0);
   } else {
-    const defenders = 1 - makers;
-    pts = 2;
-    title = makers === 0 ? 'Euchred!' : 'Euchre!';
-    desc = makers === 0
-      ? 'You were euchred. Opponents get 2 pts.'
-      : 'You euchred them! Your team gets 2 pts.';
-    G.gameScore[defenders] += pts;
-    weScored = (makers === 1);
+    const def=1-makers;pts=2;
+    title=makers===0?'Euchred!':'Euchre!';
+    desc=makers===0?'You were euchred. Opponents get 2 pts.':'You euchred them! Your team gets 2 pts.';
+    G.gameScore[def]+=pts;weScored=(makers===1);
   }
 
-  // Update clothing
-  const prevLevel = G.clothingLevel;
-  if (weScored) G.clothingLevel = Math.min(5, G.clothingLevel + 1);
-  else          G.clothingLevel = Math.max(0, G.clothingLevel - 1);
+  const prevLola=G.lolaLevel, prevOpp=G.oppLevel;
+  if(weScored) G.oppLevel=Math.max(0,G.oppLevel-1);
+  else         G.lolaLevel=Math.max(0,G.lolaLevel-1);
 
   let quip;
-  if (G.clothingLevel < prevLevel) {
-    quip = REMOVAL_QUIPS[5 - prevLevel];
-  } else if (G.clothingLevel > prevLevel) {
-    quip = REPLACE_QUIPS[5 - G.clothingLevel];
-  } else {
-    quip = IDLE_QUIPS[Math.floor(Math.random() * IDLE_QUIPS.length)];
-  }
-  G.lastQuip = quip;
+  if(!weScored&&G.lolaLevel<prevLola) quip=LOLA_REMOVAL[5-prevLola];
+  else if(weScored&&G.oppLevel<prevOpp) quip=OPP_REMOVAL[5-prevOpp];
+  else quip=IDLE_QUIPS[Math.floor(Math.random()*IDLE_QUIPS.length)];
+  G.lastQuip=quip;
 
-  updateCharacter();
-  updateScoreDisplay();
-  renderAll();
-
-  const breakdown = 'Us: ' + G.tricksWon[0] + ' tricks | Them: ' + G.tricksWon[1] + ' tricks';
-  setTimeout(() => showRoundOverlay(title, desc, quip, breakdown), 800);
+  updateAllCharacters();updateScoreDisplay();renderAll();
+  const bd='Us: '+G.tricksWon[0]+' tricks | Them: '+G.tricksWon[1]+' tricks';
+  setTimeout(()=>showRoundOverlay(title,desc,quip,bd),800);
 }
 
-function showRoundOverlay(title, desc, quip, breakdown) {
-  document.getElementById('round-title').textContent = title;
-  document.getElementById('round-desc').textContent = desc;
-  document.getElementById('round-quip').textContent = quip;
-  document.getElementById('round-breakdown').textContent = breakdown;
-
-  const mainSvg = document.getElementById('lady-svg');
-  const wrap = document.getElementById('round-char-svg-wrap');
-  if (mainSvg && wrap) {
-    const clone = mainSvg.cloneNode(true);
-    clone.removeAttribute('id');
-    clone.style.width = '100%';
-    clone.style.height = '100%';
-    wrap.innerHTML = '';
-    wrap.appendChild(clone);
-  }
-
+function showRoundOverlay(title,desc,quip,breakdown){
+  document.getElementById('round-title').textContent=title;
+  document.getElementById('round-desc').textContent=desc;
+  document.getElementById('round-quip').textContent=quip;
+  document.getElementById('round-breakdown').textContent=breakdown;
+  const src=document.getElementById('lola-svg');
+  const wrap=document.getElementById('round-char-svg-wrap');
+  if(src&&wrap){const cl=src.cloneNode(true);cl.removeAttribute('id');cl.style.width='100%';cl.style.height='100%';wrap.innerHTML='';wrap.appendChild(cl);}
   document.getElementById('round-overlay').classList.add('show');
 }
 
-function showGameOver() {
-  const weWon = G.gameScore[0] >= 10;
-  document.getElementById('gameover-title').textContent = weWon ? 'You Win!' : 'Game Over';
-  document.getElementById('gameover-score').textContent = 'Final Score: ' + G.gameScore[0] + ' – ' + G.gameScore[1];
-  const msgs = weWon
-    ? ['"Not bad, hotshot. Not bad at all." 😎', '"Lucky cards… or skill? Veronica thinks it\'s luck." 😈', '"You cleaned up! Veronica is impressed. 🏆"']
-    : ['"Better luck next time, Larry." 😅', '"The cards were against you. So was Veronica." 😈', '"Don\'t feel too bad — she always wins in the end." 😈'];
-  document.getElementById('gameover-msg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+function showGameOver(){
+  const w=G.gameScore[0]>=10;
+  document.getElementById('gameover-title').textContent=w?'You Win!':'Game Over';
+  document.getElementById('gameover-score').textContent='Final Score: '+G.gameScore[0]+' – '+G.gameScore[1];
+  const msgs=w
+    ?['"Not bad, hotshot. Not bad at all." 😎','"Lucky cards… Lola thinks it\'s luck." 😈','"You cleaned up! Amber & Sofia are impressed. 🏆"']
+    :['"Better luck next time, Larry." 😅','"Amber & Sofia send their regards." 😈','"Don\'t feel too bad — the girls always win in the end." 😈'];
+  document.getElementById('gameover-msg').textContent=msgs[Math.floor(Math.random()*msgs.length)];
   document.getElementById('gameover-overlay').classList.add('show');
 }
 
-// ============================
-// CHARACTER SYSTEM
-// ============================
-function updateCharacter() {
-  const level = G.clothingLevel;
-  // i=0 jacket: visible when level >= 5
-  // i=1 blouse: visible when level >= 4
-  // i=2 skirt:  visible when level >= 3
-  // i=3 shoes:  visible when level >= 2
-  // i=4 stocks: visible when level >= 1
-  CLOTHING_IDS.forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = (level >= 5 - i) ? '' : 'none';
+// CHARACTER UPDATE
+function updateAllCharacters(){
+  updateDots('lola-dots',G.lolaLevel,'#d4af37');
+  LOLA_IDS.forEach((id,i)=>{const el=document.getElementById(id);if(el)el.style.display=G.lolaLevel>=(5-i)?'':'none';});
+
+  OPP_PREFIXES.forEach(pfx=>{
+    LAYER_NAMES.forEach((ln,i)=>{const el=document.getElementById(pfx+'-'+ln);if(el)el.style.display=G.oppLevel>=(5-i)?'':'none';});
   });
+  updateDots('amber-dots',G.oppLevel,'#1565C0');
+  updateDots('sofia-dots',G.oppLevel,'#00838F');
 
-  const dotsEl = document.getElementById('clothing-dots');
-  if (dotsEl) {
-    dotsEl.innerHTML = '';
-    for (let i = 0; i < 5; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'clothing-dot' + (i >= level ? ' off' : '');
-      dotsEl.appendChild(dot);
-    }
+  const qel=document.getElementById('char-quip');
+  if(qel) qel.textContent=G.lastQuip||IDLE_QUIPS[0];
+}
+function updateDots(containerId,level,color){
+  const el=document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML='';
+  for(let i=0;i<5;i++){
+    const d=document.createElement('div');
+    d.className='char-dot'+(i>=level?' off':'');
+    if(i<level) d.style.background=color;
+    el.appendChild(d);
   }
-
-  const quipEl = document.getElementById('char-quip');
-  if (quipEl) quipEl.textContent = G.lastQuip || IDLE_QUIPS[0];
 }
 
-// ============================
 // RENDER
-// ============================
-function renderAll() {
+function renderAll(){
   renderHand(0);
-  renderOpponent(2, 'zone-top', false);
-  renderOpponent(1, 'zone-left', true);
-  renderOpponent(3, 'zone-right', true);
-  renderTrick();
-  updateScoreDisplay();
+  renderOpponent(2,'zone-top',false);
+  renderOpponent(1,'zone-left',true);
+  renderOpponent(3,'zone-right',true);
+  renderTrick();updateScoreDisplay();
 }
-function renderHand(playerIdx) {
-  const el = document.getElementById('player-hand');
-  el.innerHTML = '';
-  const hand = G.hands[playerIdx];
-  const ledSuit = G.currentTrick.length > 0 ? effectiveSuit(G.currentTrick[0].card, G.trump) : null;
-  const legal = G.phase === 'play' ? legalCards(hand, ledSuit, G.trump) : hand;
-  hand.forEach(card => {
-    const isLegal = legal.includes(card);
-    const div = document.createElement('div');
-    div.className = 'hand-card' + (G.phase === 'play' && G.currentPlayer === 0 && !isLegal ? ' not-playable' : '');
-    div.appendChild(makeCardEl(card, false));
-    if (G.phase === 'play' && G.currentPlayer === 0 && isLegal)
-      div.addEventListener('click', () => humanPlayCard(card));
-    else if (G.phase === 'discard') {
-      div.addEventListener('click', () => humanDiscard(card));
-      div.style.cursor = 'pointer';
-    }
+function renderHand(pi){
+  const el=document.getElementById('player-hand');el.innerHTML='';
+  const hand=G.hands[pi];
+  const ls=G.currentTrick.length>0?effectiveSuit(G.currentTrick[0].card,G.trump):null;
+  const legal=G.phase==='play'?legalCards(hand,ls,G.trump):hand;
+  hand.forEach(card=>{
+    const isL=legal.includes(card);
+    const div=document.createElement('div');
+    div.className='hand-card'+(G.phase==='play'&&G.currentPlayer===0&&!isL?' not-playable':'');
+    div.appendChild(makeCardEl(card,false));
+    if(G.phase==='play'&&G.currentPlayer===0&&isL) div.addEventListener('click',()=>humanPlayCard(card));
+    else if(G.phase==='discard'){div.addEventListener('click',()=>humanDiscard(card));div.style.cursor='pointer';}
     el.appendChild(div);
   });
 }
-function humanDiscard(card) {
-  G.hands[0].splice(G.hands[0].indexOf(card), 1);
-  G.phase = 'play';
-  hideBidPanel();
-  setStatus('');
-  setTimeout(() => startPlay(), 300);
+function humanDiscard(card){
+  G.hands[0].splice(G.hands[0].indexOf(card),1);G.phase='play';hideBidPanel();setStatus('');
+  setTimeout(()=>startPlay(),300);
 }
-function renderOpponent(playerIdx, zoneId, vertical) {
-  const el = document.getElementById(zoneId);
-  el.innerHTML = '';
-  for (let i = 0; i < G.hands[playerIdx].length; i++) el.appendChild(makeCardEl(null, true, true));
+function renderOpponent(pi,zid){
+  const el=document.getElementById(zid);el.innerHTML='';
+  for(let i=0;i<G.hands[pi].length;i++) el.appendChild(makeCardEl(null,true,true));
 }
-function renderTrick() {
-  ['slot-top','slot-left','slot-right','slot-bottom'].forEach(id => document.getElementById(id).innerHTML = '');
-  G.currentTrick.forEach(({player, card}) => {
-    document.getElementById(SLOTS[player]).appendChild(makeCardEl(card, false));
-  });
+function renderTrick(){
+  ['slot-top','slot-left','slot-right','slot-bottom'].forEach(id=>document.getElementById(id).innerHTML='');
+  G.currentTrick.forEach(({player,card})=>document.getElementById(SLOTS[player]).appendChild(makeCardEl(card,false)));
 }
-function makeCardEl(card, isBack, small) {
-  const div = document.createElement('div');
-  const cls = 'card' + (small ? ' small' : '');
-  if (isBack) { div.className = cls + ' back'; return div; }
-  div.className = cls + (isRed(card.s) ? ' red' : '');
-  const top = document.createElement('div');
-  top.className = 'card-corner';
-  top.innerHTML = '<span class="card-rank">' + card.r + '</span><span class="card-suit">' + card.s + '</span>';
-  const mid = document.createElement('div');
-  mid.className = 'card-center';
-  mid.textContent = card.s;
-  const bot = document.createElement('div');
-  bot.className = 'card-corner bottom';
-  bot.innerHTML = '<span class="card-rank">' + card.r + '</span><span class="card-suit">' + card.s + '</span>';
-  div.appendChild(top); div.appendChild(mid); div.appendChild(bot);
+function makeCardEl(card,isBack,small){
+  const div=document.createElement('div');
+  const cls='card'+(small?' small':'');
+  if(isBack){div.className=cls+' back';return div;}
+  div.className=cls+(isRed(card.s)?' red':'');
+  const top=document.createElement('div');top.className='card-corner';
+  top.innerHTML='<span class="card-rank">'+card.r+'</span><span class="card-suit">'+card.s+'</span>';
+  const mid=document.createElement('div');mid.className='card-center';mid.textContent=card.s;
+  const bot=document.createElement('div');bot.className='card-corner bottom';
+  bot.innerHTML='<span class="card-rank">'+card.r+'</span><span class="card-suit">'+card.s+'</span>';
+  div.appendChild(top);div.appendChild(mid);div.appendChild(bot);
   return div;
 }
 
-// ============================
-// KITTY / TABLE
-// ============================
-function showKitty() {
-  const kitty = document.getElementById('kitty-area');
-  kitty.style.display = 'flex';
-  kitty.innerHTML = '';
-  const lbl = document.createElement('div');
-  lbl.textContent = 'Turn-up';
-  lbl.style.cssText = 'font-size:0.62rem;opacity:0.62;text-transform:uppercase;letter-spacing:0.1em';
-  kitty.appendChild(lbl);
-  kitty.appendChild(makeCardEl(G.flipCard, false));
-  document.getElementById('trick-area').style.display = 'none';
+// KITTY
+function showKitty(){
+  const k=document.getElementById('kitty-area');k.style.display='flex';k.innerHTML='';
+  const l=document.createElement('div');l.textContent='Turn-up';
+  l.style.cssText='font-size:0.6rem;opacity:0.6;text-transform:uppercase;letter-spacing:0.1em';
+  k.appendChild(l);k.appendChild(makeCardEl(G.flipCard,false));
+  document.getElementById('trick-area').style.display='none';
 }
-function hideKitty() {
-  document.getElementById('kitty-area').style.display = 'none';
-  document.getElementById('trick-area').style.display = 'block';
-}
+function hideKitty(){document.getElementById('kitty-area').style.display='none';document.getElementById('trick-area').style.display='block';}
 
-// ============================
-// UI HELPERS
-// ============================
-function suitSpan(suit) {
-  return '<span style="color:' + (isRed(suit) ? '#c0392b' : '#111') + '">' + suit + '</span>';
-}
-function showBidPanel(label, buttons) {
-  document.getElementById('bid-panel').classList.remove('hidden');
-  document.getElementById('bid-label').innerHTML = label;
-  const row = document.getElementById('bid-buttons');
-  row.innerHTML = '';
-  buttons.forEach(b => {
-    const btn = document.createElement('button');
-    btn.className = 'bid-btn ' + b.cls;
-    btn.innerHTML = b.label;
-    btn.addEventListener('click', b.action);
-    row.appendChild(btn);
+// LAST TRICK
+function showLastTrick(){
+  if(!G.lastCompletedTrick) return;
+  const {trick,winner}=G.lastCompletedTrick;
+  const grid=document.getElementById('lt-grid');grid.innerHTML='';
+  trick.forEach(({player,card})=>{
+    const item=document.createElement('div');
+    item.className='lt-item'+(player===winner?' winner':'');
+    item.appendChild(makeCardEl(card,false));
+    const nm=document.createElement('div');nm.textContent=PLAYER_NAMES[player]+(player===winner?' ★':'');
+    item.appendChild(nm);grid.appendChild(item);
   });
-}
-function hideBidPanel() { document.getElementById('bid-panel').classList.add('hidden'); }
-function setStatus(msg) { document.getElementById('status-msg').innerHTML = msg; }
-function updateScoreDisplay() {
-  document.getElementById('score-us').textContent = G.gameScore[0];
-  document.getElementById('score-them').textContent = G.gameScore[1];
-}
-function updateTrickScore() {
-  document.getElementById('tricks-us').textContent = G.tricksWon[0] + ' trick' + (G.tricksWon[0] !== 1 ? 's' : '');
-  document.getElementById('tricks-them').textContent = G.tricksWon[1] + ' trick' + (G.tricksWon[1] !== 1 ? 's' : '');
-}
-function updateTrumpDisplay() {
-  const el = document.getElementById('trump-suit-icon');
-  if (G.trump) {
-    el.innerHTML = '<span style="color:' + (isRed(G.trump) ? '#ff8a8a' : '#fff') + ';font-size:1.5rem">' + G.trump + '</span>';
-  } else {
-    el.textContent = '—';
-  }
-}
-function enableHandCards() {
-  document.querySelectorAll('.hand-card:not(.not-playable)').forEach(el => el.style.cursor = 'pointer');
-}
-function disableHandCards() {
-  document.querySelectorAll('.hand-card').forEach(el => {
-    el.style.cursor = 'default';
-    el.replaceWith(el.cloneNode(true));
-  });
-}
-function showTrickBanner(msg, callback) {
-  const overlay = document.getElementById('trick-overlay');
-  document.getElementById('trick-banner').textContent = msg;
-  overlay.classList.add('show');
-  setTimeout(() => { overlay.classList.remove('show'); setTimeout(callback, 200); }, 900);
-}
-function showLastTrick() {
-  if (!G.lastCompletedTrick) return;
-  const { trick, winner } = G.lastCompletedTrick;
-  const grid = document.getElementById('lt-grid');
-  grid.innerHTML = '';
-  trick.forEach(({player, card}) => {
-    const item = document.createElement('div');
-    item.className = 'lt-item' + (player === winner ? ' winner' : '');
-    const cardEl = makeCardEl(card, false);
-    const name = document.createElement('div');
-    name.textContent = PLAYER_NAMES[player] + (player === winner ? ' ★' : '');
-    item.appendChild(cardEl);
-    item.appendChild(name);
-    grid.appendChild(item);
-  });
-  document.getElementById('lt-winner').textContent = PLAYER_NAMES[winner] + ' won this trick';
+  document.getElementById('lt-winner').textContent=PLAYER_NAMES[winner]+' won this trick';
   document.getElementById('last-trick-overlay').classList.add('show');
 }
-function hideLastTrick() {
-  document.getElementById('last-trick-overlay').classList.remove('show');
+function hideLastTrick(){document.getElementById('last-trick-overlay').classList.remove('show');}
+
+// UI
+function suitSpan(s){return '<span style="color:'+(isRed(s)?'#c0392b':'#111')+'">'+s+'</span>';}
+function showBidPanel(label,btns){
+  document.getElementById('bid-panel').classList.remove('hidden');
+  document.getElementById('bid-label').innerHTML=label;
+  const row=document.getElementById('bid-buttons');row.innerHTML='';
+  btns.forEach(b=>{
+    const btn=document.createElement('button');btn.className='bid-btn '+b.cls;
+    btn.innerHTML=b.label;btn.addEventListener('click',b.action);row.appendChild(btn);
+  });
 }
-function toggleRules() {
-  const box = document.getElementById('rules-box');
-  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+function hideBidPanel(){document.getElementById('bid-panel').classList.add('hidden');}
+function setStatus(msg){document.getElementById('status-msg').innerHTML=msg;}
+function updateScoreDisplay(){document.getElementById('score-us').textContent=G.gameScore[0];document.getElementById('score-them').textContent=G.gameScore[1];}
+function updateTrickScore(){
+  document.getElementById('tricks-us').textContent=G.tricksWon[0]+' trick'+(G.tricksWon[0]!==1?'s':'');
+  document.getElementById('tricks-them').textContent=G.tricksWon[1]+' trick'+(G.tricksWon[1]!==1?'s':'');
 }
+function updateTrumpDisplay(){
+  const el=document.getElementById('trump-suit-icon');
+  if(G.trump) el.innerHTML='<span style="color:'+(isRed(G.trump)?'#ff8a8a':'#fff')+';font-size:1.4rem">'+G.trump+'</span>';
+  else el.textContent='—';
+}
+function enableHandCards(){document.querySelectorAll('.hand-card:not(.not-playable)').forEach(el=>el.style.cursor='pointer');}
+function disableHandCards(){document.querySelectorAll('.hand-card').forEach(el=>{el.style.cursor='default';el.replaceWith(el.cloneNode(true));});}
+function showTrickBanner(msg,cb){
+  const ov=document.getElementById('trick-overlay');
+  document.getElementById('trick-banner').textContent=msg;
+  ov.classList.add('show');
+  setTimeout(()=>{ov.classList.remove('show');setTimeout(cb,200);},900);
+}
+function toggleRules(){const b=document.getElementById('rules-box');b.style.display=b.style.display==='none'?'block':'none';}
 </script>
 </body>
 </html>
