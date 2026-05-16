@@ -3,517 +3,637 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Euchre</title>
+<title>Strip Euchre</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #d4af37;
+  --red: #c0392b;
+  --hot-pink: #FF1744;
+  --card-bg: #fff;
+  --card-radius: 7px;
+  --shadow: 0 3px 10px rgba(0,0,0,0.45);
+}
+body {
+  background: radial-gradient(ellipse at center, #2d1060 0%, #1a0033 55%, #080018 100%);
+  min-height: 100vh;
+  font-family: 'Georgia', serif;
+  color: #fff;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
 
-  :root {
-    --green: #1a6b3a;
-    --green-dark: #0f4a27;
-    --green-felt: #2d8653;
-    --gold: #d4af37;
-    --red: #c0392b;
-    --card-bg: #fff;
-    --card-radius: 8px;
-    --shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
+/* ===== SCREENS ===== */
+.screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+.screen.active { display: flex; }
 
-  body {
-    background: radial-gradient(ellipse at center, #2d8653 0%, #1a6b3a 50%, #0f4a27 100%);
-    min-height: 100vh;
-    font-family: 'Georgia', serif;
-    color: #fff;
-    overflow-x: hidden;
-    user-select: none;
-    -webkit-user-select: none;
-  }
+/* ===== START SCREEN ===== */
+#start-screen { position: relative; overflow: hidden; }
+#start-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none;
+  z-index: 1;
+}
+.start-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
+.title-badge {
+  background: var(--hot-pink);
+  color: #fff;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  font-family: monospace;
+}
+#start-screen h1 {
+  font-size: 2.9rem;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 24px rgba(255,105,180,0.7), 2px 4px 8px rgba(0,0,0,0.6);
+  margin-bottom: 4px;
+  color: #FFD700;
+  text-transform: uppercase;
+}
+#start-screen .subtitle {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  color: #FF69B4;
+}
+.suit-row { font-size: 1.6rem; letter-spacing: 0.25em; margin-bottom: 24px; opacity: 0.8; }
+.tagline {
+  font-size: 0.76rem;
+  font-style: italic;
+  opacity: 0.62;
+  margin-bottom: 28px;
+  color: #ddd;
+  text-align: center;
+  max-width: 250px;
+  line-height: 1.55;
+}
+.btn {
+  background: var(--gold);
+  color: #1a0b00;
+  border: none;
+  padding: 15px 42px;
+  font-size: 1.05rem;
+  font-family: Georgia, serif;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(212,175,55,0.45), 0 0 30px rgba(212,175,55,0.15);
+  letter-spacing: 0.05em;
+  transition: transform 0.1s, box-shadow 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 50px;
+}
+.btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.btn-secondary {
+  background: rgba(255,255,255,0.09);
+  color: #fff;
+  margin-top: 10px;
+  box-shadow: none;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.rules-box {
+  margin-top: 26px;
+  background: rgba(0,0,0,0.38);
+  border-radius: 12px;
+  padding: 15px 18px;
+  font-size: 0.76rem;
+  line-height: 1.7;
+  opacity: 0.9;
+  max-width: 310px;
+  text-align: left;
+  border: 1px solid rgba(255,215,0,0.18);
+}
+.rules-box h3 { margin-bottom: 8px; font-size: 0.82rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; }
 
-  #app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    max-width: 480px;
-    margin: 0 auto;
-    position: relative;
-  }
+/* ===== GAME SCREEN ===== */
+#game-screen { display: none; flex-direction: column; min-height: 100vh; padding: 0; }
+#game-screen.active { display: flex; }
 
-  /* ===== SCREENS ===== */
-  .screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-  .screen.active { display: flex; }
+/* Score bar */
+#scorebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.45);
+  border-bottom: 1px solid rgba(255,215,0,0.18);
+  min-height: 46px;
+}
+.score-team { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.score-label { opacity: 0.5; font-size: 0.58rem; text-transform: uppercase; }
+.score-val { font-size: 1.35rem; font-weight: bold; color: var(--gold); }
+.score-tricks { font-size: 0.6rem; opacity: 0.6; }
+#trump-display { font-size: 1.35rem; display: flex; flex-direction: column; align-items: center; line-height: 1; }
+#trump-display .trump-label { font-size: 0.5rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
 
-  /* Start Screen */
-  #start-screen h1 {
-    font-size: 3.5rem;
-    letter-spacing: 0.05em;
-    text-shadow: 2px 4px 8px rgba(0,0,0,0.5);
-    margin-bottom: 8px;
-  }
-  #start-screen .subtitle {
-    font-size: 0.9rem;
-    opacity: 0.7;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 50px;
-  }
-  .btn {
-    background: var(--gold);
-    color: #1a0b00;
-    border: none;
-    padding: 16px 44px;
-    font-size: 1.1rem;
-    font-family: Georgia, serif;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-    letter-spacing: 0.05em;
-    transition: transform 0.1s, box-shadow 0.1s;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-  .btn-secondary {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    margin-top: 12px;
-  }
-  .rules-box {
-    margin-top: 40px;
-    background: rgba(0,0,0,0.25);
-    border-radius: 12px;
-    padding: 18px 20px;
-    font-size: 0.82rem;
-    line-height: 1.65;
-    opacity: 0.88;
-    max-width: 340px;
-    text-align: left;
-  }
-  .rules-box h3 { margin-bottom: 8px; font-size: 0.9rem; letter-spacing: 0.08em; opacity: 0.7; text-transform: uppercase; }
+/* ===== CHARACTER PANEL ===== */
+#character-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 7px 12px;
+  background: rgba(0,0,0,0.32);
+  border-bottom: 1px solid rgba(255,105,180,0.2);
+}
+#character-frame {
+  width: 58px;
+  height: 84px;
+  border: 1.5px solid var(--gold);
+  border-radius: 6px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #200040, #100020);
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(212,175,55,0.25);
+}
+#lady-svg { width: 100%; height: 100%; display: block; }
+#char-info { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
+#char-name { font-size: 0.74rem; color: #FF69B4; letter-spacing: 0.04em; }
+#clothing-dots { display: flex; gap: 4px; }
+.clothing-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--gold);
+  transition: background 0.4s, transform 0.4s;
+  flex-shrink: 0;
+}
+.clothing-dot.off { background: transparent; border: 1.5px solid rgba(255,255,255,0.18); }
+#char-quip { font-size: 0.66rem; opacity: 0.72; font-style: italic; line-height: 1.4; color: #ddd; }
 
-  /* ===== GAME SCREEN ===== */
-  #game-screen {
-    display: none;
-    flex-direction: column;
-    min-height: 100vh;
-    padding: 0;
-    background: transparent;
-  }
-  #game-screen.active { display: flex; }
+/* Table area */
+#table-area {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.player-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px 6px;
+}
+.player-name-tag {
+  position: absolute;
+  font-size: 0.58rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(0,0,0,0.3);
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+#top-name { top: 64px; }
+#left-name { left: 3px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
+#right-name { right: 3px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
+#middle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  position: relative;
+  min-height: 140px;
+}
+#zone-left { flex-direction: column; padding: 0 3px; }
+#zone-right { flex-direction: column; padding: 0 3px; }
+#center-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 130px;
+  min-width: 130px;
+}
+#trick-area { position: relative; width: 124px; height: 114px; }
+.trick-card-slot { position: absolute; display: flex; align-items: center; justify-content: center; }
+#slot-top    { top: 0;    left: 50%; transform: translateX(-50%); }
+#slot-left   { left: 0;   top: 50%;  transform: translateY(-50%); }
+#slot-right  { right: 0;  top: 50%;  transform: translateY(-50%); }
+#slot-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+#kitty-area { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+#status-msg {
+  text-align: center;
+  font-size: 0.76rem;
+  padding: 5px 12px;
+  min-height: 24px;
+  opacity: 0.85;
+  letter-spacing: 0.02em;
+}
 
-  /* Score bar */
-  #scorebar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 14px;
-    background: rgba(0,0,0,0.3);
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-  }
-  .score-team { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  .score-label { opacity: 0.6; font-size: 0.65rem; text-transform: uppercase; }
-  .score-val { font-size: 1.4rem; font-weight: bold; }
-  .score-tricks { font-size: 0.7rem; opacity: 0.7; }
-  #trump-display {
-    font-size: 1.5rem;
-    display: flex; flex-direction: column; align-items: center; gap: 0;
-    line-height: 1;
-  }
-  #trump-display .trump-label { font-size: 0.55rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; }
+/* ===== CARDS ===== */
+.card {
+  width: 48px;
+  height: 70px;
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #111;
+  position: relative;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  flex-shrink: 0;
+}
+.card.red { color: var(--red); }
+.card.back {
+  background: linear-gradient(135deg, #2d1060 25%, #1a0033 100%);
+  border: 1.5px solid rgba(255,215,0,0.18);
+}
+.card.back::after { content: '♥'; font-size: 1.3rem; color: rgba(255,105,180,0.2); }
+.card-corner { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.card-corner.bottom { transform: rotate(180deg); }
+.card-rank { font-size: 0.75rem; line-height: 1; }
+.card-suit { font-size: 0.7rem; line-height: 1; }
+.card-center { font-size: 1.25rem; }
+.card.small { width: 32px; height: 48px; font-size: 0.58rem; padding: 2px; }
+.card.small .card-center { font-size: 0.85rem; }
+.card.small .card-rank { font-size: 0.52rem; }
+.card.small .card-suit { font-size: 0.5rem; }
+.card.small.back::after { font-size: 0.9rem; }
 
-  /* Table area */
-  #table-area {
-    flex: 1;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-  }
+#player-hand { display: flex; justify-content: center; padding: 6px 4px 10px; gap: 4px; flex-wrap: nowrap; }
+.hand-card {
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.hand-card:active { transform: translateY(-12px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+.hand-card.not-playable { opacity: 0.38; cursor: default; }
+.hand-card.selected { transform: translateY(-14px); box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 0 3px var(--gold); }
+#zone-top .card { margin: 0 -13px; }
 
-  /* Player zones */
-  .player-zone {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 6px 8px;
-  }
-  #zone-top { padding-top: 6px; }
-  #zone-bottom { padding-bottom: 6px; }
+/* ===== BID PANEL ===== */
+#bid-panel {
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.4);
+  border-top: 1px solid rgba(255,215,0,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 70px;
+}
+#bid-panel.hidden { display: none; }
+.bid-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.bid-btn {
+  padding: 10px 18px;
+  font-size: 0.86rem;
+  background: rgba(255,255,255,0.92);
+  color: #1a0b00;
+  border: none;
+  border-radius: 24px;
+  font-family: Georgia, serif;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 0.1s;
+  min-height: 44px;
+  min-width: 44px;
+}
+.bid-btn:active { transform: scale(0.95); }
+.bid-btn.suit-btn { font-size: 1.1rem; padding: 10px 15px; }
+.bid-btn.pass { background: rgba(255,255,255,0.18); color: #fff; }
+.bid-btn.order-up { background: var(--gold); }
+.bid-btn.go-alone { background: #e74c3c; color: #fff; }
+#bid-label { font-size: 0.68rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; }
 
-  .player-name-tag {
-    position: absolute;
-    font-size: 0.65rem;
-    opacity: 0.65;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    background: rgba(0,0,0,0.25);
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
-  #top-name { top: 70px; }
-  #left-name { left: 4px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
-  #right-name { right: 4px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; }
+/* ===== OVERLAYS ===== */
+#trick-overlay {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none; z-index: 100;
+}
+#trick-overlay .banner {
+  background: rgba(0,0,0,0.78);
+  color: #fff;
+  padding: 11px 26px;
+  border-radius: 40px;
+  font-size: 0.96rem;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s;
+  border: 1px solid rgba(255,215,0,0.25);
+}
+#trick-overlay.show .banner { opacity: 1; transform: scale(1); }
 
-  /* Middle row with side players */
-  #middle-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    flex: 1;
-    position: relative;
-    min-height: 180px;
-  }
+#round-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.82);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+#round-overlay.show { opacity: 1; pointer-events: all; }
+.round-card {
+  background: linear-gradient(135deg, #1a0033, #2d1060);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 22px 26px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  max-width: 300px;
+  width: 92%;
+}
+.round-card h2 { font-size: 1.45rem; margin-bottom: 6px; color: var(--gold); }
+.round-card p { opacity: 0.85; margin-bottom: 10px; font-size: 0.86rem; line-height: 1.6; }
+.score-breakdown { font-size: 0.74rem; opacity: 0.55; margin-bottom: 6px; font-style: italic; }
+#round-char-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 10px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 10px;
+  border: 1px solid rgba(255,105,180,0.18);
+}
+#round-char-svg-wrap {
+  width: 50px;
+  height: 74px;
+  border: 1.5px solid var(--gold);
+  border-radius: 5px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #200040, #100020);
+  flex-shrink: 0;
+}
+#round-quip { font-size: 0.75rem; font-style: italic; color: #FF69B4; flex: 1; text-align: left; line-height: 1.5; }
 
-  #zone-left { flex-direction: column; padding: 0 4px; }
-  #zone-right { flex-direction: column; padding: 0 4px; }
+#gameover-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 300; opacity: 0; pointer-events: none;
+  transition: opacity 0.4s;
+}
+#gameover-overlay.show { opacity: 1; pointer-events: all; }
+.gameover-card {
+  background: linear-gradient(135deg, #1a0033, #2d1060);
+  border: 2px solid var(--gold);
+  border-radius: 20px;
+  padding: 30px 26px;
+  text-align: center;
+  max-width: 300px;
+  width: 92%;
+  box-shadow: 0 0 40px rgba(212,175,55,0.25);
+}
+.gameover-card h2 { font-size: 1.75rem; margin-bottom: 6px; color: var(--gold); }
+.gameover-card .final-score { font-size: 0.88rem; opacity: 0.68; margin-bottom: 8px; }
+.gameover-msg { font-size: 0.8rem; font-style: italic; color: #FF69B4; margin-bottom: 20px; line-height: 1.55; }
 
-  /* Center play area */
-  #center-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    min-height: 160px;
-    min-width: 160px;
-  }
-
-  /* The trick / played cards layout */
-  #trick-area {
-    position: relative;
-    width: 140px;
-    height: 130px;
-  }
-  .trick-card-slot {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  #slot-top    { top: 0;    left: 50%; transform: translateX(-50%); }
-  #slot-left   { left: 0;   top: 50%;  transform: translateY(-50%); }
-  #slot-right  { right: 0;  top: 50%;  transform: translateY(-50%); }
-  #slot-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
-
-  /* Kitty / flip card in center */
-  #kitty-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  #flip-card-label {
-    font-size: 0.7rem;
-    opacity: 0.7;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  /* Status message */
-  #status-msg {
-    text-align: center;
-    font-size: 0.82rem;
-    padding: 6px 14px;
-    min-height: 28px;
-    opacity: 0.85;
-    letter-spacing: 0.03em;
-  }
-
-  /* ===== CARDS ===== */
-  .card {
-    width: 54px;
-    height: 78px;
-    background: var(--card-bg);
-    border-radius: var(--card-radius);
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4px 3px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #111;
-    position: relative;
-    border: 1.5px solid rgba(0,0,0,0.08);
-    flex-shrink: 0;
-  }
-  .card.red { color: var(--red); }
-  .card.back {
-    background: linear-gradient(135deg, #1a3c6e 25%, #0f2548 100%);
-    border: 2px solid rgba(255,255,255,0.1);
-  }
-  .card.back::after {
-    content: '♠';
-    font-size: 1.6rem;
-    color: rgba(255,255,255,0.15);
-  }
-  .card-corner { display: flex; flex-direction: column; align-items: center; line-height: 1; }
-  .card-corner.bottom { transform: rotate(180deg); }
-  .card-rank { font-size: 0.82rem; line-height: 1; }
-  .card-suit { font-size: 0.78rem; line-height: 1; }
-  .card-center { font-size: 1.4rem; }
-
-  /* Small card variant for side players */
-  .card.small {
-    width: 38px;
-    height: 55px;
-    font-size: 0.65rem;
-    padding: 2px;
-  }
-  .card.small .card-center { font-size: 1rem; }
-  .card.small .card-rank { font-size: 0.6rem; }
-  .card.small .card-suit { font-size: 0.58rem; }
-  .card.small.back::after { font-size: 1.1rem; }
-
-  /* Player's hand cards — playable */
-  #player-hand {
-    display: flex;
-    justify-content: center;
-    padding: 8px 4px 12px;
-    gap: 4px;
-    flex-wrap: nowrap;
-  }
-  .hand-card {
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .hand-card:active, .hand-card.hover { transform: translateY(-12px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-  .hand-card.not-playable { opacity: 0.45; cursor: default; }
-  .hand-card.selected { transform: translateY(-14px); box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 0 3px var(--gold); }
-
-  /* Top player cards - fanned */
-  #zone-top .card { margin: 0 -16px; }
-
-  /* ===== BID PANEL ===== */
-  #bid-panel {
-    padding: 10px 14px;
-    background: rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    min-height: 80px;
-  }
-  #bid-panel.hidden { display: none; }
-  .bid-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .bid-btn {
-    padding: 10px 22px;
-    font-size: 0.9rem;
-    background: rgba(255,255,255,0.9);
-    color: #1a0b00;
-    border: none;
-    border-radius: 24px;
-    font-family: Georgia, serif;
-    font-weight: bold;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    transition: transform 0.1s;
-  }
-  .bid-btn:active { transform: scale(0.95); }
-  .bid-btn.suit-btn { font-size: 1.2rem; padding: 10px 18px; }
-  .bid-btn.pass { background: rgba(255,255,255,0.25); color: #fff; }
-  .bid-btn.order-up { background: var(--gold); }
-  .bid-btn.go-alone { background: #e74c3c; color: #fff; }
-  #bid-label { font-size: 0.72rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.1em; }
-
-  /* ===== TRICK RESULT OVERLAY ===== */
-  #trick-overlay {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    z-index: 100;
-  }
-  #trick-overlay .banner {
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    padding: 14px 30px;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    letter-spacing: 0.05em;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  #trick-overlay.show .banner { opacity: 1; transform: scale(1); }
-
-  /* ===== HAND/ROUND END OVERLAY ===== */
-  #round-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-  #round-overlay.show { opacity: 1; pointer-events: all; }
-  .round-card {
-    background: var(--green-felt);
-    border-radius: 16px;
-    padding: 28px 32px;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    max-width: 280px;
-    width: 90%;
-  }
-  .round-card h2 { font-size: 1.6rem; margin-bottom: 6px; }
-  .round-card p { opacity: 0.8; margin-bottom: 18px; font-size: 0.9rem; line-height: 1.6; }
-  .score-breakdown { font-size: 0.82rem; opacity: 0.7; margin-bottom: 20px; font-style: italic; }
-
-  /* ===== GAME OVER ===== */
-  #gameover-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 300;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s;
-  }
-  #gameover-overlay.show { opacity: 1; pointer-events: all; }
-  .gameover-card {
-    background: linear-gradient(135deg, #1a6b3a, #0f4a27);
-    border: 2px solid var(--gold);
-    border-radius: 20px;
-    padding: 36px 32px;
-    text-align: center;
-    max-width: 300px;
-    width: 90%;
-  }
-  .gameover-card h2 { font-size: 2rem; margin-bottom: 8px; }
-  .gameover-card .final-score { font-size: 1rem; opacity: 0.75; margin-bottom: 24px; }
-
-  /* Dealer chip */
-  .dealer-chip {
-    width: 14px; height: 14px;
-    background: var(--gold);
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 4px var(--gold);
-    flex-shrink: 0;
-  }
-
-  /* Active player highlight */
-  .active-player-indicator {
-    width: 8px; height: 8px;
-    background: #fff;
-    border-radius: 50%;
-    animation: pulse 1s infinite;
-    flex-shrink: 0;
-  }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.dealer-chip { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; display: inline-block; box-shadow: 0 0 4px var(--gold); flex-shrink: 0; }
+.active-player-indicator { width: 7px; height: 7px; background: #fff; border-radius: 50%; animation: pulse 1s infinite; flex-shrink: 0; }
+@keyframes pulse { 0%,100%{ opacity: 1; } 50%{ opacity: 0.25; } }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- START SCREEN -->
-  <div id="start-screen" class="screen active">
-    <h1>Euchre</h1>
-    <div class="subtitle">Classic Card Game</div>
-    <button class="btn" onclick="startGame()">Deal Cards</button>
+<!-- START SCREEN -->
+<div id="start-screen" class="screen active">
+  <div class="start-content">
+    <div class="title-badge">&#9824; Adults Only &#9829;</div>
+    <h1>Strip Euchre</h1>
+    <div class="subtitle">The card game that undresses for success</div>
+    <div class="suit-row">&#9824; &#9829; &#9830; &#9827;</div>
+    <div class="tagline">"Beat the opponents and watch the clothes disappear. Eyes on the cards, Larry."</div>
+    <button class="btn" onclick="startGame()">Deal Me In!</button>
     <button class="btn btn-secondary" onclick="toggleRules()">How to Play</button>
     <div class="rules-box" id="rules-box" style="display:none">
-      <h3>Quick Rules</h3>
-      • 4 players, 2 teams: You &amp; Partner vs. 2 Opponents<br>
-      • 24 cards (9–Ace, all 4 suits)<br>
-      • Trump Jack (Right Bower) is highest, then same-color Jack (Left Bower)<br>
-      • Round 1 bid: order up the flipped card's suit, or pass<br>
-      • Round 2 bid: name any other suit as trump, or pass<br>
-      • Makers must win 3+ tricks to score; winning all 5 = march (2 pts)<br>
-      • Euchre (makers fail) = 2 pts for defenders<br>
-      • First team to 10 points wins
+      <h3>The Rules</h3>
+      &bull; You &amp; Partner vs. 2 Opponents<br>
+      &bull; Opponents win a hand &rarr; she loses a layer<br>
+      &bull; You win a hand &rarr; she covers back up<br>
+      &bull; 5 layers of clothing &rarr; down to bikini only<br><br>
+      <strong>Euchre basics:</strong><br>
+      &bull; 24 cards (9&ndash;Ace), 5 tricks per hand<br>
+      &bull; Trump Jack = Right Bower (highest card)<br>
+      &bull; Same-color Jack = Left Bower (2nd highest)<br>
+      &bull; Make 3+ tricks as maker to score<br>
+      &bull; Get euchred = opponents score 2 pts<br>
+      &bull; First team to 10 points wins!
     </div>
   </div>
-
-  <!-- GAME SCREEN -->
-  <div id="game-screen" class="screen">
-    <!-- Score bar -->
-    <div id="scorebar">
-      <div class="score-team">
-        <span class="score-label">You &amp; Partner</span>
-        <span class="score-val" id="score-us">0</span>
-        <span class="score-tricks" id="tricks-us">0 tricks</span>
-      </div>
-      <div id="trump-display">
-        <span class="trump-label">Trump</span>
-        <span id="trump-suit-icon">—</span>
-      </div>
-      <div class="score-team">
-        <span class="score-label">Opponents</span>
-        <span class="score-val" id="score-them">0</span>
-        <span class="score-tricks" id="tricks-them">0 tricks</span>
-      </div>
-    </div>
-
-    <!-- Top player -->
-    <div style="position:relative; display:flex; align-items:center; justify-content:center; padding: 6px 0 2px;">
-      <span class="player-name-tag" id="top-name">Partner</span>
-    </div>
-    <div id="zone-top" class="player-zone"></div>
-
-    <!-- Middle row -->
-    <div id="middle-row">
-      <div id="zone-left" class="player-zone"></div>
-
-      <div id="center-area">
-        <div id="status-msg">Dealing...</div>
-        <div id="trick-area">
-          <div class="trick-card-slot" id="slot-top"></div>
-          <div class="trick-card-slot" id="slot-left"></div>
-          <div class="trick-card-slot" id="slot-right"></div>
-          <div class="trick-card-slot" id="slot-bottom"></div>
-        </div>
-        <div id="kitty-area" style="display:none"></div>
-      </div>
-
-      <div id="zone-right" class="player-zone"></div>
-    </div>
-
-    <!-- Player hand -->
-    <div id="player-hand"></div>
-
-    <!-- Bid panel -->
-    <div id="bid-panel" class="hidden">
-      <div id="bid-label">Your turn to bid</div>
-      <div class="bid-row" id="bid-buttons"></div>
-    </div>
-  </div>
-
 </div>
 
-<!-- Overlays -->
+<!-- GAME SCREEN -->
+<div id="game-screen" class="screen">
+
+  <!-- Score bar -->
+  <div id="scorebar">
+    <div class="score-team">
+      <span class="score-label">You &amp; Partner</span>
+      <span class="score-val" id="score-us">0</span>
+      <span class="score-tricks" id="tricks-us">0 tricks</span>
+    </div>
+    <div id="trump-display">
+      <span class="trump-label">Trump</span>
+      <span id="trump-suit-icon">&mdash;</span>
+    </div>
+    <div class="score-team">
+      <span class="score-label">Opponents</span>
+      <span class="score-val" id="score-them">0</span>
+      <span class="score-tricks" id="tricks-them">0 tricks</span>
+    </div>
+  </div>
+
+  <!-- Character Panel -->
+  <div id="character-panel">
+    <div id="character-frame">
+      <svg id="lady-svg" viewBox="0 0 80 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+        <!-- SKIN BASE -->
+        <path d="M29,90 L25,128 L34,128 L37,98 Z" fill="#F4A67A"/>
+        <path d="M51,90 L55,128 L46,128 L43,98 Z" fill="#F4A67A"/>
+        <path d="M20,50 Q40,44 60,50 L58,90 Q40,95 22,90 Z" fill="#F4A67A"/>
+        <path d="M21,52 L9,84 L15,87 L25,58 Z" fill="#F4A67A"/>
+        <path d="M59,52 L71,84 L65,87 L55,58 Z" fill="#F4A67A"/>
+        <path d="M34,38 L36,50 L44,50 L46,38 Q40,34 34,38 Z" fill="#F4A67A"/>
+        <circle cx="40" cy="22" r="17" fill="#F4A67A"/>
+
+        <!-- HAIR -->
+        <ellipse cx="40" cy="9" rx="18" ry="12" fill="#A0522D"/>
+        <path d="M23,16 Q16,28 19,46 L25,44 Q22,30 27,20 Z" fill="#A0522D"/>
+        <path d="M57,16 Q64,28 61,46 L55,44 Q58,30 53,20 Z" fill="#A0522D"/>
+        <path d="M23,12 Q16,22 18,34" stroke="#7a3e20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M57,12 Q64,22 62,34" stroke="#7a3e20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+        <!-- FACE -->
+        <ellipse cx="33" cy="21" rx="3.5" ry="4" fill="white"/>
+        <ellipse cx="47" cy="21" rx="3.5" ry="4" fill="white"/>
+        <circle cx="34" cy="22" r="2.2" fill="#4A3728"/>
+        <circle cx="48" cy="22" r="2.2" fill="#4A3728"/>
+        <circle cx="34.8" cy="21.2" r="0.6" fill="white"/>
+        <circle cx="48.8" cy="21.2" r="0.6" fill="white"/>
+        <path d="M30,17 Q33.5,14.5 37,17" stroke="#8B4513" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path d="M43,17 Q46.5,14.5 50,17" stroke="#8B4513" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path d="M38.5,26 Q40,29 41.5,26" stroke="#D4887A" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+        <path d="M34,32 Q40,38 46,32" stroke="#D43F5A" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+        <path d="M34,32 Q40,36.5 46,32 Q40,34 34,32 Z" fill="#E83E5A" opacity="0.65"/>
+        <ellipse cx="29" cy="27" rx="5.5" ry="3.5" fill="#FFB3C6" opacity="0.38"/>
+        <ellipse cx="51" cy="27" rx="5.5" ry="3.5" fill="#FFB3C6" opacity="0.38"/>
+
+        <!-- BIKINI TOP - always visible -->
+        <path d="M29,57 Q40,66 51,57 Q46,50 40,52 Q34,50 29,57 Z" fill="#FF1744"/>
+        <circle cx="40" cy="57" r="2.4" fill="#CC0000"/>
+        <line x1="33" y1="56" x2="37" y2="47" stroke="#FF1744" stroke-width="1.7"/>
+        <line x1="47" y1="56" x2="43" y2="47" stroke="#FF1744" stroke-width="1.7"/>
+        <line x1="37" y1="47" x2="43" y2="47" stroke="#FF1744" stroke-width="1.7"/>
+
+        <!-- BIKINI BOTTOM - always visible -->
+        <path d="M25,90 Q40,99 55,90 L52,81 Q40,88 28,81 Z" fill="#FF1744"/>
+        <line x1="25" y1="90" x2="22" y2="80" stroke="#FF1744" stroke-width="1.7"/>
+        <line x1="55" y1="90" x2="58" y2="80" stroke="#FF1744" stroke-width="1.7"/>
+        <line x1="22" y1="80" x2="40" y2="77" stroke="#FF1744" stroke-width="1.4"/>
+        <line x1="58" y1="80" x2="40" y2="77" stroke="#FF1744" stroke-width="1.4"/>
+
+        <!-- STOCKINGS - removed last (visible when clothingLevel >= 1) -->
+        <g id="clothes-stockings">
+          <path d="M29,90 L25,128 L34,128 L37,98 Z" fill="#1C1C3A"/>
+          <path d="M51,90 L55,128 L46,128 L43,98 Z" fill="#1C1C3A"/>
+          <path d="M26,97 Q31,100 37,97" stroke="#2e2e55" stroke-width="1.4" fill="none"/>
+          <path d="M54,97 Q49,100 43,97" stroke="#2e2e55" stroke-width="1.4" fill="none"/>
+        </g>
+
+        <!-- SHOES/HEELS - removed 4th (visible when clothingLevel >= 2) -->
+        <g id="clothes-shoes">
+          <path d="M20,124 Q27,130 36,126 L35,121 Q27,123 22,119 Z" fill="#880E4F"/>
+          <rect x="21" y="115" width="4.5" height="9" rx="1.5" fill="#880E4F"/>
+          <path d="M60,124 Q53,130 44,126 L45,121 Q53,123 58,119 Z" fill="#880E4F"/>
+          <rect x="54.5" y="115" width="4.5" height="9" rx="1.5" fill="#880E4F"/>
+        </g>
+
+        <!-- SKIRT - removed 3rd (visible when clothingLevel >= 3) -->
+        <g id="clothes-skirt">
+          <path d="M22,90 Q40,98 58,90 L64,128 L16,128 Z" fill="#7B1FA2"/>
+          <rect x="22" y="87" width="36" height="6" rx="3" fill="#6A1B9A"/>
+          <line x1="31" y1="93" x2="24" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
+          <line x1="40" y1="93" x2="40" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
+          <line x1="49" y1="93" x2="56" y2="128" stroke="#6A1B9A" stroke-width="0.8" opacity="0.7"/>
+        </g>
+
+        <!-- BLOUSE - removed 2nd (visible when clothingLevel >= 4) -->
+        <g id="clothes-blouse">
+          <path d="M20,50 Q40,44 60,50 L58,90 Q40,95 22,90 Z" fill="#E3F2FD"/>
+          <path d="M21,52 L9,84 L15,87 L25,58 Z" fill="#E3F2FD"/>
+          <path d="M59,52 L71,84 L65,87 L55,58 Z" fill="#E3F2FD"/>
+          <path d="M35,50 L32,62 L40,57 L48,62 L45,50 Q40,44 35,50 Z" fill="#BBDEFB" stroke="#90CAF9" stroke-width="0.5"/>
+          <circle cx="40" cy="66" r="1.4" fill="#90CAF9"/>
+          <circle cx="40" cy="74" r="1.4" fill="#90CAF9"/>
+          <circle cx="40" cy="82" r="1.4" fill="#90CAF9"/>
+          <rect x="10" y="82" width="6" height="3.5" rx="1" fill="#BBDEFB"/>
+          <rect x="64" y="82" width="6" height="3.5" rx="1" fill="#BBDEFB"/>
+        </g>
+
+        <!-- JACKET - removed first (visible when clothingLevel >= 5) -->
+        <g id="clothes-jacket">
+          <path d="M18,50 Q40,43 62,50 L60,90 Q40,95 20,90 Z" fill="#1A237E"/>
+          <path d="M19,52 L6,86 L14,89 L24,58 Z" fill="#1A237E"/>
+          <path d="M61,52 L74,86 L66,89 L56,58 Z" fill="#1A237E"/>
+          <path d="M34,50 L27,68 L37,76 L40,58 Z" fill="#283593"/>
+          <path d="M46,50 L53,68 L43,76 L40,58 Z" fill="#283593"/>
+          <path d="M49,62 L55,62 L55,68 L52,65 L49,68 Z" fill="#FF1744" opacity="0.85"/>
+          <rect x="7" y="84" width="7.5" height="4" rx="1.5" fill="#283593"/>
+          <rect x="65.5" y="84" width="7.5" height="4" rx="1.5" fill="#283593"/>
+        </g>
+
+      </svg>
+    </div><!-- end character-frame -->
+    <div id="char-info">
+      <div id="char-name">&#10024; Veronica &#10024;</div>
+      <div id="clothing-dots"></div>
+      <div id="char-quip">"Feeling lucky, darling?"</div>
+    </div>
+  </div><!-- end character-panel -->
+
+  <!-- Top player -->
+  <div style="position:relative;display:flex;align-items:center;justify-content:center;padding:4px 0 2px">
+    <span class="player-name-tag" id="top-name">Partner</span>
+  </div>
+  <div id="zone-top" class="player-zone"></div>
+
+  <!-- Middle row -->
+  <div id="middle-row">
+    <div id="zone-left" class="player-zone"></div>
+    <div id="center-area">
+      <div id="status-msg">Dealing...</div>
+      <div id="trick-area">
+        <div class="trick-card-slot" id="slot-top"></div>
+        <div class="trick-card-slot" id="slot-left"></div>
+        <div class="trick-card-slot" id="slot-right"></div>
+        <div class="trick-card-slot" id="slot-bottom"></div>
+      </div>
+      <div id="kitty-area" style="display:none"></div>
+    </div>
+    <div id="zone-right" class="player-zone"></div>
+  </div>
+
+  <!-- Player hand -->
+  <div id="player-hand"></div>
+
+  <!-- Bid panel -->
+  <div id="bid-panel" class="hidden">
+    <div id="bid-label">Your turn to bid</div>
+    <div class="bid-row" id="bid-buttons"></div>
+  </div>
+
+</div><!-- end game-screen -->
+</div><!-- end app -->
+
+<!-- OVERLAYS -->
 <div id="trick-overlay"><div class="banner" id="trick-banner"></div></div>
+
 <div id="round-overlay">
   <div class="round-card">
     <h2 id="round-title"></h2>
     <p id="round-desc"></p>
+    <div id="round-char-area">
+      <div id="round-char-svg-wrap"></div>
+      <div id="round-quip"></div>
+    </div>
     <div class="score-breakdown" id="round-breakdown"></div>
     <button class="btn" onclick="nextHand()">Next Hand</button>
   </div>
 </div>
+
 <div id="gameover-overlay">
   <div class="gameover-card">
     <h2 id="gameover-title"></h2>
     <div class="final-score" id="gameover-score"></div>
+    <div class="gameover-msg" id="gameover-msg"></div>
     <button class="btn" onclick="resetGame()">Play Again</button>
     <button class="btn btn-secondary" style="margin-top:10px" onclick="goHome()">Main Menu</button>
   </div>
@@ -521,40 +641,66 @@
 
 <script>
 // ============================
-// GAME CONSTANTS & STATE
+// CONSTANTS
 // ============================
 const SUITS = ['♠','♥','♦','♣'];
 const RANKS = ['9','10','J','Q','K','A'];
 const RED = new Set(['♥','♦']);
-const SUIT_NAME = {'♠':'Spades','♥':'Hearts','♦':'Diamonds','♣':'Clubs'};
 const SAME_COLOR = {'♠':'♣','♣':'♠','♥':'♦','♦':'♥'};
-
-// Players: 0=human(south), 1=left(west), 2=partner(north), 3=right(east)
-// Teams: 0&2 = us, 1&3 = them
 const TEAM = [0,1,0,1];
 const PLAYER_NAMES = ['You','Left','Partner','Right'];
 const SLOTS = ['slot-bottom','slot-left','slot-top','slot-right'];
 
-let G = {}; // game state
+// index 0=jacket(outermost first removed), 1=blouse, 2=skirt, 3=shoes, 4=stockings(last removed)
+const CLOTHING_IDS = ['clothes-jacket','clothes-blouse','clothes-skirt','clothes-shoes','clothes-stockings'];
+
+const REMOVAL_QUIPS = [
+  'Off comes the jacket! Getting cozy in here... 😈',
+  'The blouse hits the floor! Now we\'re really playing! 🔥',
+  'Skirt\'s gone! Hubba hubba! Stay focused now... 😜',
+  'Heels off — she\'s getting *very* comfortable. 👠',
+  'Jackpot! She\'s down to the bikini! Can you hold on? 🎰'
+];
+const REPLACE_QUIPS = [
+  'She slips the jacket back on. Nice try! 😤',
+  'Covering back up! She fights back! 😈',
+  'Skirt\'s back. Playing hard to get... 😈',
+  'Heels back on. This isn\'t over! 😤',
+  'Fully covered again. Back to square one!'
+];
+const IDLE_QUIPS = [
+  '"Feeling lucky, darling?"',
+  '"Eyes on the cards, sweetie."',
+  '"Is that the best you\'ve got?"',
+  '"Don\'t stop now..."',
+  '"Oh my... keep going!"',
+];
+
+// ============================
+// GAME STATE
+// ============================
+let G = {};
 
 function initState() {
   G = {
-    gameScore: [0, 0],    // [us, them]
-    handScore: [0, 0],    // tricks this hand
-    dealer: Math.floor(Math.random() * 4),
-    phase: 'deal',        // deal, bid1, bid2, discard, play, handEnd
-    trump: null,
-    makerTeam: null,
-    goingAlone: false,
-    alonePlayer: -1,
-    hands: [[],[],[],[]],
-    kitty: [],
-    flipCard: null,
-    currentTrick: [],     // [{player, card}]
-    trickLeader: 0,
-    currentPlayer: 0,
-    tricksWon: [0, 0],
-    handNum: 0,
+    gameScore:    [0, 0],
+    handScore:    [0, 0],
+    dealer:       Math.floor(Math.random() * 4),
+    phase:        'deal',
+    trump:        null,
+    makerTeam:    null,
+    goingAlone:   false,
+    alonePlayer:  -1,
+    hands:        [[],[],[],[]],
+    kitty:        [],
+    flipCard:     null,
+    currentTrick: [],
+    trickLeader:  0,
+    currentPlayer:0,
+    tricksWon:    [0, 0],
+    handNum:      0,
+    clothingLevel:5,
+    lastQuip:     IDLE_QUIPS[0],
   };
 }
 
@@ -566,7 +712,6 @@ function makeDeck() {
   for (let s of SUITS) for (let r of RANKS) d.push({r, s});
   return shuffle(d);
 }
-
 function shuffle(arr) {
   let a = [...arr];
   for (let i = a.length-1; i > 0; i--) {
@@ -575,74 +720,50 @@ function shuffle(arr) {
   }
   return a;
 }
-
 function isRed(suit) { return RED.has(suit); }
-
-// Returns effective suit accounting for left bower
 function effectiveSuit(card, trump) {
   if (card.r === 'J' && card.s === SAME_COLOR[trump]) return trump;
   return card.s;
 }
-
-// Card rank for comparison (higher = better)
 function cardValue(card, trump, ledSuit) {
   const es = effectiveSuit(card, trump);
-  // Right bower
   if (card.r === 'J' && card.s === trump) return 100;
-  // Left bower
   if (card.r === 'J' && card.s === SAME_COLOR[trump]) return 99;
-  // Trump
-  if (es === trump) {
-    return 50 + RANKS.indexOf(card.r);
-  }
-  // Led suit
-  if (es === ledSuit) {
-    return 20 + RANKS.indexOf(card.r);
-  }
-  return RANKS.indexOf(card.r); // off-suit, doesn't win
+  if (es === trump) return 50 + RANKS.indexOf(card.r);
+  if (es === ledSuit) return 20 + RANKS.indexOf(card.r);
+  return RANKS.indexOf(card.r);
 }
-
 function canFollow(hand, ledSuit, trump) {
   return hand.some(c => effectiveSuit(c, trump) === ledSuit);
 }
-
 function legalCards(hand, ledSuit, trump) {
-  if (!ledSuit) return hand; // leader can play anything
-  if (canFollow(hand, ledSuit, trump)) {
-    return hand.filter(c => effectiveSuit(c, trump) === ledSuit);
-  }
+  if (!ledSuit) return hand;
+  if (canFollow(hand, ledSuit, trump)) return hand.filter(c => effectiveSuit(c, trump) === ledSuit);
   return hand;
 }
-
 function trickWinner(trick, trump) {
   const ledSuit = effectiveSuit(trick[0].card, trump);
   let best = trick[0];
   for (let i = 1; i < trick.length; i++) {
-    if (cardValue(trick[i].card, trump, ledSuit) > cardValue(best.card, trump, ledSuit)) {
-      best = trick[i];
-    }
+    if (cardValue(trick[i].card, trump, ledSuit) > cardValue(best.card, trump, ledSuit)) best = trick[i];
   }
   return best.player;
 }
 
 // ============================
-// AI LOGIC
+// AI
 // ============================
 function aiShouldOrderUp(hand, flipCard, position, dealerIdx) {
-  // Score hand if trump were flipCard.s
   const trump = flipCard.s;
-  let score = handStrength(hand, trump);
-  // Dealer will pick up, so consider that card is available to partner/opponent
+  const score = handStrength(hand, trump);
   const isPartner = TEAM[position] === TEAM[dealerIdx];
-  const threshold = isPartner ? 5 : 6;
-  return score >= threshold;
+  return score >= (isPartner ? 5 : 6);
 }
-
 function handStrength(hand, trump) {
   let score = 0;
   for (let c of hand) {
-    if (c.r === 'J' && c.s === trump) score += 4;          // right bower
-    else if (c.r === 'J' && c.s === SAME_COLOR[trump]) score += 3.5; // left bower
+    if (c.r === 'J' && c.s === trump) score += 4;
+    else if (c.r === 'J' && c.s === SAME_COLOR[trump]) score += 3.5;
     else if (c.s === trump && c.r === 'A') score += 3;
     else if (c.s === trump && c.r === 'K') score += 2;
     else if (c.s === trump) score += 1;
@@ -650,67 +771,40 @@ function handStrength(hand, trump) {
   }
   return score;
 }
-
 function aiBestTrump(hand, excludeSuit) {
   let best = null, bestScore = -1;
   for (let s of SUITS) {
     if (s === excludeSuit) continue;
-    let sc = handStrength(hand, s);
+    const sc = handStrength(hand, s);
     if (sc > bestScore) { bestScore = sc; best = s; }
   }
   return bestScore >= 5 ? best : null;
 }
-
 function aiChooseCard(playerIdx) {
   const hand = G.hands[playerIdx];
   const trump = G.trump;
   const ledSuit = G.currentTrick.length > 0 ? effectiveSuit(G.currentTrick[0].card, trump) : null;
   const legal = legalCards(hand, ledSuit, trump);
-
-  // Determine if partner is winning the trick so far
   let partnerWinning = false;
   if (G.currentTrick.length >= 1) {
-    const currentWinner = trickWinner(G.currentTrick, trump);
-    partnerWinning = TEAM[currentWinner] === TEAM[playerIdx];
+    partnerWinning = TEAM[trickWinner(G.currentTrick, trump)] === TEAM[playerIdx];
   }
-
-  // If partner is winning and we don't have to lead trump, play low
   if (partnerWinning && G.currentTrick.length > 0) {
-    // Play lowest card
-    return legal.reduce((a, b) =>
-      cardValue(a, trump, ledSuit) < cardValue(b, trump, ledSuit) ? a : b
-    );
+    return legal.reduce((a, b) => cardValue(a, trump, ledSuit) < cardValue(b, trump, ledSuit) ? a : b);
   }
-
-  // If leading, play strongest trump or highest card
   if (!ledSuit) {
-    // Lead trump if we have a bower, else lead highest card
     const trumpCards = legal.filter(c => effectiveSuit(c, trump) === trump);
-    if (trumpCards.length > 0) {
-      return trumpCards.reduce((a, b) =>
-        cardValue(a, trump, null) > cardValue(b, trump, null) ? a : b
-      );
-    }
-    return legal.reduce((a, b) =>
-      cardValue(a, trump, null) > cardValue(b, trump, null) ? a : b
-    );
+    if (trumpCards.length > 0) return trumpCards.reduce((a, b) => cardValue(a, trump, null) > cardValue(b, trump, null) ? a : b);
+    return legal.reduce((a, b) => cardValue(a, trump, null) > cardValue(b, trump, null) ? a : b);
   }
-
-  // Play highest card in legal set
-  return legal.reduce((a, b) =>
-    cardValue(a, trump, ledSuit) > cardValue(b, trump, ledSuit) ? a : b
-  );
+  return legal.reduce((a, b) => cardValue(a, trump, ledSuit) > cardValue(b, trump, ledSuit) ? a : b);
 }
-
 function aiDiscard(playerIdx) {
   const hand = G.hands[playerIdx];
   const trump = G.trump;
-  // Discard lowest non-trump, or lowest trump if no choice
   const nonTrump = hand.filter(c => effectiveSuit(c, trump) !== trump);
   const pool = nonTrump.length > 0 ? nonTrump : hand;
-  const discard = pool.reduce((a, b) =>
-    cardValue(a, trump, null) < cardValue(b, trump, null) ? a : b
-  );
+  const discard = pool.reduce((a, b) => cardValue(a, trump, null) < cardValue(b, trump, null) ? a : b);
   hand.splice(hand.indexOf(discard), 1);
 }
 
@@ -719,13 +813,8 @@ function aiDiscard(playerIdx) {
 // ============================
 function deal() {
   const deck = makeDeck();
-  // Standard euchre deal: 5 cards each, 4 in kitty
   for (let i = 0; i < 4; i++) G.hands[i] = [];
-  for (let round = 0; round < 5; round++) {
-    for (let p = 0; p < 4; p++) {
-      G.hands[p].push(deck.pop());
-    }
-  }
+  for (let round = 0; round < 5; round++) for (let p = 0; p < 4; p++) G.hands[p].push(deck.pop());
   G.kitty = [deck.pop(), deck.pop(), deck.pop(), deck.pop()];
   G.flipCard = G.kitty[0];
   G.tricksWon = [0, 0];
@@ -744,9 +833,9 @@ function startGame() {
   initState();
   document.getElementById('start-screen').classList.remove('active');
   document.getElementById('game-screen').classList.add('active');
+  updateCharacter();
   newHand();
 }
-
 function newHand() {
   G.phase = 'deal';
   G.dealer = (G.dealer + 1) % 4;
@@ -755,28 +844,21 @@ function newHand() {
   G.currentPlayer = G.trickLeader;
   renderAll();
   setStatus('');
-  // Show flip card, start bid phase 1
   setTimeout(() => startBid1(), 400);
 }
-
 function nextHand() {
   document.getElementById('round-overlay').classList.remove('show');
-  // Check game over
-  if (G.gameScore[0] >= 10 || G.gameScore[1] >= 10) {
-    showGameOver();
-    return;
-  }
+  if (G.gameScore[0] >= 10 || G.gameScore[1] >= 10) { showGameOver(); return; }
   newHand();
 }
-
 function resetGame() {
   document.getElementById('gameover-overlay').classList.remove('show');
   initState();
   document.getElementById('score-us').textContent = '0';
   document.getElementById('score-them').textContent = '0';
+  updateCharacter();
   newHand();
 }
-
 function goHome() {
   document.getElementById('gameover-overlay').classList.remove('show');
   document.getElementById('game-screen').classList.remove('active');
@@ -792,48 +874,36 @@ function startBid1() {
   showKitty();
   doBidRound();
 }
-
 function doBidRound() {
   renderAll();
   if (G.phase === 'bid1') bid1Turn();
   else if (G.phase === 'bid2') bid2Turn();
 }
-
 function bid1Turn() {
   const p = G.currentPlayer;
   if (p === 0) {
-    // Human
-    const suits = [suitSpan(G.flipCard.s, true)];
-    showBidPanel(`Order up ${suitSpan(G.flipCard.s)} as trump?`, [
-      { label: `Order Up ${suitSpan(G.flipCard.s)}`, cls: 'order-up', action: () => humanOrderUp(false) },
-      { label: `Go Alone ${suitSpan(G.flipCard.s)}`, cls: 'go-alone', action: () => humanOrderUp(true) },
+    showBidPanel('Order up ' + suitSpan(G.flipCard.s) + ' as trump?', [
+      { label: 'Order Up ' + suitSpan(G.flipCard.s), cls: 'order-up', action: () => humanOrderUp(false) },
+      { label: 'Go Alone ' + suitSpan(G.flipCard.s), cls: 'go-alone', action: () => humanOrderUp(true) },
       { label: 'Pass', cls: 'pass', action: humanPass },
     ]);
   } else {
     hideBidPanel();
     setTimeout(() => {
       const ordered = aiShouldOrderUp(G.hands[p], G.flipCard, p, G.dealer);
-      if (ordered) {
-        setStatus(`${PLAYER_NAMES[p]} orders up ${G.flipCard.s}`);
-        aiOrderUp(p);
-      } else {
-        setStatus(`${PLAYER_NAMES[p]} passes`);
-        advanceBid1();
-      }
+      if (ordered) { setStatus(PLAYER_NAMES[p] + ' orders up ' + G.flipCard.s); aiOrderUp(p); }
+      else { setStatus(PLAYER_NAMES[p] + ' passes'); advanceBid1(); }
     }, 700);
   }
 }
-
 function humanOrderUp(alone) {
   hideBidPanel();
   G.makerTeam = TEAM[0];
   G.trump = G.flipCard.s;
   G.goingAlone = alone;
   G.alonePlayer = alone ? 0 : -1;
-  // Dealer picks up flip card and discards
   G.hands[G.dealer].push(G.flipCard);
   if (G.dealer === 0) {
-    // Human is dealer, let them discard
     G.phase = 'discard';
     renderAll();
     setStatus('Pick a card to discard');
@@ -843,121 +913,83 @@ function humanOrderUp(alone) {
     startPlay();
   }
 }
-
 function aiOrderUp(playerIdx) {
   G.makerTeam = TEAM[playerIdx];
   G.trump = G.flipCard.s;
-  // Dealer picks up
   G.hands[G.dealer].push(G.flipCard);
   if (G.dealer === 0) {
-    // Human discards
     G.phase = 'discard';
-    setTimeout(() => {
-      renderAll();
-      setStatus('Pick a card to discard (dealer picks up)');
-    }, 400);
+    setTimeout(() => { renderAll(); setStatus('Pick a card to discard (dealer picks up)'); }, 400);
   } else {
     aiDiscard(G.dealer);
     setTimeout(() => startPlay(), 500);
   }
 }
-
 function advanceBid1() {
   if (G.currentPlayer === G.dealer) {
-    // All passed in round 1
     setStatus('All passed. Choose a suit.');
-    setTimeout(() => {
-      G.phase = 'bid2';
-      G.currentPlayer = (G.dealer + 1) % 4;
-      hideKitty();
-      doBidRound();
-    }, 500);
+    setTimeout(() => { G.phase = 'bid2'; G.currentPlayer = (G.dealer + 1) % 4; hideKitty(); doBidRound(); }, 500);
   } else {
     G.currentPlayer = (G.currentPlayer + 1) % 4;
     setTimeout(() => bid1Turn(), 600);
   }
 }
-
-function humanPass() {
-  hideBidPanel();
-  setStatus('You pass');
-  advanceBid1();
-}
-
+function humanPass() { hideBidPanel(); setStatus('You pass'); advanceBid1(); }
 function bid2Turn() {
   const p = G.currentPlayer;
   if (p === 0) {
     const otherSuits = SUITS.filter(s => s !== G.flipCard.s);
-    const buttons = otherSuits.map(s => ({
-      label: suitSpan(s), cls: 'suit-btn', action: () => humanCallSuit(s)
-    }));
+    const buttons = otherSuits.map(s => ({ label: suitSpan(s), cls: 'suit-btn', action: () => humanCallSuit(s) }));
     buttons.push({ label: 'Pass', cls: 'pass', action: humanPass2 });
-    showBidPanel('Name a trump suit (or pass / Stick the dealer):', buttons);
+    showBidPanel('Name a trump suit (or pass):', buttons);
   } else {
     hideBidPanel();
     setTimeout(() => {
       const chosen = aiBestTrump(G.hands[p], G.flipCard.s);
-      const isDealer = p === G.dealer;
-      if (chosen || isDealer) {
+      if (chosen || p === G.dealer) {
         const suit = chosen || bestSuitForHand(G.hands[p], G.flipCard.s);
-        G.trump = suit;
-        G.makerTeam = TEAM[p];
-        setStatus(`${PLAYER_NAMES[p]} calls ${suit}`);
+        G.trump = suit; G.makerTeam = TEAM[p];
+        setStatus(PLAYER_NAMES[p] + ' calls ' + suit);
         setTimeout(() => startPlay(), 500);
       } else {
-        setStatus(`${PLAYER_NAMES[p]} passes`);
+        setStatus(PLAYER_NAMES[p] + ' passes');
         advanceBid2();
       }
     }, 700);
   }
 }
-
 function bestSuitForHand(hand, excludeSuit) {
   let best = null, bestScore = -1;
   for (let s of SUITS) {
     if (s === excludeSuit) continue;
-    let sc = handStrength(hand, s);
+    const sc = handStrength(hand, s);
     if (sc > bestScore) { bestScore = sc; best = s; }
   }
   return best || SUITS.find(s => s !== excludeSuit);
 }
-
 function humanCallSuit(suit) {
-  hideBidPanel();
-  G.trump = suit;
-  G.makerTeam = TEAM[0];
-  setStatus(`You call ${suit} as trump`);
+  hideBidPanel(); G.trump = suit; G.makerTeam = TEAM[0];
+  setStatus('You call ' + suit + ' as trump');
   setTimeout(() => startPlay(), 400);
 }
-
 function humanPass2() {
   hideBidPanel();
   if (G.currentPlayer === G.dealer) {
-    // Stick the dealer — must call (we handle this by looping back, but rules say dealer must call)
-    // In standard "stick the dealer" rules, dealer can't pass. But if we reach here, force a call.
     const suit = bestSuitForHand(G.hands[0], G.flipCard.s);
-    G.trump = suit;
-    G.makerTeam = TEAM[0];
-    setStatus(`You call ${suit} (stuck as dealer)`);
+    G.trump = suit; G.makerTeam = TEAM[0];
+    setStatus('You call ' + suit + ' (stuck as dealer)');
     setTimeout(() => startPlay(), 400);
     return;
   }
-  setStatus('You pass');
-  advanceBid2();
+  setStatus('You pass'); advanceBid2();
 }
-
 function advanceBid2() {
   if (G.currentPlayer === G.dealer) {
-    // Stick the dealer
     const p = G.dealer;
-    if (p === 0) {
-      bid2Turn(); // human dealer forced
-      return;
-    }
+    if (p === 0) { bid2Turn(); return; }
     const suit = bestSuitForHand(G.hands[p], G.flipCard.s);
-    G.trump = suit;
-    G.makerTeam = TEAM[p];
-    setStatus(`${PLAYER_NAMES[p]} is stuck — calls ${suit}`);
+    G.trump = suit; G.makerTeam = TEAM[p];
+    setStatus(PLAYER_NAMES[p] + ' is stuck — calls ' + suit);
     setTimeout(() => startPlay(), 500);
   } else {
     G.currentPlayer = (G.currentPlayer + 1) % 4;
@@ -966,187 +998,219 @@ function advanceBid2() {
 }
 
 // ============================
-// PLAY PHASE
+// PLAY
 // ============================
 function startPlay() {
   G.phase = 'play';
   G.currentTrick = [];
   G.trickLeader = (G.dealer + 1) % 4;
   G.currentPlayer = G.trickLeader;
-  // Skip partner if going alone
-  if (G.goingAlone && G.alonePlayer >= 0) {
-    const partner = (G.alonePlayer + 2) % 4;
-    G.hands[partner] = [];
-  }
-  hideKitty();
-  hideBidPanel();
-  updateTrumpDisplay();
-  renderAll();
-  setStatus(`${G.trump} is trump. ${PLAYER_NAMES[G.trickLeader]} leads.`);
+  if (G.goingAlone && G.alonePlayer >= 0) G.hands[(G.alonePlayer + 2) % 4] = [];
+  hideKitty(); hideBidPanel(); updateTrumpDisplay(); renderAll();
+  setStatus(G.trump + ' is trump. ' + PLAYER_NAMES[G.trickLeader] + ' leads.');
   setTimeout(() => playTurn(), 600);
 }
-
 function playTurn() {
   const p = G.currentPlayer;
-  // Skip player if going alone (partner of alone player)
   if (G.goingAlone && G.alonePlayer >= 0) {
     const partner = (G.alonePlayer + 2) % 4;
-    if (p === partner) {
-      G.currentPlayer = (p + 1) % 4;
-      playTurn();
-      return;
-    }
+    if (p === partner) { G.currentPlayer = (p + 1) % 4; playTurn(); return; }
   }
-
   renderAll();
   if (p === 0) {
-    // Human's turn
-    setStatus("Your turn — tap a card to play");
+    setStatus('Your turn — tap a card to play');
     enableHandCards();
   } else {
-    setStatus(`${PLAYER_NAMES[p]} is thinking...`);
+    setStatus(PLAYER_NAMES[p] + ' is thinking...');
     setTimeout(() => {
       const card = aiChooseCard(p);
       G.hands[p].splice(G.hands[p].indexOf(card), 1);
       G.currentTrick.push({ player: p, card });
-      renderAll();
-      advanceTrick();
+      renderAll(); advanceTrick();
     }, 700);
   }
 }
-
 function humanPlayCard(card) {
   disableHandCards();
   G.hands[0].splice(G.hands[0].indexOf(card), 1);
   G.currentTrick.push({ player: 0, card });
-  renderAll();
-  advanceTrick();
+  renderAll(); advanceTrick();
 }
-
 function advanceTrick() {
   const trickSize = G.goingAlone ? 3 : 4;
   if (G.currentTrick.length < trickSize) {
     G.currentPlayer = (G.currentPlayer + 1) % 4;
-    // Skip partner if going alone
     if (G.goingAlone && G.alonePlayer >= 0) {
       const partner = (G.alonePlayer + 2) % 4;
       if (G.currentPlayer === partner) G.currentPlayer = (G.currentPlayer + 1) % 4;
     }
     playTurn();
   } else {
-    // Trick complete
     const winner = trickWinner(G.currentTrick, G.trump);
     const winTeam = TEAM[winner];
     G.tricksWon[winTeam]++;
     updateTrickScore();
-
-    const msg = winTeam === 0 ? `${PLAYER_NAMES[winner]} wins the trick!` : `${PLAYER_NAMES[winner]} wins the trick`;
+    const msg = winTeam === 0
+      ? PLAYER_NAMES[winner] + ' wins the trick!'
+      : PLAYER_NAMES[winner] + ' takes the trick';
     showTrickBanner(msg, () => {
       G.currentTrick = [];
       G.trickLeader = winner;
       G.currentPlayer = winner;
       renderAll();
-
-      const totalTricks = G.tricksWon[0] + G.tricksWon[1];
-      const maxTricks = G.goingAlone ? 5 : 5;
-      if (totalTricks >= maxTricks) {
-        scoreHand();
-      } else {
-        setStatus(`${PLAYER_NAMES[winner]} leads next trick.`);
-        setTimeout(() => playTurn(), 400);
-      }
+      if (G.tricksWon[0] + G.tricksWon[1] >= 5) scoreHand();
+      else { setStatus(PLAYER_NAMES[winner] + ' leads next.'); setTimeout(() => playTurn(), 400); }
     });
   }
 }
 
 // ============================
-// SCORING
+// SCORING + CLOTHING
 // ============================
 function scoreHand() {
   G.phase = 'handEnd';
-  const usT = G.tricksWon[0], themT = G.tricksWon[1];
   const makers = G.makerTeam;
   const makerTricks = G.tricksWon[makers];
   let pts = 0, title = '', desc = '';
+  let weScored = false;
 
   if (makerTricks >= 3) {
     if (makerTricks === 5) {
       pts = G.goingAlone ? 4 : 2;
       title = G.goingAlone ? 'Loner March!' : 'March!';
-      desc = `${makers === 0 ? 'Your team' : 'Opponents'} won all 5 tricks!`;
+      desc = (makers === 0 ? 'Your team' : 'Opponents') + ' won all 5 tricks!';
     } else {
       pts = 1;
       title = makers === 0 ? 'You made it!' : 'Opponents made it';
-      desc = `${makers === 0 ? 'Your team' : 'They'} won ${makerTricks} tricks.`;
+      desc = (makers === 0 ? 'Your team' : 'They') + ' won ' + makerTricks + ' tricks.';
     }
     G.gameScore[makers] += pts;
+    weScored = (makers === 0);
   } else {
-    // Euchred!
     const defenders = 1 - makers;
     pts = 2;
     title = makers === 0 ? 'Euchred!' : 'Euchre!';
     desc = makers === 0
-      ? `You were euchred. Opponents get 2 points.`
-      : `You euchred them! Your team gets 2 points.`;
+      ? 'You were euchred. Opponents get 2 pts.'
+      : 'You euchred them! Your team gets 2 pts.';
     G.gameScore[defenders] += pts;
+    weScored = (makers === 1);
   }
 
-  G.handNum++;
+  // Update clothing
+  const prevLevel = G.clothingLevel;
+  if (weScored) G.clothingLevel = Math.min(5, G.clothingLevel + 1);
+  else          G.clothingLevel = Math.max(0, G.clothingLevel - 1);
+
+  let quip;
+  if (G.clothingLevel < prevLevel) {
+    quip = REMOVAL_QUIPS[5 - prevLevel];
+  } else if (G.clothingLevel > prevLevel) {
+    quip = REPLACE_QUIPS[5 - G.clothingLevel];
+  } else {
+    quip = IDLE_QUIPS[Math.floor(Math.random() * IDLE_QUIPS.length)];
+  }
+  G.lastQuip = quip;
+
+  updateCharacter();
   updateScoreDisplay();
   renderAll();
 
-  const breakdown = `Us: ${G.tricksWon[0]} tricks | Them: ${G.tricksWon[1]} tricks`;
-  setTimeout(() => showRoundOverlay(title, desc, breakdown), 800);
+  const breakdown = 'Us: ' + G.tricksWon[0] + ' tricks | Them: ' + G.tricksWon[1] + ' tricks';
+  setTimeout(() => showRoundOverlay(title, desc, quip, breakdown), 800);
 }
 
-function showRoundOverlay(title, desc, breakdown) {
+function showRoundOverlay(title, desc, quip, breakdown) {
   document.getElementById('round-title').textContent = title;
   document.getElementById('round-desc').textContent = desc;
+  document.getElementById('round-quip').textContent = quip;
   document.getElementById('round-breakdown').textContent = breakdown;
+
+  const mainSvg = document.getElementById('lady-svg');
+  const wrap = document.getElementById('round-char-svg-wrap');
+  if (mainSvg && wrap) {
+    const clone = mainSvg.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.style.width = '100%';
+    clone.style.height = '100%';
+    wrap.innerHTML = '';
+    wrap.appendChild(clone);
+  }
+
   document.getElementById('round-overlay').classList.add('show');
 }
 
 function showGameOver() {
   const weWon = G.gameScore[0] >= 10;
-  document.getElementById('gameover-title').textContent = weWon ? '🏆 You Win!' : 'You Lose';
-  document.getElementById('gameover-score').textContent = `Final Score: ${G.gameScore[0]} – ${G.gameScore[1]}`;
+  document.getElementById('gameover-title').textContent = weWon ? 'You Win!' : 'Game Over';
+  document.getElementById('gameover-score').textContent = 'Final Score: ' + G.gameScore[0] + ' – ' + G.gameScore[1];
+  const msgs = weWon
+    ? ['"Not bad, hotshot. Not bad at all." 😎', '"Lucky cards… or skill? Veronica thinks it\'s luck." 😈', '"You cleaned up! Veronica is impressed. 🏆"']
+    : ['"Better luck next time, Larry." 😅', '"The cards were against you. So was Veronica." 😈', '"Don\'t feel too bad — she always wins in the end." 😈'];
+  document.getElementById('gameover-msg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
   document.getElementById('gameover-overlay').classList.add('show');
+}
+
+// ============================
+// CHARACTER SYSTEM
+// ============================
+function updateCharacter() {
+  const level = G.clothingLevel;
+  // i=0 jacket: visible when level >= 5
+  // i=1 blouse: visible when level >= 4
+  // i=2 skirt:  visible when level >= 3
+  // i=3 shoes:  visible when level >= 2
+  // i=4 stocks: visible when level >= 1
+  CLOTHING_IDS.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (level >= 5 - i) ? '' : 'none';
+  });
+
+  const dotsEl = document.getElementById('clothing-dots');
+  if (dotsEl) {
+    dotsEl.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'clothing-dot' + (i >= level ? ' off' : '');
+      dotsEl.appendChild(dot);
+    }
+  }
+
+  const quipEl = document.getElementById('char-quip');
+  if (quipEl) quipEl.textContent = G.lastQuip || IDLE_QUIPS[0];
 }
 
 // ============================
 // RENDER
 // ============================
 function renderAll() {
-  renderHand(0);     // Player
+  renderHand(0);
   renderOpponent(2, 'zone-top', false);
   renderOpponent(1, 'zone-left', true);
   renderOpponent(3, 'zone-right', true);
   renderTrick();
   updateScoreDisplay();
 }
-
 function renderHand(playerIdx) {
   const el = document.getElementById('player-hand');
   el.innerHTML = '';
   const hand = G.hands[playerIdx];
   const ledSuit = G.currentTrick.length > 0 ? effectiveSuit(G.currentTrick[0].card, G.trump) : null;
   const legal = G.phase === 'play' ? legalCards(hand, ledSuit, G.trump) : hand;
-
   hand.forEach(card => {
     const isLegal = legal.includes(card);
     const div = document.createElement('div');
     div.className = 'hand-card' + (G.phase === 'play' && G.currentPlayer === 0 && !isLegal ? ' not-playable' : '');
     div.appendChild(makeCardEl(card, false));
-    if (G.phase === 'play' && G.currentPlayer === 0 && isLegal) {
+    if (G.phase === 'play' && G.currentPlayer === 0 && isLegal)
       div.addEventListener('click', () => humanPlayCard(card));
-    } else if (G.phase === 'discard') {
+    else if (G.phase === 'discard') {
       div.addEventListener('click', () => humanDiscard(card));
       div.style.cursor = 'pointer';
     }
     el.appendChild(div);
   });
 }
-
 function humanDiscard(card) {
   G.hands[0].splice(G.hands[0].indexOf(card), 1);
   G.phase = 'play';
@@ -1154,68 +1218,49 @@ function humanDiscard(card) {
   setStatus('');
   setTimeout(() => startPlay(), 300);
 }
-
 function renderOpponent(playerIdx, zoneId, vertical) {
   const el = document.getElementById(zoneId);
   el.innerHTML = '';
-  const count = G.hands[playerIdx].length;
-  for (let i = 0; i < count; i++) {
-    el.appendChild(makeCardEl(null, true, true));
-  }
+  for (let i = 0; i < G.hands[playerIdx].length; i++) el.appendChild(makeCardEl(null, true, true));
 }
-
 function renderTrick() {
-  // Clear slots
-  ['slot-top','slot-left','slot-right','slot-bottom'].forEach(id => {
-    document.getElementById(id).innerHTML = '';
-  });
+  ['slot-top','slot-left','slot-right','slot-bottom'].forEach(id => document.getElementById(id).innerHTML = '');
   G.currentTrick.forEach(({player, card}) => {
-    const slotId = SLOTS[player];
-    const el = document.getElementById(slotId);
-    el.appendChild(makeCardEl(card, false));
+    document.getElementById(SLOTS[player]).appendChild(makeCardEl(card, false));
   });
 }
-
 function makeCardEl(card, isBack, small) {
   const div = document.createElement('div');
-  let cls = 'card';
-  if (small) cls += ' small';
+  const cls = 'card' + (small ? ' small' : '');
   if (isBack) { div.className = cls + ' back'; return div; }
-
-  const red = isRed(card.s);
-  div.className = cls + (red ? ' red' : '');
-
+  div.className = cls + (isRed(card.s) ? ' red' : '');
   const top = document.createElement('div');
   top.className = 'card-corner';
-  top.innerHTML = `<span class="card-rank">${card.r}</span><span class="card-suit">${card.s}</span>`;
-
+  top.innerHTML = '<span class="card-rank">' + card.r + '</span><span class="card-suit">' + card.s + '</span>';
   const mid = document.createElement('div');
   mid.className = 'card-center';
   mid.textContent = card.s;
-
   const bot = document.createElement('div');
   bot.className = 'card-corner bottom';
-  bot.innerHTML = `<span class="card-rank">${card.r}</span><span class="card-suit">${card.s}</span>`;
-
-  div.appendChild(top);
-  div.appendChild(mid);
-  div.appendChild(bot);
+  bot.innerHTML = '<span class="card-rank">' + card.r + '</span><span class="card-suit">' + card.s + '</span>';
+  div.appendChild(top); div.appendChild(mid); div.appendChild(bot);
   return div;
 }
 
+// ============================
+// KITTY / TABLE
+// ============================
 function showKitty() {
   const kitty = document.getElementById('kitty-area');
   kitty.style.display = 'flex';
   kitty.innerHTML = '';
   const lbl = document.createElement('div');
-  lbl.id = 'flip-card-label';
   lbl.textContent = 'Turn-up';
-  lbl.style.cssText = 'font-size:0.65rem;opacity:0.65;text-transform:uppercase;letter-spacing:0.1em';
+  lbl.style.cssText = 'font-size:0.62rem;opacity:0.62;text-transform:uppercase;letter-spacing:0.1em';
   kitty.appendChild(lbl);
   kitty.appendChild(makeCardEl(G.flipCard, false));
   document.getElementById('trick-area').style.display = 'none';
 }
-
 function hideKitty() {
   document.getElementById('kitty-area').style.display = 'none';
   document.getElementById('trick-area').style.display = 'block';
@@ -1224,15 +1269,11 @@ function hideKitty() {
 // ============================
 // UI HELPERS
 // ============================
-function suitSpan(suit, noHtml) {
-  const red = isRed(suit);
-  if (noHtml) return suit;
-  return `<span style="color:${red ? '#c0392b' : '#111'}">${suit}</span>`;
+function suitSpan(suit) {
+  return '<span style="color:' + (isRed(suit) ? '#c0392b' : '#111') + '">' + suit + '</span>';
 }
-
 function showBidPanel(label, buttons) {
-  const panel = document.getElementById('bid-panel');
-  panel.classList.remove('hidden');
+  document.getElementById('bid-panel').classList.remove('hidden');
   document.getElementById('bid-label').innerHTML = label;
   const row = document.getElementById('bid-buttons');
   row.innerHTML = '';
@@ -1244,58 +1285,39 @@ function showBidPanel(label, buttons) {
     row.appendChild(btn);
   });
 }
-
-function hideBidPanel() {
-  document.getElementById('bid-panel').classList.add('hidden');
-}
-
-function setStatus(msg) {
-  document.getElementById('status-msg').innerHTML = msg;
-}
-
+function hideBidPanel() { document.getElementById('bid-panel').classList.add('hidden'); }
+function setStatus(msg) { document.getElementById('status-msg').innerHTML = msg; }
 function updateScoreDisplay() {
   document.getElementById('score-us').textContent = G.gameScore[0];
   document.getElementById('score-them').textContent = G.gameScore[1];
 }
-
 function updateTrickScore() {
   document.getElementById('tricks-us').textContent = G.tricksWon[0] + ' trick' + (G.tricksWon[0] !== 1 ? 's' : '');
   document.getElementById('tricks-them').textContent = G.tricksWon[1] + ' trick' + (G.tricksWon[1] !== 1 ? 's' : '');
 }
-
 function updateTrumpDisplay() {
   const el = document.getElementById('trump-suit-icon');
   if (G.trump) {
-    const red = isRed(G.trump);
-    el.innerHTML = `<span style="color:${red ? '#ff6b6b' : '#fff'};font-size:1.6rem">${G.trump}</span>`;
+    el.innerHTML = '<span style="color:' + (isRed(G.trump) ? '#ff8a8a' : '#fff') + ';font-size:1.5rem">' + G.trump + '</span>';
   } else {
     el.textContent = '—';
   }
 }
-
 function enableHandCards() {
-  document.querySelectorAll('.hand-card:not(.not-playable)').forEach(el => {
-    el.style.cursor = 'pointer';
-  });
+  document.querySelectorAll('.hand-card:not(.not-playable)').forEach(el => el.style.cursor = 'pointer');
 }
-
 function disableHandCards() {
   document.querySelectorAll('.hand-card').forEach(el => {
     el.style.cursor = 'default';
-    el.replaceWith(el.cloneNode(true)); // remove listeners
+    el.replaceWith(el.cloneNode(true));
   });
 }
-
 function showTrickBanner(msg, callback) {
   const overlay = document.getElementById('trick-overlay');
   document.getElementById('trick-banner').textContent = msg;
   overlay.classList.add('show');
-  setTimeout(() => {
-    overlay.classList.remove('show');
-    setTimeout(callback, 200);
-  }, 900);
+  setTimeout(() => { overlay.classList.remove('show'); setTimeout(callback, 200); }, 900);
 }
-
 function toggleRules() {
   const box = document.getElementById('rules-box');
   box.style.display = box.style.display === 'none' ? 'block' : 'none';
