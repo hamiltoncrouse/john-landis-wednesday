@@ -53,6 +53,13 @@ body {
 .btn-secondary { background: rgba(255,255,255,0.09); color: #fff; margin-top: 10px; box-shadow: none; border: 1px solid rgba(255,255,255,0.18); }
 .rules-box { margin-top: 24px; background: rgba(0,0,0,0.38); border-radius: 12px; padding: 14px 16px; font-size: 0.75rem; line-height: 1.7; max-width: 310px; text-align: left; border: 1px solid rgba(255,215,0,0.18); }
 .rules-box h3 { margin-bottom: 7px; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; }
+/* Rob's Rap Sheet */
+.rap-sheet-box { margin-top: 12px; background: rgba(0,0,0,0.38); border-radius: 12px; padding: 13px 16px; max-width: 310px; width: 100%; text-align: left; border: 1px solid rgba(255,215,0,0.18); }
+.rap-sheet-box h3 { margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; text-align:center; }
+.rap-sheet-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px 4px; }
+.rap-sheet-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.rap-sheet-val { font-size: 1.05rem; font-weight: bold; color: var(--gold); }
+.rap-sheet-lbl { font-size: 0.54rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
 
 /* GAME SCREEN */
 #game-screen { display: none; flex-direction: column; padding: 0; position: relative; }
@@ -154,7 +161,7 @@ body {
 #status-msg { text-align: center; font-size: 0.74rem; padding: 4px 10px; min-height: 22px; opacity: 0.85; }
 
 /* CARDS */
-.card { width: 46px; height: 66px; background: var(--card-bg); border-radius: var(--card-radius); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 3px; font-size: 0.82rem; font-weight: bold; color: #111; position: relative; border: 1px solid rgba(0,0,0,0.07); flex-shrink: 0; }
+.card { width: 46px; height: 66px; background: var(--card-bg); border-radius: var(--card-radius); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 3px; font-size: 0.82rem; font-weight: bold; color: #111; position: relative; border: 1px solid rgba(0,0,0,0.07); flex-shrink: 0; transition: border-color 0.2s, box-shadow 0.2s; }
 .card.red { color: var(--red); }
 /* card back — see override below */
 .card-corner { display: flex; flex-direction: column; align-items: center; line-height: 1; }
@@ -167,6 +174,12 @@ body {
 .card.small .card-rank { font-size: 0.5rem; }
 .card.small .card-suit { font-size: 0.48rem; }
 .card.small.back::after { font-size: 0.85rem; }
+/* Trump highlight + bower badge */
+.trump-card { border-color: var(--gold) !important; box-shadow: 0 0 7px rgba(212,175,55,0.6), var(--shadow) !important; }
+.bower-badge { position:absolute; top:50%; left:50%; transform:translate(-50%,-60%); font-size:0.4rem; font-weight:bold; background:var(--gold); color:#1a0b00; border-radius:3px; padding:1px 3px; letter-spacing:0.04em; pointer-events:none; z-index:2; line-height:1.5; }
+/* Deal animation */
+@keyframes card-deal-pop { from { transform: translateY(10px) scale(0.68); opacity:0; } to { transform:none; opacity:1; } }
+.deal-anim { animation: card-deal-pop 0.17s ease-out both; }
 
 #player-hand { display: flex; justify-content: center; padding: 4px 4px 6px; gap: 3px; flex-shrink: 0; }
 .hand-card { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
@@ -313,6 +326,8 @@ body {
       &bull; Get euchred = opponents score 2 pts<br>
       &bull; First to 10 points wins!
     </div>
+    <button class="btn btn-secondary" onclick="toggleRapSheet()" style="margin-top:10px">Rob's Rap Sheet 📋</button>
+    <div class="rap-sheet-box" id="rap-sheet-box" style="display:none"></div>
   </div>
 </div>
 
@@ -884,6 +899,77 @@ const SOFIA_QUIPS = [
   '"You\'ll need more than luck."',
   '"Lucky Rob... for now."',
 ];
+const EUCHRED_QUIPS = [
+  '"Ha! You walked right into that one." 😂',
+  '"Euchred! The ladies send their regards." 😈',
+  '"Too predictable, Rascally Rob!" 😜',
+  '"Overconfidence is a slow and insidious killer, Rob." 😬',
+];
+const EUCHRE_WIN_QUIPS = [
+  '"You got them! Rascally Rob strikes back!" 🔥',
+  '"They called it, you took it. Brutal." 💪',
+  '"Euchred! NOW that\'s how you play." 🎯',
+  '"Amber & Sofia are NOT happy." 😎',
+];
+const LONER_US_QUIPS = [
+  '"Going alone?! Lola is VERY impressed." 😍',
+  '"Bold move, Rob. Very, very bold." 💫',
+  '"All in, baby! Don\'t blow it!" 🎰',
+  '"Lola believes in you. Barely." 🤞',
+];
+const TRUMP_THEM_QUIPS = [
+  '"They called trump. Eyes sharp, Rob." 😤',
+  '"Opponent\'s calling the suit. Defend!" 😬',
+  '"They\'ve got something. Stay focused." 😈',
+];
+const BOWER_QUIPS = [
+  '"The Right Bower hits the table! Rob means business." 🎯',
+  '"Power card! This trick belongs to us." 💪',
+  '"Right Bower! Practically unbeatable." ♠',
+  '"The big Jack is here. Watch out." 👀',
+];
+const LB_QUIPS = [
+  '"Left Bower in play! Second-best card on the table." 🃏',
+  '"The other big Jack shows up." 💡',
+  '"Left Bower — still a power move." 💪',
+];
+
+function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+
+function flashQuip(text) {
+  const el = document.getElementById('char-quip');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = '#FFD700';
+  el.style.opacity = '1';
+  clearTimeout(el._fqt);
+  el._fqt = setTimeout(() => { el.style.color=''; el.style.opacity=''; }, 4000);
+}
+
+// Persistent lifetime stats
+let LIFETIME = (() => {
+  try { return JSON.parse(localStorage.getItem('robRapSheet')) || {}; } catch(e) { return {}; }
+})();
+LIFETIME = Object.assign({gamesPlayed:0,gamesWon:0,handsWon:0,handsLost:0,lonersWon:0,euchredes:0,euchres:0,bestStreak:0}, LIFETIME);
+function saveLIFETIME() { try { localStorage.setItem('robRapSheet', JSON.stringify(LIFETIME)); } catch(e){} }
+
+function toggleRapSheet() {
+  const box = document.getElementById('rap-sheet-box');
+  if (box.style.display === 'none') { renderRapSheet(); box.style.display = 'block'; }
+  else box.style.display = 'none';
+}
+function renderRapSheet() {
+  const box = document.getElementById('rap-sheet-box');
+  const L = LIFETIME;
+  const wr = L.gamesPlayed > 0 ? Math.round(L.gamesWon/L.gamesPlayed*100)+'%' : '—';
+  const hr = (L.handsWon+L.handsLost) > 0 ? Math.round(L.handsWon/(L.handsWon+L.handsLost)*100)+'%' : '—';
+  box.innerHTML = `<h3>Rob's Rap Sheet 📋</h3><div class="rap-sheet-grid">${
+    [['Games',L.gamesPlayed],['Win %',wr],['Best Streak',L.bestStreak],['Hand %',hr],
+     ['Loners',L.lonersWon],['Euchres',L.euchres],['Euchred',L.euchredes],['Hands Lost',L.handsLost]]
+    .map(([l,v])=>`<div class="rap-sheet-stat"><span class="rap-sheet-val">${v}</span><span class="rap-sheet-lbl">${l}</span></div>`).join('')
+  }</div>${L.gamesPlayed===0?'<p style="text-align:center;opacity:0.45;font-style:italic;font-size:0.72rem;margin-top:9px">No games yet — deal in!</p>':''}`;
+}
+
 const LOLA_TAP_QUIPS = [
   '"Eyes up here, Rascally Rob."',
   '"Focus on the cards, amor."',
@@ -1039,9 +1125,10 @@ function newHand() {
   G.phase='deal'; G.dealer=(G.dealer+1)%4; deal();
   G.trickLeader=(G.dealer+1)%4; G.currentPlayer=G.trickLeader;
   document.getElementById('last-trick-btn').style.display='none';
-  renderAll(); setStatus('');
+  G.dealing=true;
+  renderAll(); setStatus('Dealing...');
   requestAnimationFrame(updateDealerChip);
-  setTimeout(()=>startBid1(),400);
+  setTimeout(()=>{ G.dealing=false; startBid1(); }, 1650);
 }
 function nextHand() {
   document.getElementById('round-overlay').classList.remove('show');
@@ -1076,13 +1163,14 @@ function bid1Turn() {
   } else {
     hideBidPanel();
     setTimeout(()=>{
-      if(aiShouldOrderUp(G.hands[p],G.flipCard,p,G.dealer)){setStatus(PLAYER_NAMES[p]+' orders up '+G.flipCard.s);aiOrderUp(p);}
+      if(aiShouldOrderUp(G.hands[p],G.flipCard,p,G.dealer)){setStatus(PLAYER_NAMES[p]+' orders up '+G.flipCard.s);flashQuip(pick(TRUMP_THEM_QUIPS));aiOrderUp(p);}
       else{setStatus(PLAYER_NAMES[p]+' passes');advanceBid1();}
     },700);
   }
 }
 function humanOrderUp(alone) {
   hideBidPanel(); G.makerTeam=TEAM[0]; G.trump=G.flipCard.s; G.goingAlone=alone; G.alonePlayer=alone?0:-1;
+  if(alone) flashQuip(pick(LONER_US_QUIPS));
   G.hands[G.dealer].push(G.flipCard);
   if(G.dealer===0){G.phase='discard';renderAll();setStatus('Pick a card to discard');showBidPanel('Tap a card to discard it',[]);}
   else{aiDiscard(G.dealer);startPlay();}
@@ -1178,11 +1266,24 @@ function advanceTrick(){
     const wt=TEAM[winner];
     G.tricksWon[wt]++;updateTrickScore();
     if(wt===0) playWinTrick(); else playLoseTrick();
+    // Auto-quip on bower played
+    if(G.trump){
+      const bwr=G.currentTrick.find(({card})=>card.r==='J'&&(card.s===G.trump||card.s===SAME_COLOR[G.trump]));
+      if(bwr) flashQuip(bwr.card.s===G.trump ? pick(BOWER_QUIPS) : pick(LB_QUIPS));
+    }
     const msg=wt===0?PLAYER_NAMES[winner]+' wins the trick!':PLAYER_NAMES[winner]+' takes the trick';
     showTrickBanner(msg,()=>{
-      G.currentTrick=[];G.trickLeader=winner;G.currentPlayer=winner;renderAll();
-      if(G.tricksWon[0]+G.tricksWon[1]>=5) scoreHand();
-      else{setStatus(PLAYER_NAMES[winner]+' leads next.');setTimeout(()=>playTurn(),400);}
+      // Sweep cards toward the winner's position
+      const sweepT=['translateY(80px)','translateX(-80px)','translateY(-80px)','translateX(80px)'][winner];
+      document.querySelectorAll('.trick-card-slot .card').forEach(el=>{
+        el.style.transition='transform 0.28s ease-in,opacity 0.28s ease-in';
+        el.style.transform=sweepT+' scale(0.35)'; el.style.opacity='0';
+      });
+      setTimeout(()=>{
+        G.currentTrick=[];G.trickLeader=winner;G.currentPlayer=winner;renderAll();
+        if(G.tricksWon[0]+G.tricksWon[1]>=5) scoreHand();
+        else{setStatus(PLAYER_NAMES[winner]+' leads next.');setTimeout(()=>playTurn(),400);}
+      },330);
     });
   }
 }
@@ -1211,8 +1312,16 @@ function scoreHand(){
     if(title==='Euchre!') G.stats.euchres++;
     if(title==='Loner March!'&&makers===0) G.stats.lonersWon++;
   }
-  // Screen shake on euchre
-  if(title==='Euchred!') shakeScreen();
+  // Lifetime stats
+  LIFETIME.handsWon+=(weScored?1:0); LIFETIME.handsLost+=(weScored?0:1);
+  if(title==='Euchred!') LIFETIME.euchredes++;
+  if(title==='Euchre!') LIFETIME.euchres++;
+  if(title==='Loner March!'&&makers===0) LIFETIME.lonersWon++;
+  if(G.stats&&G.stats.currentStreak>LIFETIME.bestStreak) LIFETIME.bestStreak=G.stats.currentStreak;
+  saveLIFETIME();
+  // Auto-quips on euchre moments
+  if(title==='Euchred!') { shakeScreen(); flashQuip(pick(EUCHRED_QUIPS)); }
+  else if(title==='Euchre!') flashQuip(pick(EUCHRE_WIN_QUIPS));
   // Confetti on march/loner
   if((title==='March!'||title==='Loner March!')&&makers===0) setTimeout(showConfetti,200);
   checkAchievements();
@@ -1248,6 +1357,7 @@ function showRoundOverlay(title,desc,quip,breakdown){
 
 function showGameOver(){
   const w=G.gameScore[0]>=10;
+  LIFETIME.gamesPlayed++; if(w) LIFETIME.gamesWon++; saveLIFETIME();
   if(w) { playFanfare(); setTimeout(showConfetti,300); } else playSad();
   document.getElementById('gameover-rob').src=w?'rob.png':'rob-barrel.png';
   document.getElementById('gameover-title').textContent=w?'You Win!':'Game Over';
@@ -1317,10 +1427,11 @@ function renderHand(pi){
   const hand=G.hands[pi];
   const ls=G.currentTrick.length>0?effectiveSuit(G.currentTrick[0].card,G.trump):null;
   const legal=G.phase==='play'?legalCards(hand,ls,G.trump):hand;
-  hand.forEach(card=>{
+  hand.forEach((card,ci)=>{
     const isL=legal.includes(card);
     const div=document.createElement('div');
     div.className='hand-card'+(G.phase==='play'&&G.currentPlayer===0&&!isL?' not-playable':'');
+    if(G.dealing){ const di=ci*4+((pi-G.dealer-1+4)%4); div.style.animationDelay=di*65+'ms'; div.classList.add('deal-anim'); }
     div.appendChild(makeCardEl(card,false));
     if(G.phase==='play'&&G.currentPlayer===0&&isL) div.addEventListener('click',()=>humanPlayCard(card));
     else if(G.phase==='discard'){div.addEventListener('click',()=>humanDiscard(card));div.style.cursor='pointer';}
@@ -1333,7 +1444,11 @@ function humanDiscard(card){
 }
 function renderOpponent(pi,zid){
   const el=document.getElementById(zid);el.innerHTML='';
-  for(let i=0;i<G.hands[pi].length;i++) el.appendChild(makeCardEl(null,true,true));
+  for(let i=0;i<G.hands[pi].length;i++){
+    const c=makeCardEl(null,true,true);
+    if(G.dealing){ const di=i*4+((pi-G.dealer-1+4)%4); c.style.animationDelay=di*65+'ms'; c.classList.add('deal-anim'); }
+    el.appendChild(c);
+  }
 }
 function renderTrick(){
   ['slot-top','slot-left','slot-right','slot-bottom'].forEach(id=>document.getElementById(id).innerHTML='');
@@ -1350,6 +1465,12 @@ function makeCardEl(card,isBack,small){
   const bot=document.createElement('div');bot.className='card-corner bottom';
   bot.innerHTML='<span class="card-rank">'+card.r+'</span><span class="card-suit">'+card.s+'</span>';
   div.appendChild(top);div.appendChild(mid);div.appendChild(bot);
+  if(G&&G.trump&&card.r==='J'){
+    const rb=card.s===G.trump, lb=card.s===SAME_COLOR[G.trump];
+    if(rb||lb){div.classList.add('trump-card');const b=document.createElement('div');b.className='bower-badge';b.textContent=rb?'RB':'LB';div.appendChild(b);}
+  } else if(G&&G.trump&&effectiveSuit(card,G.trump)===G.trump){
+    div.classList.add('trump-card');
+  }
   return div;
 }
 
