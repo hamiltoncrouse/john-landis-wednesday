@@ -188,16 +188,22 @@ body {
 #zone-top .card { margin: 0 -12px; }
 
 /* BID PANEL */
-#bid-panel { padding: 5px 12px 8px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,215,0,0.12); display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+#bid-panel { padding: 6px 12px 10px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,215,0,0.18); display: flex; flex-direction: column; align-items: center; gap: 7px; flex-shrink: 0; }
 #bid-panel.hidden { display: none; }
 .bid-row { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; }
 .bid-btn { padding: 9px 16px; font-size: 0.84rem; background: rgba(255,255,255,0.92); color: #1a0b00; border: none; border-radius: 24px; font-family: Georgia, serif; font-weight: bold; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 44px; min-width: 44px; }
 .bid-btn:active { transform: scale(0.95); }
 .bid-btn.suit-btn { font-size: 1.05rem; }
-.bid-btn.pass { background: rgba(255,255,255,0.18); color: #fff; }
-.bid-btn.order-up { background: var(--gold); }
-.bid-btn.go-alone { background: #e74c3c; color: #fff; }
-#bid-label { font-size: 0.66rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; }
+.bid-btn.pass { background: rgba(255,255,255,0.14); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.2); }
+.bid-btn.order-up { background: var(--gold); color: #1a0b00; font-size: 0.9rem; }
+.bid-btn.go-alone { background: #5b2d8e; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+.btn-hint { display: block; font-size: 0.5rem; opacity: 0.65; font-style: italic; margin-top: 2px; font-weight: normal; letter-spacing: 0; }
+#bid-label { font-size: 0.8rem; opacity: 0.92; letter-spacing: 0.01em; color: #ddd; text-align: center; line-height: 1.45; }
+/* Bigger turn-up card during bidding, potential-trump glow */
+#kitty-area .card { width: 58px; height: 82px; }
+#kitty-area .card .card-center { font-size: 1.45rem; }
+.potential-trump { box-shadow: 0 0 10px rgba(212,175,55,0.6) !important; border-color: rgba(212,175,55,0.6) !important; }
+.dealer-name-tag { font-size: 0.44rem; opacity: 0.55; color: var(--gold); text-transform: uppercase; letter-spacing: 0.07em; }
 
 /* LAST TRICK BTN */
 #last-trick-btn { font-size: 0.58rem; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 3px 9px; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; margin-top: 4px; display: none; }
@@ -343,6 +349,7 @@ body {
     <div id="trump-display">
       <span class="trump-label">Trump</span>
       <span id="trump-suit-icon">&mdash;</span>
+      <span id="dealer-name-tag" class="dealer-name-tag"></span>
     </div>
     <div class="score-team">
       <span class="score-label">Opponents</span>
@@ -1125,6 +1132,12 @@ function newHand() {
   G.phase='deal'; G.dealer=(G.dealer+1)%4; deal();
   G.trickLeader=(G.dealer+1)%4; G.currentPlayer=G.trickLeader;
   document.getElementById('last-trick-btn').style.display='none';
+  // Clear stale state from previous hand immediately
+  updateTrumpDisplay();
+  updateTrickScore();
+  updateDealerLabel();
+  const qel=document.getElementById('char-quip');
+  if(qel){qel.textContent='';qel.style.color='';qel.style.opacity='';}
   G.dealing=true;
   renderAll(); setStatus('Dealing...');
   requestAnimationFrame(updateDealerChip);
@@ -1150,16 +1163,20 @@ function goHome() {
 }
 
 // BIDDING
-function startBid1() { G.phase='bid1'; G.currentPlayer=(G.dealer+1)%4; showKitty(); doBidRound(); }
+function startBid1() { G.phase='bid1'; G.currentPlayer=(G.dealer+1)%4; setStatus(''); showKitty(); doBidRound(); }
 function doBidRound() { renderAll(); if(G.phase==='bid1') bid1Turn(); else if(G.phase==='bid2') bid2Turn(); }
 function bid1Turn() {
   const p=G.currentPlayer;
   if(p===0) {
-    showBidPanel('Order up '+suitSpan(G.flipCard.s)+' as trump?',[
-      {label:'Order Up '+suitSpan(G.flipCard.s),cls:'order-up',action:()=>humanOrderUp(false)},
-      {label:'Go Alone '+suitSpan(G.flipCard.s),cls:'go-alone',action:()=>humanOrderUp(true)},
-      {label:'Pass',cls:'pass',action:humanPass},
-    ]);
+    const s=G.flipCard.s;
+    const dlrName=PLAYER_NAMES[G.dealer];
+    showBidPanel(
+      'Your call — order up '+suitSpan(s)+', or pass?<br><span style="font-size:0.68rem;opacity:0.6">'+dlrName+' picks up if ordered</span>',
+      [
+        {label:'Order Up '+suitSpan(s),cls:'order-up',action:()=>humanOrderUp(false)},
+        {label:'Go Alone '+suitSpan(s)+'<span class="btn-hint">No partner — 4 pts if you march</span>',cls:'go-alone',action:()=>humanOrderUp(true)},
+        {label:'Pass',cls:'pass',action:humanPass},
+      ]);
   } else {
     hideBidPanel();
     setTimeout(()=>{
@@ -1181,7 +1198,7 @@ function aiOrderUp(pi) {
   else{aiDiscard(G.dealer);setTimeout(()=>startPlay(),500);}
 }
 function advanceBid1() {
-  if(G.currentPlayer===G.dealer){setStatus('All passed. Choose a suit.');setTimeout(()=>{G.phase='bid2';G.currentPlayer=(G.dealer+1)%4;hideKitty();doBidRound();},500);}
+  if(G.currentPlayer===G.dealer){setStatus('');setTimeout(()=>{G.phase='bid2';G.currentPlayer=(G.dealer+1)%4;const lbl=document.getElementById('bid-round-label');if(lbl)lbl.textContent='Round 2 — name a suit or pass';doBidRound();},500);}
   else{G.currentPlayer=(G.currentPlayer+1)%4;setTimeout(()=>bid1Turn(),600);}
 }
 function humanPass(){hideBidPanel();setStatus('You pass');advanceBid1();}
@@ -1191,7 +1208,8 @@ function bid2Turn() {
     const os=SUITS.filter(s=>s!==G.flipCard.s);
     const btns=os.map(s=>({label:suitSpan(s),cls:'suit-btn '+(isRed(s)?'suit-red':'suit-black'),action:()=>humanCallSuit(s)}));
     btns.push({label:'Pass',cls:'pass',action:humanPass2});
-    showBidPanel('Name a trump suit (or pass):',btns);
+    const stuckNote=G.currentPlayer===G.dealer?'<br><span style="font-size:0.64rem;color:#FF69B4;opacity:0.85">You\'re the dealer — you must call</span>':'';
+    showBidPanel('Name your trump suit'+stuckNote,btns);
   } else {
     hideBidPanel();
     setTimeout(()=>{
@@ -1225,7 +1243,7 @@ function advanceBid2(){
 function startPlay(){
   G.phase='play';G.currentTrick=[];G.trickLeader=(G.dealer+1)%4;G.currentPlayer=G.trickLeader;
   if(G.goingAlone&&G.alonePlayer>=0) G.hands[(G.alonePlayer+2)%4]=[];
-  hideKitty();hideBidPanel();updateTrumpDisplay();renderAll();
+  hideKitty();hideBidPanel();updateTrumpDisplay();updateDealerLabel();renderAll();
   playTrump();
   setStatus(G.trump+' is trump. '+PLAYER_NAMES[G.trickLeader]+' leads.');
   setTimeout(()=>playTurn(),600);
@@ -1427,12 +1445,15 @@ function renderHand(pi){
   const hand=G.hands[pi];
   const ls=G.currentTrick.length>0?effectiveSuit(G.currentTrick[0].card,G.trump):null;
   const legal=G.phase==='play'?legalCards(hand,ls,G.trump):hand;
+  const potTrumpSuit = G.phase==='bid1' && G.flipCard && !G.trump ? G.flipCard.s : null;
   hand.forEach((card,ci)=>{
     const isL=legal.includes(card);
     const div=document.createElement('div');
     div.className='hand-card'+(G.phase==='play'&&G.currentPlayer===0&&!isL?' not-playable':'');
     if(G.dealing){ const di=ci*4+((pi-G.dealer-1+4)%4); div.style.animationDelay=di*65+'ms'; div.classList.add('deal-anim'); }
-    div.appendChild(makeCardEl(card,false));
+    const cardEl=makeCardEl(card,false);
+    if(potTrumpSuit&&(card.s===potTrumpSuit||(card.r==='J'&&card.s===SAME_COLOR[potTrumpSuit]))) cardEl.classList.add('potential-trump');
+    div.appendChild(cardEl);
     if(G.phase==='play'&&G.currentPlayer===0&&isL) div.addEventListener('click',()=>humanPlayCard(card));
     else if(G.phase==='discard'){div.addEventListener('click',()=>humanDiscard(card));div.style.cursor='pointer';}
     el.appendChild(div);
@@ -1477,9 +1498,17 @@ function makeCardEl(card,isBack,small){
 // KITTY
 function showKitty(){
   const k=document.getElementById('kitty-area');k.style.display='flex';k.innerHTML='';
-  const l=document.createElement('div');l.textContent='Turn-up';
-  l.style.cssText='font-size:0.6rem;opacity:0.6;text-transform:uppercase;letter-spacing:0.1em';
-  k.appendChild(l);k.appendChild(makeCardEl(G.flipCard,false));
+  const info=document.createElement('div');
+  info.style.cssText='display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:4px;';
+  info.innerHTML='<span style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.55">Turn-up</span>'
+    +'<span style="font-size:0.58rem;color:#FFD700;opacity:0.7;letter-spacing:0.06em">'+PLAYER_NAMES[G.dealer]+' deals</span>';
+  k.appendChild(info);
+  k.appendChild(makeCardEl(G.flipCard,false));
+  const hint=document.createElement('div');
+  hint.id='bid-round-label';
+  hint.style.cssText='font-size:0.56rem;opacity:0.52;font-style:italic;margin-top:5px;text-align:center;';
+  hint.textContent='Round 1 — order up or pass';
+  k.appendChild(hint);
   document.getElementById('trick-area').style.display='none';
 }
 function hideKitty(){document.getElementById('kitty-area').style.display='none';document.getElementById('trick-area').style.display='block';}
@@ -1523,6 +1552,10 @@ function updateTrumpDisplay(){
   const el=document.getElementById('trump-suit-icon');
   if(G.trump) el.innerHTML='<span style="color:'+(isRed(G.trump)?'#ff8a8a':'#fff')+';font-size:1.4rem">'+G.trump+'</span>';
   else el.textContent='—';
+}
+function updateDealerLabel(){
+  const el=document.getElementById('dealer-name-tag');
+  if(el) el.textContent=PLAYER_NAMES[G.dealer]+' deals';
 }
 function enableHandCards(){document.getElementById('player-hand').classList.add('your-turn');document.querySelectorAll('.hand-card:not(.not-playable)').forEach(el=>el.style.cursor='pointer');}
 function disableHandCards(){document.getElementById('player-hand').classList.remove('your-turn');document.querySelectorAll('.hand-card').forEach(el=>{el.style.cursor='default';el.replaceWith(el.cloneNode(true));});}
